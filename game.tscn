@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=2 format=3 uid="uid://bfcpsdp70nuq7"]
+
+[ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 
 [node name="Game" type="Node2D"]
+
+[node name="Tank" parent="." instance=ExtResource("1_80nbo")]

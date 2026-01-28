@@ -11,9 +11,18 @@ config_version=5
 [application]
 
 config/name="Top Down Tanks"
+run/main_scene="uid://bfcpsdp70nuq7"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="Top Down Tanks"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Ortho Drag Sync/plugin.cfg")
+
+[global_group]
+
+ORTHOGRAPHIC="Denotes what is orthographic for ease of editing"

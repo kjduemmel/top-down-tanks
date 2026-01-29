@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://jwqllh526kj6"]
-
-[ext_resource type="Script" uid="uid://c5p54n47ckfbo" path="res://Assets/Code/Scripts/projected_visual_2d.gd" id="1_up0v0"]
-
-[node name="ProjectedVisual2D" type="Node2D"]
-script = ExtResource("1_up0v0")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

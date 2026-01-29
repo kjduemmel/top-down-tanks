@@ -3,5 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 
 [node name="Game" type="Node2D"]
+metadata/_edit_lock_ = true
 
 [node name="Tank" parent="." instance=ExtResource("1_80nbo")]

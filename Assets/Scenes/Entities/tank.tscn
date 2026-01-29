@@ -1,24 +1,28 @@
 [gd_scene load_steps=4 format=3 uid="uid://bh7764oj1t4na"]
 
-[ext_resource type="PackedScene" uid="uid://jwqllh526kj6" path="res://Assets/Scenes/Component/projected_visual_2d.tscn" id="1_jw1c8"]
+[ext_resource type="Script" uid="uid://bqa1a8rfvn44u" path="res://Assets/Code/Scripts/Physics/CharacterMove.gd" id="1_jw1c8"]
 [ext_resource type="Texture2D" uid="uid://5awlitmtplbh" path="res://icon.svg" id="2_vwpun"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
-[node name="Tank" type="Node2D" groups=["ORTHOGRAPHIC"]]
+[node name="Tank" type="Node2D" groups=["SNAP"]]
 
-[node name="ProjectedVisual2D" parent="." instance=ExtResource("1_jw1c8")]
-process_mode = 3
-
-[node name="Sprite2D" parent="ProjectedVisual2D" index="0"]
-texture = ExtResource("2_vwpun")
-
-[node name="Body" type="RigidBody2D" parent="."]
+[node name="Physics" type="CharacterBody2D" parent="."]
+top_level = true
+script = ExtResource("1_jw1c8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
 shape = SubResource("RectangleShape2D_vwpun")
 metadata/_edit_lock_ = true
 
-[editable path="ProjectedVisual2D"]
+[node name="Visual" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Chassis" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+texture = ExtResource("2_vwpun")
+metadata/_edit_lock_ = true
+
+[node name="Turret" type="Sprite2D" parent="Visual"]
+metadata/_edit_lock_ = true

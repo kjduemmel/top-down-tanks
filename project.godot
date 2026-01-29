@@ -21,8 +21,8 @@ project/assembly_name="Top Down Tanks"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Ortho Drag Sync/plugin.cfg")
+enabled=PackedStringArray("res://addons/world_decoupler/plugin.cfg")
 
 [global_group]
 
-ORTHOGRAPHIC="Denotes what is orthographic for ease of editing"
+SNAP="Denotes what is orthographic for ease of editing"

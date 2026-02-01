@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=3 format=3 uid="uid://b2fj7ee2mxc1b"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_t4nx2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bijfb"]
 
 [node name="Awtesting" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_t4nx2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_bijfb")
+
+[node name="Camera2D" type="Camera2D" parent="."]

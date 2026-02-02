@@ -12,12 +12,8 @@ config_version=5
 
 config/name="Top Down Tanks"
 run/main_scene="uid://bfcpsdp70nuq7"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
-
-[autoload]
-
-WorldDecoupler="*res://addons/world_decoupler/world_decoupler_runtime.gd"
 
 [dotnet]
 

@@ -1,18 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=7 format=3 uid="uid://b2fj7ee2mxc1b"]
+
+[ext_resource type="Script" uid="uid://d0y0j26ghk7lx" path="res://aw_testing/scripts/awPlayerController.cs" id="1_bijfb"]
+[ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_84aw7"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t4nx2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bijfb"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_bijfb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84aw7"]
+size = Vector2(60, 20)
+
 [node name="Awtesting" type="Node2D"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="ProtoPlayer" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_bijfb")
+bullet = ExtResource("2_84aw7")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="ProtoPlayer"]
 scale = Vector2(20, 20)
 texture = SubResource("CanvasTexture_t4nx2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProtoPlayer"]
 shape = SubResource("RectangleShape2D_bijfb")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -44)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(59.999992, 20)
+texture = SubResource("CanvasTexture_bijfb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_84aw7")

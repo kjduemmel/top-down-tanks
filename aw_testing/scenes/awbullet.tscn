@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://chsui6vad0yjo"]
+
+[ext_resource type="Script" uid="uid://50blsrupgao0" path="res://aw_testing/scripts/awBullet.cs" id="1_5xga1"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6vad4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eccbi"]
+radius = 1.0
+height = 4.0
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_5xga1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(7.4505806e-08, 3.1292439e-07)
+scale = Vector2(2.0000002, 4)
+texture = SubResource("CanvasTexture_6vad4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_eccbi")

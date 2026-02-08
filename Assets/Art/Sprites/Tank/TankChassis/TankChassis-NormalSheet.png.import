@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcxjluim4ep1i"
-path="res://.godot/imported/TankChassis-Sheet.png-1a96d879dc713db5f5fce958f96241e2.ctex"
+uid="uid://di25ef37nxyyn"
+path="res://.godot/imported/TankChassis-NormalSheet.png-a63126afb381a3ffc76af74476b06772.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/Tank/TankChassis-Sheet.png"
-dest_files=["res://.godot/imported/TankChassis-Sheet.png-1a96d879dc713db5f5fce958f96241e2.ctex"]
+source_file="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-NormalSheet.png"
+dest_files=["res://.godot/imported/TankChassis-NormalSheet.png-a63126afb381a3ffc76af74476b06772.ctex"]
 
 [params]
 

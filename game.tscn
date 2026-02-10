@@ -1,8 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=3 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
 
 [node name="Game" type="Node2D"]
 metadata/_edit_lock_ = true
 
-[node name="Tank" parent="." instance=ExtResource("1_80nbo")]
+[node name="World" type="Node2D" parent="."]
+
+[node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
+position = Vector2(239, 114)
+rotation = 0.0
+
+[node name="OcclusionRD" type="Node" parent="."]
+script = ExtResource("5_7jktm")
+
+[node name="Output" type="TextureRect" parent="OcclusionRD"]
+offset_right = 40.0
+offset_bottom = 40.0

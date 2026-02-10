@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://bet1o4in8ywyp"
+path="res://.godot/imported/rd_occlusion_clear.glsl-240e3e2edd67f8f6c4a387c6cef654a4.res"
+
+[deps]
+
+source_file="res://Assets/Code/Shaders/rd_occlusion_clear.glsl"
+dest_files=["res://.godot/imported/rd_occlusion_clear.glsl-240e3e2edd67f8f6c4a387c6cef654a4.res"]
+
+[params]
+

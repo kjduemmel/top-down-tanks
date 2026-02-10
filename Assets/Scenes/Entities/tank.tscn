@@ -1,28 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh7764oj1t4na"]
+[gd_scene load_steps=6 format=3 uid="uid://bh7764oj1t4na"]
 
 [ext_resource type="Script" uid="uid://bqa1a8rfvn44u" path="res://Assets/Code/Scripts/Physics/CharacterMove.gd" id="1_jw1c8"]
-[ext_resource type="Texture2D" uid="uid://5awlitmtplbh" path="res://icon.svg" id="2_vwpun"]
+[ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="2_uhfg0"]
+[ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_vwpun"]
+[ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="4_23d6x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
 [node name="Tank" type="Node2D" groups=["SNAP"]]
+rotation = -0.0030765627
 
 [node name="Physics" type="CharacterBody2D" parent="."]
 top_level = true
+rotation = -0.0030765627
 script = ExtResource("1_jw1c8")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
+visible = false
+scale = Vector2(3.6, 2.4)
 shape = SubResource("RectangleShape2D_vwpun")
-metadata/_edit_lock_ = true
 
 [node name="Visual" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
 [node name="Chassis" type="Sprite2D" parent="Visual"]
+top_level = true
 texture_filter = 1
-texture = ExtResource("2_vwpun")
+scale = Vector2(4, 4)
+texture = ExtResource("2_uhfg0")
+hframes = 16
+script = ExtResource("2_vwpun")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("4_23d6x")
 metadata/_edit_lock_ = true
 
 [node name="Turret" type="Sprite2D" parent="Visual"]
+top_level = true
+scale = Vector2(4, 4)
 metadata/_edit_lock_ = true

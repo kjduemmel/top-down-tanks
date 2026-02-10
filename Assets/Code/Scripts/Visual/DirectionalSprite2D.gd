@@ -1,3 +1,4 @@
+@tool
 extends Sprite2D
 
 @export var source_path: NodePath = NodePath("..")
@@ -15,6 +16,8 @@ extends Sprite2D
 @export var degrees_offset: float = 0.0
 @export var use_global_rotation: bool = true
 
+@export var height_tex: Texture2D
+
 var _source: Node2D
 
 func _ready() -> void:
@@ -23,6 +26,7 @@ func _ready() -> void:
 
 func _process(_dt: float) -> void:
 	_apply_frame()
+	position = _source.position
 
 func set_state_row(new_row: int) -> void:
 	state_row = new_row
@@ -38,9 +42,9 @@ func _apply_frame() -> void:
 
 	var rot: float
 	if use_global_rotation:
-		rot = _source.global_rotation
+		rot = -_source.global_rotation
 	else:
-		rot = _source.rotation
+		rot = -_source.rotation
 
 	var deg: float = rad_to_deg(rot) + degrees_offset
 	deg = fposmod(deg, 360.0)

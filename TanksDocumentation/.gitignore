@@ -1,0 +1,6 @@
+# Obsidian local state / caches
+.obsidian/workspace*
+.obsidian/cache/
+.obsidian/index/
+.obsidian/graph.json
+.obsidian/knowledge-base.json

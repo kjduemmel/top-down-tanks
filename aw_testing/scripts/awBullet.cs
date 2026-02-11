@@ -3,6 +3,7 @@ using System;
 
 public partial class awBullet : CharacterBody2D
 {
+	[Export]
 	public int speed = 100;
 	public Vector2 direction = Vector2.Zero;
 	

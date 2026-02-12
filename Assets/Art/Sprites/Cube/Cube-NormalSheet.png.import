@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhyagkojk3uu6"
-path="res://.godot/imported/TileSetGrass-Mud.png-a60b704241e4c249e31cba8a01664327.ctex"
+uid="uid://bo4luwxubawsh"
+path="res://.godot/imported/Cube-NormalSheet.png-4f553f4b2215ff640ed4543c9cd2f3fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/TileMap/TileSetGrass-Mud.png"
-dest_files=["res://.godot/imported/TileSetGrass-Mud.png-a60b704241e4c249e31cba8a01664327.ctex"]
+source_file="res://Assets/Art/Sprites/Cube/Cube-NormalSheet.png"
+dest_files=["res://.godot/imported/Cube-NormalSheet.png-4f553f4b2215ff640ed4543c9cd2f3fa.ctex"]
 
 [params]
 

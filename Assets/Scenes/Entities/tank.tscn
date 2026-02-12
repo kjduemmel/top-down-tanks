@@ -18,7 +18,7 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
 visible = false
-scale = Vector2(3.6, 2.4)
+scale = Vector2(3.6000001, 2.4000003)
 shape = SubResource("RectangleShape2D_vwpun")
 
 [node name="Visual" type="Node2D" parent="."]

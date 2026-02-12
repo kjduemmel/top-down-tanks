@@ -42,7 +42,16 @@ func _process(_dt: float) -> void:
 
 		_apply(root, editor_mode)
 		i += 1
+func _init_runtime_pose(root: Node2D) -> void:
+	var phys := _get_physics(root)
+	if phys == null:
+		return
 
+	# Copy the placed root pose into physics once
+	phys.global_position = _unproject(root.global_position)
+	if sync_rotation:
+		phys.global_rotation = root.global_rotation
+		
 func _apply(root: Node2D, editor_mode: bool) -> void:
 	var phys: Node2D = _get_physics(root)
 	var vis: Node2D = _get_visual(root)
@@ -173,6 +182,8 @@ func _register(root: Node2D) -> void:
 	_roots.append(root)
 	_get_physics(root)
 	_get_visual(root)
+	if Engine.is_editor_hint() == false:
+		_init_runtime_pose(root)
 
 func _get_physics(root: Node2D) -> Node2D:
 	if _phys_cache.has(root):

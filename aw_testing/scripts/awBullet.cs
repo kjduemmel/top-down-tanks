@@ -25,6 +25,9 @@ public partial class awBullet : CharacterBody2D
 			if (collision.GetCollider().HasMethod("Hit"))
 			{
 				collision.GetCollider().Call("Hit");
+				
+				//Assuming bullets should dies hitting hittable thing
+				QueueFree();
 			}
 		}
 	}

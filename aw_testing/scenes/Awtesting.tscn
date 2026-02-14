@@ -15,20 +15,20 @@ size = Vector2(60, 20)
 
 [node name="Awtesting" type="Node2D"]
 
-[node name="ProtoPlayer" type="CharacterBody2D" parent="."]
+[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("Tank")]
+script = ExtResource("3_46ee3")
+Tank = NodePath("ProtoPlayer")
+
+[node name="ProtoPlayer" type="CharacterBody2D" parent="PlayerController"]
 motion_mode = 1
 script = ExtResource("1_duvdb")
 Bullet = ExtResource("2_84aw7")
 
-[node name="PlayerController" type="Node" parent="ProtoPlayer" node_paths=PackedStringArray("Tank")]
-script = ExtResource("3_46ee3")
-Tank = NodePath("..")
-
-[node name="Sprite2D" type="Sprite2D" parent="ProtoPlayer"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerController/ProtoPlayer"]
 scale = Vector2(20, 20)
 texture = SubResource("CanvasTexture_t4nx2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ProtoPlayer"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerController/ProtoPlayer"]
 shape = SubResource("RectangleShape2D_bijfb")
 
 [node name="Camera2D" type="Camera2D" parent="."]

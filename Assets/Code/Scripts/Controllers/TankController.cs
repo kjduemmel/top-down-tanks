@@ -9,7 +9,11 @@ public partial class TankController : CharacterBody2D
     PackedScene Bullet;
     
     Vector2 Direction = Vector2.Zero;
-
+    
+    [Signal]
+    public delegate void HitEventHandler();
+    
+    
     public override void _Process(double delta)
     {
         base._Process(delta);
@@ -48,11 +52,10 @@ public partial class TankController : CharacterBody2D
         //GetTree().Root.AddChild(b);
         GetTree().GetCurrentScene().AddChild(b);
     }
-
-    public void Hit()
+    
+    public void OnHit()
     {
-        GD.Print("You Died");
-        GetTree().ReloadCurrentScene();
+        EmitSignal(SignalName.Hit);
     }
     
     public void UseItem()

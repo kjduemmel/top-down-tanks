@@ -6,12 +6,22 @@ public partial class PlayerController : Node
 	[Export]
 	TankController Tank;
 	
+	private UI ui;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		if (Tank == null)
 		{
 			GD.PrintErr("PlayerController: Tank was not assigned");
+		}
+		Tank.Hit += OnHit;
+		
+		//find scene UI parent
+		ui = GetTree().GetCurrentScene().GetNode<UI>("UI");
+		if (ui == null)
+		{
+			GD.PrintErr("PlayerController: UI was not found");
 		}
 	}
 
@@ -28,5 +38,12 @@ public partial class PlayerController : Node
 			
 			Tank.Shoot(direction);
 		}
+	}
+	
+	async public void OnHit()
+	{
+		ui.ShowMessage("You Died");
+		await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
+		GetTree().ReloadCurrentScene();
 	}
 }

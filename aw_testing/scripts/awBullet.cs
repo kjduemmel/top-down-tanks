@@ -22,9 +22,9 @@ public partial class awBullet : CharacterBody2D
 		{
 			Velocity = Velocity.Bounce(collision.GetNormal());
 			Rotation = Velocity.Angle() + Mathf.Pi/2;
-			if (collision.GetCollider().HasMethod("Hit"))
+			if (collision.GetCollider().HasMethod("OnHit"))
 			{
-				collision.GetCollider().Call("Hit");
+				collision.GetCollider().Call("OnHit");
 				
 				//Assuming bullets should dies hitting hittable thing
 				QueueFree();

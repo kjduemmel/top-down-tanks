@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=9 format=3 uid="uid://b2fj7ee2mxc1b"]
 
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="1_duvdb"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_84aw7"]
 [ext_resource type="Script" uid="uid://t55j33dfhciy" path="res://Assets/Code/Scripts/Controllers/PlayerController.cs" id="3_46ee3"]
+[ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://aw_testing/scripts/UI.cs" id="4_46ee3"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t4nx2"]
 
@@ -17,18 +18,18 @@ size = Vector2(60, 20)
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("Tank")]
 script = ExtResource("3_46ee3")
-Tank = NodePath("ProtoPlayer")
+Tank = NodePath("TankController")
 
-[node name="ProtoPlayer" type="CharacterBody2D" parent="PlayerController"]
+[node name="TankController" type="CharacterBody2D" parent="PlayerController"]
 motion_mode = 1
 script = ExtResource("1_duvdb")
 Bullet = ExtResource("2_84aw7")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerController/ProtoPlayer"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerController/TankController"]
 scale = Vector2(20, 20)
 texture = SubResource("CanvasTexture_t4nx2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerController/ProtoPlayer"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerController/TankController"]
 shape = SubResource("RectangleShape2D_bijfb")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -42,3 +43,37 @@ texture = SubResource("CanvasTexture_bijfb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_84aw7")
+
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("MessageLabel", "ScoreLabel", "MessageTimer")]
+script = ExtResource("4_46ee3")
+MessageLabel = NodePath("MessageLabel")
+ScoreLabel = NodePath("ScoreLabel")
+MessageTimer = NodePath("MessageTimer")
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+offset_right = 88.0
+offset_bottom = 23.0
+text = "Score: 9000"
+
+[node name="MessageLabel" type="Label" parent="UI"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Mouse to Shoot
+WASD to Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="UI"]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="UI/MessageTimer" to="UI" method="OnMessageTimerTimeout"]

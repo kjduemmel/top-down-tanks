@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=8 format=3 uid="uid://b2fj7ee2mxc1b"]
 
-[ext_resource type="Script" uid="uid://d0y0j26ghk7lx" path="res://aw_testing/scripts/awPlayerController.cs" id="1_bijfb"]
+[ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="1_duvdb"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_84aw7"]
+[ext_resource type="Script" uid="uid://t55j33dfhciy" path="res://Assets/Code/Scripts/Controllers/PlayerController.cs" id="3_46ee3"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t4nx2"]
 
@@ -16,8 +17,12 @@ size = Vector2(60, 20)
 
 [node name="ProtoPlayer" type="CharacterBody2D" parent="."]
 motion_mode = 1
-script = ExtResource("1_bijfb")
-bullet = ExtResource("2_84aw7")
+script = ExtResource("1_duvdb")
+Bullet = ExtResource("2_84aw7")
+
+[node name="PlayerController" type="Node" parent="ProtoPlayer" node_paths=PackedStringArray("Tank")]
+script = ExtResource("3_46ee3")
+Tank = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="ProtoPlayer"]
 scale = Vector2(20, 20)

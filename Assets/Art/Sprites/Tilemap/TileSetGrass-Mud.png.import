@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhyagkojk3uu6"
-path="res://.godot/imported/TileSetGrass-Mud.png-a60b704241e4c249e31cba8a01664327.ctex"
+path="res://.godot/imported/TileSetGrass-Mud.png-9d7a912330d8210f9a01993c872e13af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Sprites/TileMap/TileSetGrass-Mud.png"
-dest_files=["res://.godot/imported/TileSetGrass-Mud.png-a60b704241e4c249e31cba8a01664327.ctex"]
+source_file="res://Assets/Art/Sprites/Tilemap/TileSetGrass-Mud.png"
+dest_files=["res://.godot/imported/TileSetGrass-Mud.png-9d7a912330d8210f9a01993c872e13af.ctex"]
 
 [params]
 

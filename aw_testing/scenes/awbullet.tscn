@@ -18,3 +18,10 @@ texture = SubResource("CanvasTexture_6vad4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_eccbi")
+disabled = true
+
+[node name="ActivateTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="ActivateTimer" to="." method="OnActivateTimer"]

@@ -41,9 +41,11 @@ public partial class TankController : CharacterBody2D
         MoveAndSlide();
     }
 
-    public void Shoot(Vector2 direction)
+    public void Shoot(Vector2 targetPos)
     {
         var b = (awBullet)Bullet.Instantiate();
+        
+        Vector2 direction = (targetPos - Position).Normalized();
         
         //might be - 90
 		float rotation = direction.Angle() + Mathf.Pi/2;

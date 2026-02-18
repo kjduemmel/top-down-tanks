@@ -3,12 +3,12 @@ using System;
 
 public partial class TankController : CharacterBody2D
 {
-    [Export]
-    float Speed = 300.0f;
-    [Export]
+    float moveSpeed = 300.0f;
+    float turnSpeed = 3.0f;
     PackedScene Bullet;
-    
-    Vector2 Direction = Vector2.Zero;
+
+    private float moveDirection;
+    float rotationTarget = 0.0f;
     
     [Signal]
     public delegate void HitEventHandler();
@@ -21,21 +21,31 @@ public partial class TankController : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Vector2 velocity = Velocity;
-
-        // Handle the movement/deceleration.
-        if (Direction != Vector2.Zero)
+        if (rotationTarget > 0.0f)
         {
-            velocity = Direction * Speed;
+            float rotation = Rotation + turnSpeed * (float)delta;
+            Rotation = rotation;
+        }
+        else if (rotationTarget < 0.0f)
+        {
+            float rotation = Rotation - turnSpeed * (float)delta;
+            Rotation = rotation;
+        }
+
+        Vector2 velocity = Velocity;
+        if (moveDirection != 0.0)
+        {
+            Vector2 dir = -Vector2.FromAngle(Rotation);
+            velocity = dir * moveDirection * moveSpeed;
         }
         else
         {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-            velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
+            //probably need to reduce these proportionally?
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, moveSpeed);
+            velocity.Y = Mathf.MoveToward(Velocity.Y, 0, moveSpeed);
         }
-        //Velocities Properties cant be directly set in c#, must reassign back
+        //Velocity's Properties cant be directly set in c#, must reassign back
         Velocity = velocity;
-        
         
         //var collision = MoveAndCollide(velocity * (float)delta);
         MoveAndSlide();
@@ -43,6 +53,9 @@ public partial class TankController : CharacterBody2D
 
     public void Shoot(Vector2 targetPos)
     {
+        if (Bullet == null)
+            return;
+        
         var b = (awBullet)Bullet.Instantiate();
         
         Vector2 direction = (targetPos - Position).Normalized();
@@ -51,7 +64,9 @@ public partial class TankController : CharacterBody2D
 		float rotation = direction.Angle() + Mathf.Pi/2;
         
         b.Start(Position + direction.Normalized() * 20, rotation, direction.Normalized());
-        //GetTree().Root.AddChild(b);
+        
+        //GetTree().Root.AddChild(b); // <- This breaks scene reloads
+        
         GetTree().GetCurrentScene().AddChild(b);
     }
     
@@ -65,16 +80,41 @@ public partial class TankController : CharacterBody2D
         
     }
 
-    public float GetSpeed()
+    public float GetMoveSpeed()
     {
-        return Speed;
+        return moveSpeed;
     }
 
-    public void SetSpeed(float speed)
+    public void SetMoveSpeed(float speed)
     {
-        Speed = speed;
+        moveSpeed = speed;
+    }
+    
+    public float GetTurnSpeed()
+    {
+        return turnSpeed;
     }
 
+    public void SetTurnSpeed(float speed)
+    {
+        turnSpeed = speed;
+    }
+
+    public void SetMoveDirection(float moveDir)
+    {
+        moveDirection = moveDir;
+    }
+    
+    public float GetRotation()
+    {
+        return Rotation;
+    }
+    
+    public void SetRotationTarget(float rotTarget)
+    {
+        rotationTarget = rotTarget;
+    }
+    
     public PackedScene GetBullet()
     {
         return Bullet;
@@ -84,10 +124,4 @@ public partial class TankController : CharacterBody2D
     {
         Bullet = bullet;
     }
-
-    public void SetDirection(Vector2 direction)
-    {
-        Direction = direction;
-    }
-    
 }

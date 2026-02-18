@@ -1,14 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=9 format=3 uid="uid://b2fj7ee2mxc1b"]
 
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="1_duvdb"]
-[ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_84aw7"]
-[ext_resource type="Script" uid="uid://t55j33dfhciy" path="res://Assets/Code/Scripts/Controllers/PlayerController.cs" id="3_46ee3"]
 [ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://aw_testing/scripts/UI.cs" id="4_46ee3"]
 [ext_resource type="Script" uid="uid://c0hubn8etbqel" path="res://aw_testing/scripts/enemy_tank_test.gd" id="4_d12wk"]
+[ext_resource type="PackedScene" uid="uid://cix133vq8l3g5" path="res://aw_testing/scenes/awtank.tscn" id="6_jr86u"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_t4nx2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bijfb"]
+size = Vector2(20, 24)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_bijfb"]
 
@@ -17,22 +17,7 @@ size = Vector2(60, 20)
 
 [node name="Awtesting" type="Node2D"]
 
-[node name="PlayerTank" type="Node" parent="." node_paths=PackedStringArray("Tank")]
-unique_name_in_owner = true
-script = ExtResource("3_46ee3")
-Tank = NodePath("TankController")
-
-[node name="TankController" type="CharacterBody2D" parent="PlayerTank"]
-motion_mode = 1
-script = ExtResource("1_duvdb")
-Bullet = ExtResource("2_84aw7")
-
-[node name="Sprite2D" type="Sprite2D" parent="PlayerTank/TankController"]
-scale = Vector2(20, 20)
-texture = SubResource("CanvasTexture_t4nx2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerTank/TankController"]
-shape = SubResource("RectangleShape2D_bijfb")
+[node name="Tank" parent="." instance=ExtResource("6_jr86u")]
 
 [node name="EnemyTankTest" type="Node" parent="." node_paths=PackedStringArray("tank")]
 script = ExtResource("4_d12wk")
@@ -42,8 +27,6 @@ tank = NodePath("TankController")
 position = Vector2(-334, 0)
 motion_mode = 1
 script = ExtResource("1_duvdb")
-Speed = 100.0
-Bullet = ExtResource("2_84aw7")
 
 [node name="Sprite2D" type="Sprite2D" parent="EnemyTankTest/TankController"]
 scale = Vector2(20, 20)

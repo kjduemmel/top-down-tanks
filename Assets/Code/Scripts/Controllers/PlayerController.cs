@@ -5,7 +5,15 @@ public partial class PlayerController : Node
 {
 	[Export]
 	TankController Tank;
+
+	[Export]
+	private float MoveSpeed = 300.0f;
+	[Export]
+	private float TurnSpeed = 3.0f;
+	[Export]
+	PackedScene Bullet;
 	
+	private float rotationTarget;
 	private UI ui;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -23,20 +31,30 @@ public partial class PlayerController : Node
 		{
 			GD.PrintErr("PlayerController: UI was not found");
 		}
+
+		//set to the starting rot
+		rotationTarget = Tank.GetRotation();
+		
+		//set Tank values
+		Tank.SetMoveSpeed(MoveSpeed);
+		Tank.SetTurnSpeed(TurnSpeed);
+		Tank.SetBullet(Bullet);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Tank.SetDirection(Input.GetVector("move_left", "move_right", 
-			"move_up", "move_down"));
+		rotationTarget = Input.GetAxis("rotate_left", "rotate_right");
+		Tank.SetRotationTarget(rotationTarget);
+
+		float moveDir = Input.GetAxis("move_forward", "move_backward");
+		Tank.SetMoveDirection(moveDir);
 		
 		if (Input.IsActionJustPressed("shoot"))
 		{
-			Vector2 mosPos = Tank.GetGlobalMousePosition();
-			Vector2 direction = mosPos - Tank.Position;
+			Vector2 mousePos = Tank.GetGlobalMousePosition();
 			
-			Tank.Shoot(direction);
+			Tank.Shoot(mousePos);
 		}
 	}
 	

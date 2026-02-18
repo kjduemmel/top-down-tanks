@@ -11,7 +11,7 @@ metadata/_edit_lock_ = true
 visible = false
 
 [node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
-position = Vector2(200, 133.33333)
+position = Vector2(200, 133)
 rotation = 0.0
 
 [node name="Cube" parent="World" instance=ExtResource("3_feb5d")]

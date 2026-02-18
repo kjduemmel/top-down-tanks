@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bh7764oj1t4na"]
+[gd_scene load_steps=8 format=3 uid="uid://bh7764oj1t4na"]
 
 [ext_resource type="Script" uid="uid://bqa1a8rfvn44u" path="res://Assets/Code/Scripts/Physics/CharacterMove.gd" id="1_jw1c8"]
 [ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="2_uhfg0"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_vwpun"]
 [ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="4_23d6x"]
+[ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="5_23d6x"]
+[ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="6_3misr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
@@ -40,4 +42,11 @@ metadata/_edit_lock_ = true
 [node name="Turret" type="Sprite2D" parent="Visual"]
 top_level = true
 scale = Vector2(4, 4)
+texture = ExtResource("5_23d6x")
+hframes = 16
+script = ExtResource("2_vwpun")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("6_3misr")
 metadata/_edit_lock_ = true

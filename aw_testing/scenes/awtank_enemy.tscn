@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://cwydioicpb5j"]
+
+[ext_resource type="Script" uid="uid://c0hubn8etbqel" path="res://aw_testing/scripts/enemy_tank_test.gd" id="1_fguys"]
+[ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="2_glav4"]
+[ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_pjomq"]
+[ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="3_pjomq"]
+[ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="4_2etda"]
+[ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="5_x1cnn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
+
+[node name="Tank" type="Node2D" node_paths=PackedStringArray("tank") groups=["SNAP"]]
+rotation = -0.0030765627
+script = ExtResource("1_fguys")
+tank = NodePath("Physics")
+moveSpeed = 10.0
+bullet = ExtResource("2_pjomq")
+
+[node name="Physics" type="CharacterBody2D" parent="."]
+top_level = true
+rotation = -0.0030765627
+script = ExtResource("2_glav4")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
+visible = false
+scale = Vector2(3.6000001, 2.4000003)
+shape = SubResource("RectangleShape2D_vwpun")
+
+[node name="Visual" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Chassis" type="Sprite2D" parent="Visual"]
+top_level = true
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("3_pjomq")
+hframes = 16
+script = ExtResource("4_2etda")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("5_x1cnn")
+metadata/_edit_lock_ = true
+
+[node name="Turret" type="Sprite2D" parent="Visual"]
+top_level = true
+scale = Vector2(4, 4)
+metadata/_edit_lock_ = true

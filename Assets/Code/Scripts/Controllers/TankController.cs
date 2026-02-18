@@ -35,7 +35,7 @@ public partial class TankController : CharacterBody2D
         Vector2 velocity = Velocity;
         if (moveDirection != 0.0)
         {
-            Vector2 dir = -Vector2.FromAngle(Rotation);
+            Vector2 dir = Vector2.FromAngle(Rotation);
             velocity = dir * moveDirection * moveSpeed;
         }
         else
@@ -60,7 +60,7 @@ public partial class TankController : CharacterBody2D
         
         Vector2 direction = (targetPos - Position).Normalized();
         
-        //might be - 90
+        //might be - 90 or 0 if graphic assumptions change
 		float rotation = direction.Angle() + Mathf.Pi/2;
         
         b.Start(Position + direction.Normalized() * 20, rotation, direction.Normalized());

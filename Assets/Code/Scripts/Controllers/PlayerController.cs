@@ -47,7 +47,7 @@ public partial class PlayerController : Node
 		rotationTarget = Input.GetAxis("rotate_left", "rotate_right");
 		Tank.SetRotationTarget(rotationTarget);
 
-		float moveDir = Input.GetAxis("move_forward", "move_backward");
+		float moveDir = Input.GetAxis("move_backward", "move_forward");
 		Tank.SetMoveDirection(moveDir);
 		
 		if (Input.IsActionJustPressed("shoot"))

@@ -27,8 +27,9 @@ public partial class EnemyController : Node2D
 	
 	private float rotationDirection;
 	private float rotTimer = 0.0f;
+	private float rotLength = 0.0f;
 
-	private bool shouldMove = false;
+	private int moveDir = 0;
 	float moveTimer = 0.0f;
 	
 	private UI ui;
@@ -69,31 +70,37 @@ public partial class EnemyController : Node2D
 	public override void _Process(double delta)
 	{
 		rotTimer -= (float)delta;
+		if (rotTimer <= rotLength)
+		{
+			Tank.SetRotationTarget(0);
+		}
 		if (rotTimer <= 0.0f)
 		{
 			rotTimer = TimeBetweenRotations;
 			rotationDirection = (int)(GD.Randi() % 3 - 1);
+			Tank.SetRotationTarget(rotationDirection);
+			rotLength = GD.Randf() * TimeBetweenRotations;
 		}
-		Tank.SetRotationTarget(rotationDirection);
 		
 		moveTimer -= (float)delta;
 		if (moveTimer <= 0.0f)
 		{
 			float chance = GD.Randf();
-			if (chance < 0.33f)
+			if (chance < 0.15f)
 			{
-				shouldMove = true;
+				moveDir = 0;
+			}
+			else if (chance < 0.33f)
+			{
+				moveDir = 0;
 			}
 			else
 			{
-				shouldMove = false;
+				moveDir = 1;
 			}
 		}
-
-		if (shouldMove)
-		{
-			Tank.SetMoveDirection(1);
-		}
+		
+		Tank.SetMoveDirection(moveDir);
 
 		reloadTimer -= (float)delta;
 		if (reloadTimer <= 0.0f)

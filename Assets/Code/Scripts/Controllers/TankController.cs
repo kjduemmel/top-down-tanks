@@ -9,6 +9,10 @@ public partial class TankController : CharacterBody2D
 
     private float moveDirection;
     float rotationTarget = 0.0f;
+
+    private float rotLockout = 1.0f;
+    float rotLockTimer = 0.0f;
+    int forcedRotation = 0;
     
     [Signal]
     public delegate void HitEventHandler();
@@ -21,17 +25,6 @@ public partial class TankController : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (rotationTarget > 0.0f)
-        {
-            float rotation = Rotation + turnSpeed * (float)delta;
-            Rotation = rotation;
-        }
-        else if (rotationTarget < 0.0f)
-        {
-            float rotation = Rotation - turnSpeed * (float)delta;
-            Rotation = rotation;
-        }
-
         Vector2 velocity = Velocity;
         if (moveDirection != 0.0)
         {
@@ -47,8 +40,45 @@ public partial class TankController : CharacterBody2D
         //Velocity's Properties cant be directly set in c#, must reassign back
         Velocity = velocity;
         
-        //var collision = MoveAndCollide(velocity * (float)delta);
-        MoveAndSlide();
+        var collision = MoveAndCollide(velocity * (float)delta);
+        rotLockTimer -= (float)delta;
+        
+        if (collision != null)
+        {
+            //override rotation if against another collider
+            float angle = collision.GetNormal().AngleTo(Velocity);
+            if (rotLockTimer <= 0.0f)
+            {
+                rotLockTimer = rotLockout;
+                if (angle > 0)
+                {
+                    rotationTarget = -1;
+                    forcedRotation = -1;
+                }
+                else
+                {
+                    rotationTarget = 1;
+                    forcedRotation = 1;
+                }
+            }
+            else
+            {
+                rotationTarget = forcedRotation;
+            }
+        }
+        
+        if (rotationTarget > 0.0f)
+        {
+            float rotation = Rotation + turnSpeed * (float)delta;
+            Rotation = rotation;
+        }
+        else if (rotationTarget < 0.0f)
+        {
+            float rotation = Rotation - turnSpeed * (float)delta;
+            Rotation = rotation;
+        }
+        
+        //MoveAndSlide();
     }
 
     public void Shoot(Vector2 targetPos)
@@ -112,7 +142,8 @@ public partial class TankController : CharacterBody2D
     
     public void SetRotationTarget(float rotTarget)
     {
-        rotationTarget = rotTarget;
+        //if(rotLockTimer <= 0.0f)
+            rotationTarget = rotTarget;
     }
     
     public PackedScene GetBullet()

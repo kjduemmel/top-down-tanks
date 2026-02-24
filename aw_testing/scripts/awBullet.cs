@@ -6,6 +6,9 @@ public partial class awBullet : CharacterBody2D
 	[Export]
 	public int speed = 100;
 
+	private int maxCollisions = 3;
+	int collisionCount = 0;
+
 	public void Start(Vector2 position, float rotation, Vector2 direction)
 	{
 		Rotation = rotation;
@@ -19,6 +22,7 @@ public partial class awBullet : CharacterBody2D
 		var collision = MoveAndCollide(Velocity * (float)delta);
 		if (collision != null)
 		{
+			++collisionCount;
 			Velocity = Velocity.Bounce(collision.GetNormal());
 			Rotation = Velocity.Angle() + Mathf.Pi/2;
 			if (collision.GetCollider().HasMethod("OnHit"))
@@ -26,6 +30,10 @@ public partial class awBullet : CharacterBody2D
 				collision.GetCollider().Call("OnHit");
 				
 				//Assuming bullets should dies hitting hittable thing
+				QueueFree();
+			}
+			else if(collisionCount >= maxCollisions)
+			{
 				QueueFree();
 			}
 		}

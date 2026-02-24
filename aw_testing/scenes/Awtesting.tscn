@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=8 format=3 uid="uid://b2fj7ee2mxc1b"]
 
 [ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="2_jr86u"]
 [ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://aw_testing/scripts/UI.cs" id="4_46ee3"]
@@ -9,13 +9,36 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84aw7"]
 size = Vector2(60, 20)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_duvdb"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_46ee3"]
+normal = Vector2(1, 0)
+distance = 8.0
+
 [node name="Awtesting" type="Node2D"]
 
-[node name="Tank" parent="." instance=ExtResource("6_jr86u")]
+[node name="PlayerTank" parent="." instance=ExtResource("6_jr86u")]
 unique_name_in_owner = true
 
 [node name="Tank2" parent="." instance=ExtResource("2_jr86u")]
-position = Vector2(-285, 66)
+position = Vector2(-339, 96)
+MoveSpeed = 100.0
+TurnSpeed = 1.0
+ShootingStrategy = 1
+ReloadTime = 1000
+
+[node name="Tank" parent="." instance=ExtResource("2_jr86u")]
+position = Vector2(348, 1)
+MoveSpeed = 5.0
+ReloadTime = 10000
+
+[node name="Tank3" parent="." instance=ExtResource("2_jr86u")]
+position = Vector2(78, 98)
+rotation = -0.006153126
+scale = Vector2(0.99999994, 0.99999994)
+MoveSpeed = 0.0
+TurnSpeed = 0.0
+ShootingStrategy = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -60,5 +83,54 @@ autowrap_mode = 2
 [node name="MessageTimer" type="Timer" parent="UI"]
 wait_time = 2.0
 autostart = true
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+position = Vector2(-639, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D"]
+position = Vector2(-1.4305115e-05, -1.5258789e-05)
+scale = Vector2(17.999983, 718)
+texture = SubResource("CanvasTexture_duvdb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_46ee3")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+position = Vector2(643, 2)
+rotation = 3.1415927
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-1.4305115e-05, -1.5258789e-05)
+scale = Vector2(17.999983, 718)
+texture = SubResource("CanvasTexture_duvdb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+shape = SubResource("WorldBoundaryShape2D_46ee3")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+position = Vector2(1, -364)
+rotation = 1.5707964
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D3"]
+position = Vector2(-1.4305115e-05, -3.1046753)
+scale = Vector2(17.999983, 1306.7463)
+texture = SubResource("CanvasTexture_duvdb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+shape = SubResource("WorldBoundaryShape2D_46ee3")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 356)
+rotation = -1.5707964
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D4"]
+position = Vector2(-2.419991, 6.6549377)
+scale = Vector2(13.160029, 1425.8499)
+texture = SubResource("CanvasTexture_duvdb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+shape = SubResource("WorldBoundaryShape2D_46ee3")
 
 [connection signal="timeout" from="UI/MessageTimer" to="UI" method="OnMessageTimerTimeout"]

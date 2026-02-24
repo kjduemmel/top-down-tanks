@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cix133vq8l3g5"]
+[gd_scene load_steps=10 format=3 uid="uid://cix133vq8l3g5"]
 
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="1_c5rkw"]
 [ext_resource type="Script" uid="uid://t55j33dfhciy" path="res://Assets/Code/Scripts/Controllers/PlayerController.cs" id="1_sgc4x"]
@@ -6,10 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="2_sgc4x"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="3_73kya"]
 [ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="4_vfyhi"]
+[ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="7_ud6jc"]
+[ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_ddjd5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
-[node name="Tank" type="Node2D" node_paths=PackedStringArray("Tank") groups=["SNAP"]]
+[node name="PlayerTank" type="Node2D" node_paths=PackedStringArray("Tank") groups=["SNAP"]]
 rotation = -0.0030765627
 script = ExtResource("1_sgc4x")
 Tank = NodePath("Physics")
@@ -22,9 +24,11 @@ script = ExtResource("1_c5rkw")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
-visible = false
 scale = Vector2(3.6000001, 2.4000003)
 shape = SubResource("RectangleShape2D_vwpun")
+debug_color = Color(0.9201435, 6.430268e-05, 0.69781536, 0.41960785)
+
+[node name="Turret" type="Node2D" parent="."]
 
 [node name="Visual" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -45,4 +49,11 @@ metadata/_edit_lock_ = true
 [node name="Turret" type="Sprite2D" parent="Visual"]
 top_level = true
 scale = Vector2(4, 4)
+texture = ExtResource("7_ud6jc")
+hframes = 16
+script = ExtResource("3_73kya")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("8_ddjd5")
 metadata/_edit_lock_ = true

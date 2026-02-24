@@ -61,7 +61,7 @@ public partial class TankController : CharacterBody2D
         Vector2 direction = (targetPos - Position).Normalized();
         
         //might be - 90 or 0 if graphic assumptions change
-		float rotation = direction.Angle() + Mathf.Pi/2;
+        float rotation = direction.Angle();// + Mathf.Pi/2;
         
         b.Start(Position + direction.Normalized() * 20, rotation, direction.Normalized());
         

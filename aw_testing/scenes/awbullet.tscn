@@ -9,14 +9,16 @@ radius = 1.0
 height = 4.0
 
 [node name="Bullet" type="CharacterBody2D"]
+scale = Vector2(2, 2)
 script = ExtResource("1_5xga1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(7.4505806e-08, 3.1292439e-07)
-scale = Vector2(2.0000002, 4)
+position = Vector2(-5.9604645e-08, -5.9604645e-08)
+scale = Vector2(1.9999999, 2)
 texture = SubResource("CanvasTexture_6vad4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_eccbi")
 disabled = true
 debug_color = Color(0.810681, 0.0021645362, 0.98656386, 0.41960785)

@@ -7,31 +7,31 @@ public partial class EnemyController : Node2D
 	TankController Tank;
 
 	[Export]
-	private float MoveSpeed = 300.0f;
+	private float MoveSpeed = 100.0f;
 	[Export]
-	private float TurnSpeed = 3.0f;
+	private float TimeBetweenMovement = 1.0f;
+	[Export]
+	private float TurnSpeed = 2.0f;
+	[Export]
+	private float TimeBetweenRotations = 1.0f;
 	
 	[Export]
 	PackedScene Bullet;
-
+	[Export]
+	float ReloadTime = 4.0f;
+	private float reloadTimer = 0.0f;
 	[Export] 
 	private Strategy ShootingStrategy = Strategy.ShootAtPlayer;
-	
-	[Export]
-	int ReloadTime = 2;
 
 	private Node2D player;
 	
-	private float rotationTarget;
-	private float timeRotDecision = 1;
+	private float rotationDirection;
 	private float rotTimer = 0.0f;
-	
-	private float reloadTimer = 0.0f;
-	private UI ui;
 
 	private bool shouldMove = false;
-	private float timeMoveDecision = 1;
 	float moveTimer = 0.0f;
+	
+	private UI ui;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -57,7 +57,7 @@ public partial class EnemyController : Node2D
 		Tank.Hit += OnHit;
 
 		//set to the starting rot
-		rotationTarget = Tank.GetRotation();
+		rotationDirection = Tank.GetRotation();
 		
 		//set Tank values
 		Tank.SetMoveSpeed(MoveSpeed);
@@ -71,10 +71,10 @@ public partial class EnemyController : Node2D
 		rotTimer -= (float)delta;
 		if (rotTimer <= 0.0f)
 		{
-			rotTimer = timeRotDecision;
-			rotationTarget = (int)(GD.Randi() % 3 - 1);
+			rotTimer = TimeBetweenRotations;
+			rotationDirection = (int)(GD.Randi() % 3 - 1);
 		}
-		Tank.SetRotationTarget(rotationTarget);
+		Tank.SetRotationTarget(rotationDirection);
 		
 		moveTimer -= (float)delta;
 		if (moveTimer <= 0.0f)

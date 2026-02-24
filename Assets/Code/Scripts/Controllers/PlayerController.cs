@@ -12,8 +12,11 @@ public partial class PlayerController : Node2D
 	private float TurnSpeed = 3.0f;
 	[Export]
 	PackedScene Bullet;
+	[Export]
+	float ReloadTime = 1.5f;
+	private float reloadTimer = 0.0f;
 	
-	private float rotationTarget;
+	private float rotationDirection;
 	private UI ui;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -33,7 +36,7 @@ public partial class PlayerController : Node2D
 		}
 
 		//set to the starting rot
-		rotationTarget = Tank.GetRotation();
+		rotationDirection = Tank.GetRotation();
 		
 		//set Tank values
 		Tank.SetMoveSpeed(MoveSpeed);
@@ -44,14 +47,16 @@ public partial class PlayerController : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		rotationTarget = Input.GetAxis("rotate_left", "rotate_right");
-		Tank.SetRotationTarget(rotationTarget);
+		rotationDirection = Input.GetAxis("rotate_left", "rotate_right");
+		Tank.SetRotationTarget(rotationDirection);
 
 		float moveDir = Input.GetAxis("move_backward", "move_forward");
 		Tank.SetMoveDirection(moveDir);
 		
-		if (Input.IsActionJustPressed("shoot"))
+		reloadTimer -= (float)delta;
+		if (Input.IsActionJustPressed("shoot") && reloadTimer <= 0.0f)
 		{
+			reloadTimer = ReloadTime;
 			Vector2 mousePos = Tank.GetGlobalMousePosition();
 			
 			Tank.Shoot(mousePos);

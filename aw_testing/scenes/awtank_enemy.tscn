@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cwydioicpb5j"]
 
-[ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://aw_testing/scripts/EnemyController.cs" id="1_fguys"]
+[ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_fguys"]
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="2_glav4"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_pjomq"]
 [ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="3_pjomq"]

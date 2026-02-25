@@ -24,7 +24,7 @@ public partial class awBullet : CharacterBody2D
 		{
 			++collisionCount;
 			Velocity = Velocity.Bounce(collision.GetNormal());
-			Rotation = Velocity.Angle() + Mathf.Pi/2;
+			Rotation = Velocity.Angle();// + Mathf.Pi/2;
 			if (collision.GetCollider().HasMethod("OnHit"))
 			{
 				collision.GetCollider().Call("OnHit");

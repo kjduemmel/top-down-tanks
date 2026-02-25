@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=6 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="3_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://dpymdxlbgltth" path="res://Assets/Scenes/Objects/cube.tscn" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="4_7jktm"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
 
 [node name="Game" type="Node2D"]
@@ -11,6 +12,7 @@ metadata/_edit_lock_ = true
 [node name="World" type="Node2D" parent="."]
 
 [node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
+unique_name_in_owner = true
 position = Vector2(200, 133)
 rotation = 0.0
 
@@ -29,6 +31,9 @@ scale = Vector2(0.99999994, 0.99999994)
 [node name="Tank2" parent="World" instance=ExtResource("3_fc0e3")]
 position = Vector2(371, 312)
 MoveSpeed = 50.0
+
+[node name="EnemyTankBase" parent="World" instance=ExtResource("4_7jktm")]
+position = Vector2(624, 211)
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")

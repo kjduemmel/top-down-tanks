@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://cxt41oesslfdw"]
+
+[ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_dlr6f"]
+[ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_aq64j"]
+[ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="3_60x1o"]
+[ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="4_60qxn"]
+[ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="5_inmki"]
+[ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="6_6qiim"]
+[ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="7_gxjo2"]
+[ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_05q02"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
+
+[node name="EnemyTankBase" type="Node2D" node_paths=PackedStringArray("Tank") groups=["SNAP"]]
+rotation = -0.0030765627
+script = ExtResource("1_dlr6f")
+Tank = NodePath("Physics")
+Bullet = ExtResource("2_aq64j")
+
+[node name="Physics" type="CharacterBody2D" parent="."]
+top_level = true
+rotation = -0.0030765627
+script = ExtResource("3_60x1o")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
+scale = Vector2(3.6000001, 2.4000003)
+shape = SubResource("RectangleShape2D_vwpun")
+debug_color = Color(0, 0.1882353, 0.9529412, 0.41960785)
+
+[node name="Visual" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Chassis" type="Sprite2D" parent="Visual"]
+top_level = true
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("4_60qxn")
+hframes = 16
+script = ExtResource("5_inmki")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("6_6qiim")
+metadata/_edit_lock_ = true
+
+[node name="Turret" type="Sprite2D" parent="Visual"]
+top_level = true
+scale = Vector2(4, 4)
+texture = ExtResource("7_gxjo2")
+hframes = 16
+script = ExtResource("5_inmki")
+source_path = NodePath("../..")
+directions = 16
+frame_columns = 16
+height_tex = ExtResource("8_05q02")
+metadata/_edit_lock_ = true

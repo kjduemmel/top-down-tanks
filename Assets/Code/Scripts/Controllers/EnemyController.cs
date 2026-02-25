@@ -45,7 +45,7 @@ public partial class EnemyController : Node2D
 			GD.PrintErr("EnemyController: UI was not found");
 		}
 
-		player = GetNode<Node2D>("%PlayerTank");
+		player = GetNode<Node2D>("%Tank");
 		if (player == null)
 		{
 			GD.PrintErr("EnemyController: Player was not found");

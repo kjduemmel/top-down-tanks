@@ -5,9 +5,11 @@ layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
 layout(set = 0, binding = 0, r32ui) uniform uimage2D depth_img;
 layout(set = 0, binding = 1, rgba8) uniform image2D color_img;
+layout(set = 0, binding = 2, rgba8) uniform image2D normal_img; // NEW
 
 layout(set = 1, binding = 0) uniform sampler2D albedo_tex;
 layout(set = 1, binding = 1) uniform sampler2D height_tex;
+layout(set = 1, binding = 2) uniform sampler2D normal_tex;
 
 layout(push_constant, std430) uniform Push {
     ivec2  out_size;       //  8
@@ -52,10 +54,11 @@ void main() {
     vec4 a = texture(albedo_tex, uv);
     if (a.a < 0.5) return;
 
-
     float h = texture(height_tex, uv).r;
     float d = pc.base_depth + h * pc.height_scale;
     uint new_d = depth_to_u32(d);
+
+    vec3 n = texture(normal_tex, uv).xyz;
 
     uint old_d = imageLoad(depth_img, p).r;
 
@@ -63,6 +66,7 @@ void main() {
         uint prev = imageAtomicCompSwap(depth_img, p, old_d, new_d);
         if (prev == old_d) {
             imageStore(color_img, p, vec4(a.rgb, 1.0));
+            imageStore(normal_img, p, vec4(n, 1.0));
             return;
         }
         old_d = prev;

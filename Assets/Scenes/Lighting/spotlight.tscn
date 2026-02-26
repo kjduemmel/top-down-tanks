@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds76iq75qyhcp"]
+
+[ext_resource type="Script" uid="uid://ch2o2y7orvtdy" path="res://Assets/Code/Scripts/Visual/Lights/SpotLight2_5D.gd" id="1_ecj67"]
+
+[node name="Spotlight" type="Node2D"]
+script = ExtResource("1_ecj67")

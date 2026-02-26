@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpymdxlbgltth"]
+[gd_scene load_steps=6 format=3 uid="uid://dpymdxlbgltth"]
 
 [ext_resource type="Texture2D" uid="uid://cxininlhr40fs" path="res://Assets/Art/Sprites/Cube/Cube-AlbedoSheet.png" id="1_wrxue"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_bvgeg"]
 [ext_resource type="Texture2D" uid="uid://wtmlrwymonmv" path="res://Assets/Art/Sprites/Cube/Cube-HeightSheet.png" id="3_wrxue"]
+[ext_resource type="Texture2D" uid="uid://bo4luwxubawsh" path="res://Assets/Art/Sprites/Cube/Cube-NormalSheet.png" id="4_bvgeg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ifd07"]
 
@@ -20,7 +21,7 @@ metadata/_edit_lock_ = true
 [node name="Visual" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="Chassis" type="Sprite2D" parent="Visual"]
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
 top_level = true
 texture_filter = 1
 scale = Vector2(4, 4)
@@ -30,4 +31,5 @@ script = ExtResource("2_bvgeg")
 source_path = NodePath("../..")
 directions = 16
 height_tex = ExtResource("3_wrxue")
+normal_tex = ExtResource("4_bvgeg")
 metadata/_edit_lock_ = true

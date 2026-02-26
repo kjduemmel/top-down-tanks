@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
-[ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="3_fc0e3"]
+[ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
 [ext_resource type="PackedScene" uid="uid://dpymdxlbgltth" path="res://Assets/Scenes/Objects/cube.tscn" id="3_feb5d"]
-[ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="4_7jktm"]
+[ext_resource type="PackedScene" uid="uid://rchdy6fqsfwx" path="res://Assets/Scenes/Lighting/directional_light.tscn" id="4_ryrav"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
 [ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://aw_testing/scripts/UI.cs" id="6_ryrav"]
 
@@ -11,10 +11,11 @@
 metadata/_edit_lock_ = true
 
 [node name="World" type="Node2D" parent="."]
+script = ExtResource("1_j5wjh")
 
 [node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
 unique_name_in_owner = true
-position = Vector2(200, 133)
+position = Vector2(114, 259)
 rotation = 0.0
 
 [node name="Cube" parent="World" instance=ExtResource("3_feb5d")]
@@ -29,19 +30,21 @@ rotation = 0.39269912
 position = Vector2(432, 160)
 scale = Vector2(0.99999994, 0.99999994)
 
-[node name="Tank2" parent="World" instance=ExtResource("3_fc0e3")]
-position = Vector2(371, 312)
-MoveSpeed = 50.0
-
-[node name="EnemyTankBase" parent="World" instance=ExtResource("4_7jktm")]
-position = Vector2(624, 211)
+[node name="Sun" parent="World" instance=ExtResource("4_ryrav")]
+direction = Vector3(1, 2, 0)
+light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
-offset_right = 40.0
-offset_bottom = 40.0
+texture_filter = 1
+texture_repeat = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("MessageLabel", "ScoreLabel", "MessageTimer")]

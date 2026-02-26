@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rchdy6fqsfwx"]
+
+[ext_resource type="Script" uid="uid://b4tlkf4e8wb80" path="res://Assets/Code/Scripts/Visual/Lights/DirectionalLight2_5D.gd" id="1_wvdjd"]
+
+[node name="DirectionalLight" type="Node2D"]
+script = ExtResource("1_wvdjd")

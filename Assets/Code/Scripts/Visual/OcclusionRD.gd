@@ -3,10 +3,11 @@ extends Node
 @export var internal_size: Vector2i = Vector2i(320, 180)
 @export var y_min: float = 0.0
 @export var y_max: float = 180.0
-@export var height_scale: float = 0.255
+@export var height_scale: float = 1.0
 
 @export var clear_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_occlusion_clear.glsl")
 @export var draw_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_occlusion_draw.glsl")
+@export var light_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_lighting.glsl")
 
 @onready var world: Node2D = get_node("../World") as Node2D
 @onready var output: TextureRect = $Output
@@ -20,9 +21,13 @@ var pipe_clear: RID
 var pipe_draw: RID
 
 # Output images (RD)
-var depth_rid: RID          # r32ui
-var color_rid: RID          # rgba8
-var out_tex: Texture2DRD    # wraps color_rid for UI
+var depth_rid: RID          # r32ui (encoded height)
+var default_depth_rid: RID  # a default if the thing has no depth map
+var color_rid: RID          # rgba8 (encoded albedo)
+var normal_rid: RID         # rgba8 (encoded normal)
+var default_normal_rid: RID # a default if the thing has no normal map
+var lit_rid: RID            # rgba8 (final lit output)
+var out_tex: Texture2DRD    # wraps lit_rid for UI
 
 # Uniform sets
 var us0_clear: RID          # set=0 for clear shader (depth+color)
@@ -42,6 +47,12 @@ var _rd_height_cache: Dictionary = {}  # Texture2D -> RID (R8)
 var _sprites: Array[Sprite2D] = []
 var _pending_rebuild: bool = true
 
+var shader_light: RID
+var pipe_light: RID
+var us0_light: RID  # set=0 for lighting: depth+color+normal+lit
+var us1_lights: RID # set=1: SSBO for lights
+var lights_ssbo: RID
+const MAX_LIGHTS := 64
 
 func _ready() -> void:
 	# Use the MAIN rendering device so Texture2DRD can display the RID
@@ -59,13 +70,15 @@ func _ready() -> void:
 
 
 	_make_sampler()
-	_create_output_images()
 	_create_dummy_height()
+	_create_default_normal()
+	_create_output_images()
 	_load_pipelines_and_sets()
+	
 
 	# Show the output texture
 	out_tex = Texture2DRD.new()
-	out_tex.texture_rd_rid = color_rid
+	out_tex.texture_rd_rid = lit_rid
 	output.texture = out_tex
 	output.set_anchors_preset(Control.PRESET_FULL_RECT)
 
@@ -114,6 +127,9 @@ func _exit_tree() -> void:
 
 	if depth_rid.is_valid(): rd.free_rid(depth_rid)
 	if color_rid.is_valid(): rd.free_rid(color_rid)
+	if normal_rid.is_valid(): rd.free_rid(normal_rid)
+	if lit_rid.is_valid(): rd.free_rid(lit_rid)
+	if default_normal_rid.is_valid(): rd.free_rid(default_normal_rid)
 
 	if pipe_clear.is_valid(): rd.free_rid(pipe_clear)
 	if pipe_draw.is_valid(): rd.free_rid(pipe_draw)
@@ -143,6 +159,9 @@ func _process(_dt: float) -> void:
 	for s in _sprites:
 		if is_instance_valid(s):
 			_dispatch_draw_sprite(s)
+			
+	var light_count := _update_lights_ssbo()
+	_dispatch_lighting(light_count)
 
 
 # ----------------------------
@@ -180,6 +199,32 @@ func _create_output_images() -> void:
 		RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
 	)
 	color_rid = rd.texture_create(cf, RDTextureView.new(), [])
+	
+	# Normal image: RGBA8 storage + sampling
+	var nf := RDTextureFormat.new()
+	nf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	nf.width = internal_size.x
+	nf.height = internal_size.y
+	nf.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	nf.usage_bits = (
+		RenderingDevice.TEXTURE_USAGE_STORAGE_BIT |
+		RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT |
+		RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	)
+	normal_rid = rd.texture_create(nf, RDTextureView.new(), [])
+
+	# Lit output: RGBA8 storage + sampling (displayable)
+	var lf := RDTextureFormat.new()
+	lf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	lf.width = internal_size.x
+	lf.height = internal_size.y
+	lf.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	lf.usage_bits = (
+		RenderingDevice.TEXTURE_USAGE_STORAGE_BIT |
+		RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT |
+		RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	)
+	lit_rid = rd.texture_create(lf, RDTextureView.new(), [])
 
 
 func _create_dummy_height() -> void:
@@ -197,16 +242,98 @@ func _create_dummy_height() -> void:
 
 	dummy_height_rid = rd.texture_create(hf, RDTextureView.new(), [bytes])
 
+func _create_default_normal() -> void:
+	var img := Image.create(1, 1, false, Image.FORMAT_RGBA8)
+	img.set_pixel(0, 0, Color(0.5, 0.5, 1.0, 1.0))
+	var bytes := img.get_data()
+
+	var tf := RDTextureFormat.new()
+	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	tf.width = 1
+	tf.height = 1
+	tf.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT | RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
+
+	default_normal_rid = rd.texture_create(tf, RDTextureView.new(), [bytes])
+
+func _create_lights_ssbo_and_set() -> void:
+	var total := MAX_LIGHTS * 64
+	if lights_ssbo.is_valid():
+		rd.free_rid(lights_ssbo)
+
+	lights_ssbo = rd.storage_buffer_create(total)
+
+	var u := RDUniform.new()
+	u.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
+	u.binding = 0
+	u.add_id(lights_ssbo)
+
+	us1_lights = rd.uniform_set_create([u], shader_light, 1)
+
+func _update_lights_ssbo() -> int:
+	var nodes := get_tree().get_nodes_in_group("rd_lights")
+	var count := 0
+
+	var data := PackedByteArray()
+	data.resize(MAX_LIGHTS * 64)
+
+	for n in nodes:
+		if count >= MAX_LIGHTS:
+			break
+		if not n.has_method("get_gpu_data_world"):
+			continue
+
+		var d: Dictionary = n.call("get_gpu_data_world")
+		if d.get("enabled", true) == false:
+			continue
+
+		var pos_world: Vector2 = d.get("pos", (n as Node2D).global_position)
+		# convert world -> screen -> internal (match your sprite path)
+		var ct: Transform2D = get_viewport().canvas_transform
+		var pos_screen: Vector2 = ct * pos_world
+		var pos_internal: Vector2 = _screen_to_internal(pos_screen)
+
+		var z: float = float(d.get("z", 0.0))
+		var type: float = float(d.get("type", 0))
+
+		var dir: Vector3 = d.get("dir", Vector3(1,0,0))
+		var inner_cos: float = float(d.get("inner_cos", 0.0))
+
+		var col_any = d.get("color", Color.WHITE)
+		var col: Color = Color.WHITE
+		if col_any is Color:
+			col = col_any
+		elif col_any is Vector3:
+			var v: Vector3 = col_any
+			col = Color(v.x, v.y, v.z, 1.0)
+		var light_range: float = float(d.get("range", 0.0))
+
+		var intensity: float = float(d.get("intensity", 1.0))
+		var outer_cos: float = float(d.get("outer_cos", 0.0))
+		var falloff: float = float(d.get("falloff", 2.0))
+		var shadow_steps: float = float(d.get("shadow_steps", 0))
+
+		var base := count * 64
+		_write_vec4(data, base + 0,  Vector4(pos_internal.x, pos_internal.y, z, type))
+		_write_vec4(data, base + 16, Vector4(dir.x, dir.y, dir.z, inner_cos))
+		_write_vec4(data, base + 32, Vector4(col.r, col.g, col.b, light_range))
+		_write_vec4(data, base + 48, Vector4(intensity, outer_cos, falloff, shadow_steps))
+
+		count += 1
+
+	rd.buffer_update(lights_ssbo, 0, data.size(), data)
+	return count
 
 func _load_pipelines_and_sets() -> void:
-	# Build shaders/pipelines from RDShaderFile (.tres)
 	shader_clear = rd.shader_create_from_spirv(clear_rdshader.get_spirv())
 	shader_draw = rd.shader_create_from_spirv(draw_rdshader.get_spirv())
+	shader_light = rd.shader_create_from_spirv(light_rdshader.get_spirv())
 
 	pipe_clear = rd.compute_pipeline_create(shader_clear)
 	pipe_draw = rd.compute_pipeline_create(shader_draw)
+	pipe_light = rd.compute_pipeline_create(shader_light)
 
-	# set=0: depth_img (binding 0), color_img (binding 1)
+	# set=0 bindings used by clear/draw/light (depth/color/normal/lit)
 	var u0 := RDUniform.new()
 	u0.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
 	u0.binding = 0
@@ -217,8 +344,23 @@ func _load_pipelines_and_sets() -> void:
 	u1.binding = 1
 	u1.add_id(color_rid)
 
-	us0_clear = rd.uniform_set_create([u0, u1], shader_clear, 0)
-	us0_draw = rd.uniform_set_create([u0, u1], shader_draw, 0)
+	var u2 := RDUniform.new()
+	u2.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	u2.binding = 2
+	u2.add_id(normal_rid)
+
+	var u3 := RDUniform.new()
+	u3.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	u3.binding = 3
+	u3.add_id(lit_rid)
+
+	us0_clear = rd.uniform_set_create([u0, u1, u2, u3], shader_clear, 0)
+	us0_draw  = rd.uniform_set_create([u0, u1, u2],      shader_draw,  0)
+
+	# Lighting needs all 4
+	us0_light = rd.uniform_set_create([u0, u1, u2, u3], shader_light, 0)
+
+	_create_lights_ssbo_and_set()
 
 
 # ----------------------------
@@ -246,7 +388,7 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 	var tex: Texture2D = s.texture
 	if tex == null:
 		return
-
+	
 	# Upload/cache RD textures (you cannot bind Texture2D.get_rid() directly to RD compute)
 	var albedo_rid: RID = _get_rd_texture_rgba8(tex)
 
@@ -254,6 +396,11 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 	var height_rid: RID = dummy_height_rid
 	if htex != null:
 		height_rid = _get_rd_texture_r8(htex)
+		
+	var ntex: Texture2D = s.get("normal_tex") as Texture2D
+	var normal_tex_rid: RID = default_normal_rid # 1x1 (0.5,0.5,1)
+	if ntex != null:
+		normal_tex_rid = _get_rd_texture_rgba8(ntex)
 
 	# ----- Sprite2D sheet/frame info -----
 	var hf: int = max(1, s.hframes)
@@ -309,8 +456,14 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 	u_h.binding = 1
 	u_h.add_id(sampler_rid)
 	u_h.add_id(height_rid)
+	
+	var u_n := RDUniform.new()
+	u_n.uniform_type = RenderingDevice.UNIFORM_TYPE_SAMPLER_WITH_TEXTURE
+	u_n.binding = 2
+	u_n.add_id(sampler_rid)
+	u_n.add_id(normal_tex_rid)
 
-	var us1_tex: RID = rd.uniform_set_create([u_alb, u_h], shader_draw, 1)
+	var us1_tex: RID = rd.uniform_set_create([u_alb, u_h, u_n], shader_draw, 1)
 
 	var cl := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(cl, pipe_draw)
@@ -346,6 +499,28 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 
 	rd.free_rid(us1_tex)
 
+func _dispatch_lighting(light_count: int) -> void:
+	var cl := rd.compute_list_begin()
+	rd.compute_list_bind_compute_pipeline(cl, pipe_light)
+	rd.compute_list_bind_uniform_set(cl, us0_light, 0)
+	rd.compute_list_bind_uniform_set(cl, us1_lights, 1)
+
+	# Push constants for lighting shader:
+	# ivec2 size; int light_count; float ambient;
+	# pack to 16 bytes
+	var pc := PackedByteArray()
+	pc.resize(16)
+	pc.encode_s32(0, internal_size.x)
+	pc.encode_s32(4, internal_size.y)
+	pc.encode_s32(8, light_count)
+	pc.encode_float(12, 0.2) # ambient (you can move this to a world setting node later)
+
+	rd.compute_list_set_push_constant(cl, pc, pc.size())
+
+	var gx := int((internal_size.x + 7) / 8)
+	var gy := int((internal_size.y + 7) / 8)
+	rd.compute_list_dispatch(cl, gx, gy, 1)
+	rd.compute_list_end()
 
 # ----------------------------
 # Texture upload helpers
@@ -423,3 +598,9 @@ func _on_node_added(n: Node) -> void:
 func _on_node_removed(n: Node) -> void:
 	if world != null and world.is_ancestor_of(n):
 		_pending_rebuild = true
+
+static func _write_vec4(buf: PackedByteArray, off: int, v: Vector4) -> void:
+	buf.encode_float(off + 0,  v.x)
+	buf.encode_float(off + 4,  v.y)
+	buf.encode_float(off + 8,  v.z)
+	buf.encode_float(off + 12, v.w)

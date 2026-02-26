@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxt41oesslfdw"]
+[gd_scene load_steps=11 format=3 uid="uid://cxt41oesslfdw"]
 
 [ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_dlr6f"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_aq64j"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="5_inmki"]
 [ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="6_6qiim"]
 [ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="7_gxjo2"]
+[ext_resource type="Texture2D" uid="uid://di25ef37nxyyn" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-NormalSheet.png" id="7_s4m0f"]
 [ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_05q02"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
@@ -42,6 +43,7 @@ source_path = NodePath("../..")
 directions = 16
 frame_columns = 16
 height_tex = ExtResource("6_6qiim")
+normal_tex = ExtResource("7_s4m0f")
 metadata/_edit_lock_ = true
 
 [node name="Turret" type="Sprite2D" parent="Visual"]

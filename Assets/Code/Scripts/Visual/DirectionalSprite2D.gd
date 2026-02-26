@@ -17,6 +17,7 @@ extends Sprite2D
 @export var use_global_rotation: bool = true
 
 @export var height_tex: Texture2D
+@export var normal_tex: Texture2D
 
 var _source: Node2D
 

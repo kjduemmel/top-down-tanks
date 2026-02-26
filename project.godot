@@ -36,6 +36,7 @@ enabled=PackedStringArray("res://addons/world_decoupler/plugin.cfg")
 [global_group]
 
 SNAP="Denotes what is orthographic for ease of editing"
+rd_lights="Denotes what is a light"
 
 [input]
 

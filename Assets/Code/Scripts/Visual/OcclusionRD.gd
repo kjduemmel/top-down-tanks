@@ -244,7 +244,7 @@ func _create_dummy_height() -> void:
 
 func _create_default_normal() -> void:
 	var img := Image.create(1, 1, false, Image.FORMAT_RGBA8)
-	img.set_pixel(0, 0, Color(0.5, 0.5, 1.0, 1.0))
+	img.set_pixel(0, 0, Color(0.502, 0.875, 0.835, 1.0))
 	var bytes := img.get_data()
 
 	var tf := RDTextureFormat.new()

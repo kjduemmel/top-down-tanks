@@ -62,12 +62,16 @@ metadata/_edit_lock_ = true
 
 [node name="LeftHeadlight" parent="Headlights" instance=ExtResource("10_qr82m")]
 position = Vector2(36, -16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
 falloff = 1.0
 intensity = 0.5
 zpx = 9
 
 [node name="RightHeadlight" parent="Headlights" instance=ExtResource("10_qr82m")]
 position = Vector2(36, 16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
 falloff = 1.0
 intensity = 0.5
 zpx = 9

@@ -27,18 +27,29 @@ float u32_to_norm(uint u) { return float(u) / 4294967295.0; }
 const float Z_BITS_PER_PX = 3.0;
 const float ZPX_SCALE = 255.0 / Z_BITS_PER_PX; // z_px = z_norm * (255/3)
 
+const float COS_T = 2.0 / 3.0;
+const float SIN_T = 0.7453559925; // sqrt(5)/3
+
+vec3 tilted_to_world(vec3 v) { // Rx(-theta)
+    return vec3(
+        v.x,
+        COS_T * v.y + SIN_T * v.z,
+       -SIN_T * v.y + COS_T * v.z
+    );
+}
+
 vec3 decode_normal_view(vec3 enc) {
     vec3 n = enc * 2.0 - 1.0;
-    n.y *= -1.0;          // <-- flip green
+    n.y *= -1.0;      // flip green
     return normalize(n);
 }
 
 vec3 pos_view_from_screen(ivec2 p, float z_norm) {
-    return vec3(float(p.x), float(p.y), z_norm * ZPX_SCALE); // VIEW units
-}
-
-vec3 light_pos_view(vec3 pos_screen_zNorm) {
-    return vec3(pos_screen_zNorm.x, pos_screen_zNorm.y, pos_screen_zNorm.z * ZPX_SCALE);
+    float z_px = z_norm * ZPX_SCALE;
+    float x = float(p.x);
+    float y = (float(p.y) * 1.5) - (z_px);
+    float z = z_px;
+    return vec3(x, y, z);
 }
 
 // Directional shadow march in VIEW space along screen grid; we compare in z_norm units.
@@ -93,6 +104,7 @@ void main() {
 
     // View-space normal (angle with camera)
     vec3 N = decode_normal_view(imageLoad(normal_img, p).xyz);
+    N = normalize(tilted_to_world(N));
 
     vec3 out_rgb = a.rgb * pc.ambient;
 
@@ -100,14 +112,19 @@ void main() {
         Light li = lights.L[i];
         int type = int(li.pos_type.w + 0.5);
 
-        vec3 Ldir;   // view-space direction from pixel toward light
+        vec3 Ldir;   // direction from pixel toward light
         float att = 1.0;
 
         if (type == 0) {
             // Directional: li.dir_param.xyz must already be view-space
             Ldir = normalize(li.dir_param.xyz);
         } else {
-            vec3 LP = light_pos_view(li.pos_type.xyz);
+            float zL_px = li.pos_type.z * ZPX_SCALE;
+            vec3 LP = vec3(
+                li.pos_type.x,
+                (li.pos_type.y * 1.5) - zL_px,
+                zL_px
+            );
             vec3 toL = LP - P;               // view-space delta
             float dist = length(toL);
             if (dist < 1e-4) continue;

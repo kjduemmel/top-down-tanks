@@ -16,6 +16,11 @@ public partial class PlayerController : Node2D
 	float ReloadTime = 1.5f;
 	private float reloadTimer = 0.0f;
 	
+	[Export]
+	PackedScene Item;
+	[Export]
+	int ItemUses = 5;
+	
 	private float rotationDirection;
 	private UI ui;
 	
@@ -25,8 +30,19 @@ public partial class PlayerController : Node2D
 		if (Tank == null)
 		{
 			GD.PrintErr("PlayerController: Tank was not assigned");
+			return;
 		}
 		Tank.Hit += OnHit;
+
+		if (Bullet == null)
+		{
+			GD.PrintErr("PlayerController: Bullet was not assigned");
+		}
+
+		if (Item == null)
+		{
+			GD.PrintErr("PlayerController: Item was not assigned");
+		}
 		
 		//find scene UI parent
 		ui = GetTree().GetCurrentScene().GetNode<UI>("UI");
@@ -42,6 +58,7 @@ public partial class PlayerController : Node2D
 		Tank.SetMoveSpeed(MoveSpeed);
 		Tank.SetTurnSpeed(TurnSpeed);
 		Tank.SetBullet(Bullet);
+		Tank.SetItem(Item);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,6 +78,16 @@ public partial class PlayerController : Node2D
 			
 			Tank.Shoot(mousePos);
 		}
+
+		if (Input.IsActionJustPressed("use_item") && ItemUses > 0)
+		{
+			--ItemUses;
+			float amountBehind = 75;
+			Vector2 behind = Tank.Position - new Vector2((float)Math.Cos(GlobalRotation) * amountBehind,
+													(float)Math.Sin(GlobalRotation) * amountBehind);
+			Tank.UseItem(behind, GlobalRotation);
+		}
+		
 	}
 	
 	async public void OnHit()

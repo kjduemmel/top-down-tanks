@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxt41oesslfdw"]
+[gd_scene load_steps=12 format=3 uid="uid://cxt41oesslfdw"]
 
 [ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_dlr6f"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_aq64j"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="7_gxjo2"]
 [ext_resource type="Texture2D" uid="uid://di25ef37nxyyn" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-NormalSheet.png" id="7_s4m0f"]
 [ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_05q02"]
+[ext_resource type="PackedScene" uid="uid://ds76iq75qyhcp" path="res://Assets/Scenes/Lighting/spotlight.tscn" id="10_eupxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
@@ -57,3 +58,21 @@ directions = 16
 frame_columns = 16
 height_tex = ExtResource("8_05q02")
 metadata/_edit_lock_ = true
+
+[node name="Headlights" type="Node2D" parent="."]
+
+[node name="LeftHeadlight" parent="Headlights" instance=ExtResource("10_eupxr")]
+position = Vector2(36, -16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
+falloff = 1.0
+intensity = 0.5
+zpx = 9
+
+[node name="RightHeadlight" parent="Headlights" instance=ExtResource("10_eupxr")]
+position = Vector2(36, 16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
+falloff = 1.0
+intensity = 0.5
+zpx = 9

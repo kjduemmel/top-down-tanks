@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://blqfwdbnvjhp2"]
+
+[ext_resource type="Script" uid="uid://db0x6io5y15ih" path="res://aw_testing/scripts/MineTimed.cs" id="1_wtljv"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_jr86u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1q3mo"]
+radius = 55.145264
+
+[node name="TimedMine" type="Node2D"]
+script = ExtResource("1_wtljv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.4305115e-06, 2.3841858e-07)
+scale = Vector2(40, 40)
+texture = SubResource("CanvasTexture_jr86u")
+
+[node name="ExplosionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
+shape = SubResource("CircleShape2D_1q3mo")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -12.0
+offset_right = 19.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "3.0"
+horizontal_alignment = 1
+vertical_alignment = 1

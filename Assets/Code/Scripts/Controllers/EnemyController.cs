@@ -32,6 +32,8 @@ public partial class EnemyController : Node2D
 	private int moveDir = 0;
 	float moveTimer = 0.0f;
 	
+	[Export]
+	private int ScorePoints = 1;
 	private UI ui;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -126,9 +128,15 @@ public partial class EnemyController : Node2D
 	
 	async public void OnHit()
 	{
-		//ui.IncreaseScore();
+		Die();
+	}
+
+	void Die()
+	{
+		ui.IncreaseScore(ScorePoints);
 		QueueFree();
 	}
+	
 }
 
 public enum Strategy

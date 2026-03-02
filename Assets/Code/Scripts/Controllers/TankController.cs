@@ -6,6 +6,7 @@ public partial class TankController : CharacterBody2D
 	float moveSpeed = 300.0f;
 	float turnSpeed = 3.0f;
 	PackedScene Bullet;
+	private PackedScene Item;
 
 	private float moveDirection;
 	float rotationTarget = 0.0f;
@@ -100,14 +101,20 @@ public partial class TankController : CharacterBody2D
 		GetTree().GetCurrentScene().AddChild(b);
 	}
 	
+	public void UseItem(Vector2 position, float rotation)
+	{
+		if(Item == null)
+			return;
+		
+		var it = (AbilityItem)Item.Instantiate();
+		it.Start(position, rotation);
+		
+		GetTree().GetCurrentScene().AddChild(it);
+	}
+	
 	public void OnHit()
 	{
 		EmitSignal(SignalName.Hit);
-	}
-	
-	public void UseItem()
-	{
-		
 	}
 
 	public float GetMoveSpeed()
@@ -155,4 +162,15 @@ public partial class TankController : CharacterBody2D
 	{
 		Bullet = bullet;
 	}
+
+	public PackedScene GetItem()
+	{
+		return Item;
+	}
+	
+	public void SetItem(PackedScene item)
+	{
+		Item = item;
+	}
+	
 }

@@ -12,9 +12,12 @@ public partial class UI : CanvasLayer
 	[Export]
 	Timer MessageTimer;
 	
+	int score = 0;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		ScoreLabel.Text = $"Score: {score}";
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,9 +33,26 @@ public partial class UI : CanvasLayer
 		MessageTimer.Start();
 	}
 
-	public void UpdateScore(int score)
+	public int GetScore()
 	{
-		ScoreLabel.Text = score.ToString();
+		return score;
+	}
+	
+	public void SetScore(int newScore)
+	{
+		score = newScore;
+		UpdateScoreLabel();
+	}
+
+	public void IncreaseScore(int amount)
+	{
+		score += amount;
+		UpdateScoreLabel();
+	}
+
+	void UpdateScoreLabel()
+	{
+		ScoreLabel.Text = $"Score: {score}";
 	}
 
 	void OnMessageTimerTimeout()

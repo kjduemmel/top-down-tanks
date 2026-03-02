@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dpymdxlbgltth" path="res://Assets/Scenes/Objects/cube.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" uid="uid://rchdy6fqsfwx" path="res://Assets/Scenes/Lighting/directional_light.tscn" id="4_ryrav"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
-[ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://aw_testing/scripts/UI.cs" id="6_ryrav"]
+[ext_resource type="Script" uid="uid://ns81gvcm5qv5" path="res://Assets/Code/Scripts/UI.cs" id="6_ryrav"]
 
 [node name="Game" type="Node2D"]
 metadata/_edit_lock_ = true

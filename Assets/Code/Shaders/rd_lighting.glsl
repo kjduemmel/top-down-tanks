@@ -47,7 +47,7 @@ vec3 decode_normal_view(vec3 enc) {
 vec3 pos_view_from_screen(ivec2 p, float z_norm) {
     float z_px = z_norm * ZPX_SCALE;
     float x = float(p.x);
-    float y = (float(p.y) * 1.5) - (z_px);
+    float y = (float(p.y) + (z_px)) * 1.5;
     float z = z_px;
     return vec3(x, y, z);
 }

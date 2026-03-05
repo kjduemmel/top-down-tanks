@@ -48,7 +48,7 @@ vec3 pos_view_from_screen(ivec2 p, float z_norm) {
     float z_px = z_norm * ZPX_SCALE;
     float x = float(p.x);
     float y = (float(p.y) + (z_px)) * 1.5;
-    float z = z_px;
+    float z = z_px / SIN_T;
     return vec3(x, y, z);
 }
 
@@ -123,7 +123,7 @@ void main() {
             vec3 LP = vec3(
                 li.pos_type.x,
                 (li.pos_type.y * 1.5) - zL_px,
-                zL_px
+                zL_px / SIN_T
             );
             vec3 toL = LP - P;               // view-space delta
             float dist = length(toL);

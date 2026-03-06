@@ -48,15 +48,17 @@ public partial class TankController : CharacterBody2D
 		{
 			//override rotation if against another collider
 			float angle = collision.GetNormal().AngleTo(Velocity);
-			if (rotLockTimer <= 0.0f)
+			//GD.Print(angle);
+			float rotationDeadZone = 0.3f;
+			if (rotLockTimer <= 0.0f && Mathf.Abs(angle) < Mathf.Pi - rotationDeadZone)
 			{
 				rotLockTimer = rotLockout;
-				if (angle > 0)
+				if (angle > 0)// && angle < Mathf.Pi - rotationDeadZone)
 				{
 					rotationTarget = -1;
 					forcedRotation = -1;
 				}
-				else
+				else if (angle < 0)// && angle > -Mathf.Pi - rotationDeadZone)
 				{
 					rotationTarget = 1;
 					forcedRotation = 1;
@@ -64,7 +66,8 @@ public partial class TankController : CharacterBody2D
 			}
 			else
 			{
-				rotationTarget = forcedRotation;
+				if(Mathf.Abs(angle) < Mathf.Pi - rotationDeadZone)
+					rotationTarget = forcedRotation;
 			}
 		}
 		

@@ -1,4 +1,4 @@
-# SpotLight2_5D.gd
+@tool
 extends Light2_5D
 class_name SpotLight2_5D
 

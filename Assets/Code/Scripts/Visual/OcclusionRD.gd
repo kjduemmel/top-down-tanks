@@ -1,5 +1,7 @@
-extends Node
+@tool
+extends CanvasLayer
 
+@export var run_in_editor := true
 @export var internal_size: Vector2i = Vector2i(320, 180)
 @export var y_min: float = 0.0
 @export var y_max: float = 180.0
@@ -9,10 +11,12 @@ extends Node
 @export var draw_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_occlusion_draw.glsl")
 @export var light_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_lighting.glsl")
 
-@onready var world: Node2D = get_node("../World") as Node2D
-@onready var output: TextureRect = $Output
+@onready var world: Node2D = get_node_or_null("../World") as Node2D
+@onready var output: TextureRect = get_node_or_null("Output") as TextureRect
 
 var rd: RenderingDevice
+var _inited := false
+var _freed_this_exit: Dictionary = {} # acts like a Set of freed RID ids
 
 # Pipelines
 var shader_clear: RID
@@ -55,38 +59,95 @@ var lights_ssbo: RID
 const MAX_LIGHTS := 64
 
 func _ready() -> void:
-	# Use the MAIN rendering device so Texture2DRD can display the RID
+	if Engine.is_editor_hint() and run_in_editor:
+		set_process(true)
+
+	if output == null:
+		output = get_node_or_null("Output") as TextureRect
+
+	# Refit when the *viewport* changes size (this is the big missing piece)
+	var vp := get_viewport()
+	if vp != null and not vp.size_changed.is_connected(_on_viewport_size_changed):
+		vp.size_changed.connect(_on_viewport_size_changed)
+
+	if output != null and not output.resized.is_connected(_on_output_resized):
+		output.resized.connect(_on_output_resized)
+		
+	get_viewport().size_changed.connect(_fit_output_to_viewport)
+	_fit_output_to_viewport()
+
+	_fit_output_to_viewport()
+	_inited = true
+
+func _on_output_resized() -> void:
+	_fit_output_to_viewport()
+
+func _on_viewport_size_changed() -> void:
+	_fit_output_to_viewport()
+
+func _try_init() -> void:
+	
+	if _inited:
+		return
+
+	# Reacquire nodes in editor (paths can be null during reload)
+	if output == null:
+		output = get_node_or_null("Output") as TextureRect
+		if output == null:
+			return
+	if world == null:
+		world = get_node_or_null("../World") as Node2D
+
 	rd = RenderingServer.get_rendering_device()
 	if rd == null:
-		push_error("RenderingDevice not available yet.")
 		return
-	output.set_anchors_preset(Control.PRESET_FULL_RECT)
-	output.offset_left = 0
-	output.offset_top = 0
-	output.offset_right = 0
-	output.offset_bottom = 0
-	output.stretch_mode = TextureRect.STRETCH_SCALE
-	output.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
+	# RD might be a “new context” after tab switching → cached RIDs are stale
+	_rd_albedo_cache.clear()
+	_rd_height_cache.clear()
 
+	# (re)create everything RD-owned
 	_make_sampler()
 	_create_dummy_height()
 	_create_default_normal()
 	_create_output_images()
 	_load_pipelines_and_sets()
-	
 
-	# Show the output texture
 	out_tex = Texture2DRD.new()
 	out_tex.texture_rd_rid = lit_rid
 	output.texture = out_tex
-	output.set_anchors_preset(Control.PRESET_FULL_RECT)
 
-	get_tree().node_added.connect(_on_node_added)
-	get_tree().node_removed.connect(_on_node_removed)
+	# resize hook
+	if not output.resized.is_connected(_on_output_resized):
+		output.resized.connect(_on_output_resized)
+	_fit_output_to_viewport()
 
+	# connect rebuild hooks once
+	if world != null:
+		if not get_tree().node_added.is_connected(_on_node_added):
+			get_tree().node_added.connect(_on_node_added)
+		if not get_tree().node_removed.is_connected(_on_node_removed):
+			get_tree().node_removed.connect(_on_node_removed)
+
+	_inited = true
+	
 func _viewport_size() -> Vector2:
 	return get_viewport().get_visible_rect().size
+	
+func _fit_output_to_viewport() -> void:
+	if output == null:
+		return
+
+	var vp_size: Vector2 = get_viewport().get_visible_rect().size
+	if vp_size.x <= 0.0 or vp_size.y <= 0.0:
+		return
+
+	# Fill the viewport
+	output.set_anchors_preset(Control.PRESET_FULL_RECT)
+	output.offset_left = 0
+	output.offset_top = 0
+	output.offset_right = 0
+	output.offset_bottom = 0
 
 func _screen_to_internal(p: Vector2) -> Vector2:
 	var vp := _viewport_size()
@@ -101,65 +162,110 @@ func _delta_to_internal(d: Vector2) -> Vector2:
 	# same scale as position
 	return _screen_to_internal(d)
 
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		set_process(true)
+
 func _exit_tree() -> void:
+	_freed_this_exit.clear()
+	
+	if get_tree():
+		if get_tree().node_added.is_connected(_on_node_added):
+			get_tree().node_added.disconnect(_on_node_added)
+		if get_tree().node_removed.is_connected(_on_node_removed):
+			get_tree().node_removed.disconnect(_on_node_removed)
+
 	if rd == null:
 		return
 
 	# Free cached RD textures
-	for rid_val in _rd_albedo_cache.values():
-		var r: RID = rid_val as RID
-		if r.is_valid():
-			rd.free_rid(r)
-	_rd_albedo_cache.clear()
+	if Engine.is_editor_hint():
+		_rd_albedo_cache.clear()
+		_rd_height_cache.clear()
+	else:
+		for rid_val in _rd_albedo_cache.values():
+			_safe_free(rid_val as RID)
+		_rd_albedo_cache.clear()
 
-	for rid_val2 in _rd_height_cache.values():
-		var r2: RID = rid_val2 as RID
-		if r2.is_valid():
-			rd.free_rid(r2)
-	_rd_height_cache.clear()
+		for rid_val2 in _rd_height_cache.values():
+			_safe_free(rid_val2 as RID)
+		_rd_height_cache.clear()
 
 	# Free core RIDs
-	if us0_clear.is_valid(): rd.free_rid(us0_clear)
-	if us0_draw.is_valid(): rd.free_rid(us0_draw)
+	_safe_free(us0_clear)
+	_safe_free(us0_draw)
+	_safe_free(us0_light)
+	_safe_free(us1_lights)
+	_safe_free(lights_ssbo)
 
-	if dummy_height_rid.is_valid(): rd.free_rid(dummy_height_rid)
-	if sampler_rid.is_valid(): rd.free_rid(sampler_rid)
+	_safe_free(dummy_height_rid)
+	_safe_free(sampler_rid)
 
-	if depth_rid.is_valid(): rd.free_rid(depth_rid)
-	if color_rid.is_valid(): rd.free_rid(color_rid)
-	if normal_rid.is_valid(): rd.free_rid(normal_rid)
-	if lit_rid.is_valid(): rd.free_rid(lit_rid)
-	if default_normal_rid.is_valid(): rd.free_rid(default_normal_rid)
+	_safe_free(depth_rid)
+	_safe_free(color_rid)
+	_safe_free(normal_rid)
+	_safe_free(lit_rid)
+	_safe_free(default_normal_rid)
 
-	if pipe_clear.is_valid(): rd.free_rid(pipe_clear)
-	if pipe_draw.is_valid(): rd.free_rid(pipe_draw)
+	_safe_free(pipe_clear)
+	_safe_free(pipe_draw)
+	_safe_free(pipe_light)
 
-	if shader_clear.is_valid(): rd.free_rid(shader_clear)
-	if shader_draw.is_valid(): rd.free_rid(shader_draw)
+	_safe_free(shader_clear)
+	_safe_free(shader_draw)
+	_safe_free(shader_light)
+	
+	_inited = false
 
-
-func _process(_dt: float) -> void:
+func _safe_free(r: RID) -> void:
 	if rd == null:
 		return
+	if not r.is_valid():
+		return
+
+	var id := r.get_id()
+	if _freed_this_exit.has(id):
+		return
+	_freed_this_exit[id] = true
+
+	rd.free_rid(r)
+
+func _process(_dt: float) -> void:
+	if Engine.is_editor_hint() and not run_in_editor:
+		return
+
+	# Editor can drop the RD for a frame when switching tabs, etc.
+	if rd == null:
+		_inited = false
+		_try_init() # will early-return until RD exists again
+		return
+
+	if not _inited:
+		_try_init()
+		return
+
+	# From here on: rd != null and initialized
+	if world == null:
+		return
+
+	_fit_output_to_viewport() # optional, if you want editor resizing
 
 	if _pending_rebuild:
 		_pending_rebuild = false
 		_sprites = _gather_sprites(world)
-		
+
 	_sprites.sort_custom(func(a: Sprite2D, b: Sprite2D) -> bool:
 		if a.global_position.y == b.global_position.y:
-			return a.get_instance_id() < b.get_instance_id() # stable tiebreak
-		return a.global_position.y > b.global_position.y      # bottom first
-		)
+			return a.get_instance_id() < b.get_instance_id()
+		return a.global_position.y > b.global_position.y
+	)
 
-	# Clear buffers each frame
 	_dispatch_clear()
 
-	# Draw all sprites (order doesn't matter; per-pixel depth compare decides)
 	for s in _sprites:
 		if is_instance_valid(s):
 			_dispatch_draw_sprite(s)
-			
+
 	var light_count := _update_lights_ssbo()
 	_dispatch_lighting(light_count)
 
@@ -289,7 +395,7 @@ func _update_lights_ssbo() -> int:
 
 		var pos_world: Vector2 = d.get("pos", (n as Node2D).global_position)
 		# convert world -> screen -> internal (match your sprite path)
-		var ct: Transform2D = get_viewport().canvas_transform
+		var ct: Transform2D = get_viewport().get_canvas_transform()
 		var pos_screen: Vector2 = ct * pos_world
 		var pos_internal: Vector2 = _screen_to_internal(pos_screen)
 
@@ -385,22 +491,34 @@ func _dispatch_clear() -> void:
 
 
 func _dispatch_draw_sprite(s: Sprite2D) -> void:
+	if not dummy_height_rid.is_valid() or (dummy_height_rid.is_valid() and not rd.texture_is_valid(dummy_height_rid)):
+		_create_dummy_height()
+
+	if not default_normal_rid.is_valid() or (default_normal_rid.is_valid() and not rd.texture_is_valid(default_normal_rid)):
+		_create_default_normal()
+	
 	var tex: Texture2D = s.texture
 	if tex == null:
 		return
 	
 	# Upload/cache RD textures (you cannot bind Texture2D.get_rid() directly to RD compute)
 	var albedo_rid: RID = _get_rd_texture_rgba8(tex)
+	if not albedo_rid.is_valid():
+		return
 
-	var htex: Texture2D = s.get("height_tex") as Texture2D
 	var height_rid: RID = dummy_height_rid
+	var htex: Texture2D = s.get("height_tex") as Texture2D
 	if htex != null:
-		height_rid = _get_rd_texture_r8(htex)
-		
+		var try_h := _get_rd_texture_r8(htex)
+		if try_h.is_valid():
+			height_rid = try_h
+
+	var normal_tex_rid: RID = default_normal_rid
 	var ntex: Texture2D = s.get("normal_tex") as Texture2D
-	var normal_tex_rid: RID = default_normal_rid # 1x1 (0.5,0.5,1)
 	if ntex != null:
-		normal_tex_rid = _get_rd_texture_rgba8(ntex)
+		var try_n := _get_rd_texture_rgba8(ntex)
+		if try_n.is_valid():
+			normal_tex_rid = try_n
 
 	# ----- Sprite2D sheet/frame info -----
 	var hf: int = max(1, s.hframes)
@@ -420,7 +538,7 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 	var frame_px: Vector2 = Vector2(float(sheet_px.x) / float(hf), float(sheet_px.y) / float(vf))
 
 	# ----- Compute screen-space rect for the *frame* (not the whole sheet) -----
-	var ct: Transform2D = get_viewport().canvas_transform
+	var ct: Transform2D = get_viewport().get_canvas_transform()
 	var pos_screen: Vector2 = ct * s.global_position
 	pos_screen = _screen_to_internal(pos_screen)
 
@@ -528,7 +646,12 @@ func _dispatch_lighting(light_count: int) -> void:
 
 func _get_rd_texture_rgba8(tex: Texture2D) -> RID:
 	if _rd_albedo_cache.has(tex):
-		return _rd_albedo_cache[tex] as RID
+		var cached: RID = _rd_albedo_cache[tex] as RID
+		# RID can be "non-empty" but still invalid in RD after editor reloads.
+		if cached.is_valid() and rd.texture_is_valid(cached):
+			return cached
+		# stale; drop it to recreate
+		_rd_albedo_cache.erase(tex)
 
 	var img: Image = tex.get_image()
 	img.convert(Image.FORMAT_RGBA8)
@@ -548,7 +671,10 @@ func _get_rd_texture_rgba8(tex: Texture2D) -> RID:
 
 func _get_rd_texture_r8(tex: Texture2D) -> RID:
 	if _rd_height_cache.has(tex):
-		return _rd_height_cache[tex] as RID
+		var cached: RID = _rd_height_cache[tex] as RID
+		if cached.is_valid() and rd.texture_is_valid(cached):
+			return cached
+		_rd_height_cache.erase(tex)
 
 	var img: Image = tex.get_image()
 	# single-channel height (if your height is RGB grayscale, this still yields a usable L8)

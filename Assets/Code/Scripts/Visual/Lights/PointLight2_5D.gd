@@ -1,4 +1,4 @@
-# PointLight2_5D.gd
+@tool
 extends Light2_5D
 class_name PointLight2_5D
 

@@ -1,4 +1,4 @@
-# DirectionalLight2_5D.gd
+@tool
 extends Light2_5D
 class_name DirectionalLight2_5D
 
@@ -10,9 +10,6 @@ class_name DirectionalLight2_5D
 
 func get_type() -> int:
 	return LightType.DIRECTIONAL
-	
-func _process(delta: float) -> void:
-	rotate(0.2*delta)
 
 func _dir_world() -> Vector3:
 	if direction_from_rotation:

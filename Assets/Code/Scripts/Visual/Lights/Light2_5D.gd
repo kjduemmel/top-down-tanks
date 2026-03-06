@@ -1,4 +1,4 @@
-# Light2_5D.gd
+@tool
 extends Node2D
 class_name Light2_5D
 

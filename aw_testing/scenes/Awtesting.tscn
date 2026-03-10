@@ -143,3 +143,12 @@ MoveSpeed = 150.0
 TurnSpeed = 5.0
 ReloadTime = 1000.0
 ShootingStrategy = 1
+
+[node name="Tank6" parent="." instance=ExtResource("2_jr86u")]
+position = Vector2(501, 211)
+rotation = -0.0123062525
+scale = Vector2(0.9999998, 0.9999998)
+MoveSpeed = 0.0
+TurnSpeed = 0.0
+ReloadTime = 1000.0
+ShootingStrategy = 1

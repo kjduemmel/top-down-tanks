@@ -28,6 +28,7 @@ public partial class PlayerController : Node2D
 	
 	private float rotationDirection;
 	private UI ui;
+	private Node worldDecoupler;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -61,6 +62,12 @@ public partial class PlayerController : Node2D
 		{
 			GD.PrintErr("PlayerController: UI was not found");
 		}
+		
+		worldDecoupler = GetNode<Node>("/root/WorldDecoupler");
+		if (worldDecoupler == null)
+		{
+			GD.PrintErr("PlayerController: WorldDecoupler was not found");
+		}
 
 		//set to the starting rot
 		rotationDirection = Tank.GetRotation();
@@ -93,6 +100,9 @@ public partial class PlayerController : Node2D
 		{
 			reloadTimer = ReloadTime;
 			
+			//translate from visual to game position
+			if(worldDecoupler != null)
+				mousePos = (Vector2)worldDecoupler.Call("_unproject", mousePos);
 			
 			Tank.Shoot(mousePos);
 		}

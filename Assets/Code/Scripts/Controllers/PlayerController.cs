@@ -5,6 +5,8 @@ public partial class PlayerController : Node2D
 {
 	[Export]
 	TankController Tank;
+	[Export]
+	TurretController Turret;
 
 	[Export]
 	private float MoveSpeed = 300.0f;
@@ -15,6 +17,9 @@ public partial class PlayerController : Node2D
 	[Export]
 	float ReloadTime = 1.5f;
 	private float reloadTimer = 0.0f;
+	
+	[Export]
+	float TurretSpeed = 5.0f;
 	
 	[Export]
 	PackedScene Item;
@@ -34,6 +39,12 @@ public partial class PlayerController : Node2D
 		}
 		Tank.Hit += OnHit;
 
+		if (Turret == null)
+		{
+			GD.PrintErr("PlayerController: Turret was not assigned");
+			return;
+		}
+		
 		if (Bullet == null)
 		{
 			GD.PrintErr("PlayerController: Bullet was not assigned");
@@ -59,6 +70,8 @@ public partial class PlayerController : Node2D
 		Tank.SetTurnSpeed(TurnSpeed);
 		Tank.SetBullet(Bullet);
 		Tank.SetItem(Item);
+		
+		Turret.SetRotationSpeed(TurretSpeed);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -70,11 +83,16 @@ public partial class PlayerController : Node2D
 		float moveDir = Input.GetAxis("move_backward", "move_forward");
 		Tank.SetMoveDirection(moveDir);
 		
+		//mouse pos for turret rotation and shooting
+		Vector2 mousePos = Tank.GetGlobalMousePosition();
+		
+		Turret.SetRotationTarget(mousePos);
+		
 		reloadTimer -= (float)delta;
-		if (Input.IsActionJustPressed("shoot") && reloadTimer <= 0.0f)
+		if (Input.IsActionJustPressed("shoot") && reloadTimer <= 0.0f && Turret.IsOnTarget())
 		{
 			reloadTimer = ReloadTime;
-			Vector2 mousePos = Tank.GetGlobalMousePosition();
+			
 			
 			Tank.Shoot(mousePos);
 		}

@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=8 format=3 uid="uid://b2fj7ee2mxc1b"]
 
 [ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="2_jr86u"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="3_46ee3"]
-[ext_resource type="PackedScene" uid="uid://blqfwdbnvjhp2" path="res://aw_testing/scenes/timed_mine.tscn" id="4_d12wk"]
 [ext_resource type="PackedScene" uid="uid://cix133vq8l3g5" path="res://aw_testing/scenes/awtank.tscn" id="6_jr86u"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_duvdb"]
@@ -20,8 +19,6 @@ size = Vector2(60, 20)
 
 [node name="Tank" parent="." instance=ExtResource("6_jr86u")]
 unique_name_in_owner = true
-position = Vector2(-157, 0)
-Item = ExtResource("4_d12wk")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

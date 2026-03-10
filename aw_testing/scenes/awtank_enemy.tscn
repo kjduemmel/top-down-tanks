@@ -1,21 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwydioicpb5j"]
+[gd_scene load_steps=13 format=3 uid="uid://cwydioicpb5j"]
 
 [ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_fguys"]
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="2_glav4"]
 [ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_pjomq"]
 [ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="3_pjomq"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="4_2etda"]
+[ext_resource type="Script" uid="uid://cb5of8khiba2n" path="res://aw_testing/scripts/TurretController.cs" id="4_mo6bi"]
 [ext_resource type="Texture2D" uid="uid://dgpytxr7l4c6h" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-HeightSheet.png" id="5_x1cnn"]
 [ext_resource type="Texture2D" uid="uid://bhg0c3xp6ihwp" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-AlbedoSheet.png" id="7_2etda"]
 [ext_resource type="Texture2D" uid="uid://di25ef37nxyyn" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-NormalSheet.png" id="7_x1cnn"]
 [ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_x1cnn"]
+[ext_resource type="PackedScene" uid="uid://ds76iq75qyhcp" path="res://Assets/Scenes/Lighting/spotlight.tscn" id="11_vsywp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
-[node name="Tank" type="Node2D" node_paths=PackedStringArray("Tank") groups=["SNAP"]]
+[node name="EnemyTankBase" type="Node2D" node_paths=PackedStringArray("Tank", "Turret") groups=["SNAP"]]
 rotation = -0.0030765627
 script = ExtResource("1_fguys")
 Tank = NodePath("Physics")
+Turret = NodePath("TurretControl")
 Bullet = ExtResource("2_pjomq")
 
 [node name="Physics" type="CharacterBody2D" parent="."]
@@ -28,6 +31,10 @@ metadata/_edit_lock_ = true
 scale = Vector2(3.6000001, 2.4000003)
 shape = SubResource("RectangleShape2D_vwpun")
 debug_color = Color(0, 0.1882353, 0.9529412, 0.41960785)
+
+[node name="TurretControl" type="Node2D" parent="."]
+position = Vector2(0, -1)
+script = ExtResource("4_mo6bi")
 
 [node name="Visual" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -52,8 +59,26 @@ scale = Vector2(4, 4)
 texture = ExtResource("7_2etda")
 hframes = 16
 script = ExtResource("4_2etda")
-source_path = NodePath("../..")
+source_path = NodePath("../../TurretControl")
 directions = 16
 frame_columns = 16
 height_tex = ExtResource("8_x1cnn")
 metadata/_edit_lock_ = true
+
+[node name="Headlights" type="Node2D" parent="."]
+
+[node name="LeftHeadlight" parent="Headlights" instance=ExtResource("11_vsywp")]
+position = Vector2(36, -16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
+falloff = 1.0
+intensity = 0.5
+zpx = 9
+
+[node name="RightHeadlight" parent="Headlights" instance=ExtResource("11_vsywp")]
+position = Vector2(36, 16)
+inner_angle_deg = 0.0
+outer_angle_deg = 11.8
+falloff = 1.0
+intensity = 0.5
+zpx = 9

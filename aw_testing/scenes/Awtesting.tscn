@@ -111,7 +111,7 @@ shape = SubResource("RectangleShape2D_84aw7")
 [node name="Tank2" parent="." instance=ExtResource("2_jr86u")]
 position = Vector2(-339, 96)
 TurnSpeed = 1.0
-ReloadTime = 1000.0
+ReloadTime = 2.0
 ShootingStrategy = 1
 
 [node name="Tank7" parent="." instance=ExtResource("2_jr86u")]

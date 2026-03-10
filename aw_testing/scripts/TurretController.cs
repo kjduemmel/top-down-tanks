@@ -3,7 +3,6 @@ using System;
 
 public partial class TurretController : Node2D
 {
-    [Export]
     public Node2D TankRoot;
 
     private float rotationSpeed = 5.0f;
@@ -12,6 +11,12 @@ public partial class TurretController : Node2D
 
     public override void _Process(double delta)
     {
+        if (TankRoot == null)
+        {
+            GD.PrintErr("TurretController: TankRoot was not set by tank");
+            return;
+        }
+
         Position = TankRoot.GlobalPosition;
 
         float rotation = GlobalRotation;
@@ -64,5 +69,10 @@ public partial class TurretController : Node2D
     public Vector2 GetRotationTarget()
     {
         return rotationTarget;
+    }
+    
+    public void SetTankRoot(Node2D root)
+    {
+        TankRoot = root;
     }
 }

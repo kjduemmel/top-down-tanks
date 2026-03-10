@@ -5,6 +5,8 @@ public partial class EnemyController : Node2D
 {
 	[Export]
 	TankController Tank;
+	[Export]
+	TurretController Turret;
 
 	[Export]
 	private float MoveSpeed = 100.0f;
@@ -20,6 +22,8 @@ public partial class EnemyController : Node2D
 	[Export]
 	float ReloadTime = 4.0f;
 	private float reloadTimer = 0.0f;
+	[Export]
+	float TurretSpeed = 5.0f;
 	[Export] 
 	private Strategy ShootingStrategy = Strategy.ShootAtPlayer;
 
@@ -35,6 +39,7 @@ public partial class EnemyController : Node2D
 	[Export]
 	private int ScorePoints = 1;
 	private UI ui;
+	//private Node worldDecoupler;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -57,8 +62,11 @@ public partial class EnemyController : Node2D
 		if (Tank == null)
 		{
 			GD.PrintErr("EnemyController: Tank was not assigned");
+			return;
 		}
 		Tank.Hit += OnHit;
+
+		
 
 		//set to the starting rot
 		rotationDirection = Tank.GetRotation();
@@ -67,6 +75,21 @@ public partial class EnemyController : Node2D
 		Tank.SetMoveSpeed(MoveSpeed);
 		Tank.SetTurnSpeed(TurnSpeed);
 		Tank.SetBullet(Bullet);
+		
+		if (Turret == null)
+		{
+			GD.PrintErr("EnemyController: Turret was not assigned");
+			return;
+		}
+		
+		Turret.SetTankRoot(this);
+		Turret.SetRotationSpeed(TurretSpeed);
+		
+		/*worldDecoupler = GetNode<Node>("/root/WorldDecoupler");
+		if (worldDecoupler == null)
+		{
+			GD.PrintErr("PlayerController: WorldDecoupler was not found");
+		}*/
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -105,8 +128,11 @@ public partial class EnemyController : Node2D
 		
 		Tank.SetMoveDirection(moveDir);
 
+		//Vector2 playerVisualPos = (Vector2)worldDecoupler.Call("_project", player.Position);
+		Turret.SetRotationTarget(player.Position);
+		
 		reloadTimer -= (float)delta;
-		if (reloadTimer <= 0.0f)
+		if (reloadTimer <= 0.0f && Turret.IsOnTarget())
 		{
 			reloadTimer = ReloadTime;
 

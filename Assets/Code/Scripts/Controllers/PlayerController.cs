@@ -39,12 +39,6 @@ public partial class PlayerController : Node2D
 			return;
 		}
 		Tank.Hit += OnHit;
-
-		if (Turret == null)
-		{
-			GD.PrintErr("PlayerController: Turret was not assigned");
-			return;
-		}
 		
 		if (Bullet == null)
 		{
@@ -77,7 +71,14 @@ public partial class PlayerController : Node2D
 		Tank.SetTurnSpeed(TurnSpeed);
 		Tank.SetBullet(Bullet);
 		Tank.SetItem(Item);
+
+		if (Turret == null)
+		{
+			GD.PrintErr("PlayerController: Turret was not assigned");
+			return;
+		}
 		
+		Turret.SetTankRoot(this);
 		Turret.SetRotationSpeed(TurretSpeed);
 	}
 

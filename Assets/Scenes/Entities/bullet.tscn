@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://diyxw01ju1tce"]
 
-[ext_resource type="Script" uid="uid://d0jktidq2bbwd" path="res://Assets/Code/Scripts/Controllers/bullet.cs" id="1_khphs"]
+[ext_resource type="Script" uid="uid://d0jktidq2bbwd" path="res://Assets/Code/Scripts/Controllers/Bullet.cs" id="1_khphs"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ry04a"]
 

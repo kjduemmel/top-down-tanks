@@ -90,7 +90,7 @@ public partial class TankController : CharacterBody2D
 		if (Bullet == null)
 			return;
 		
-		var b = (awBullet)Bullet.Instantiate();
+		var b = (Bullet)Bullet.Instantiate();
 		
 		Vector2 direction = (targetPos - Position).Normalized();
 		

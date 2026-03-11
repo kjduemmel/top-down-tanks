@@ -4,7 +4,7 @@ using System;
 public partial class Bullet : CharacterBody2D
 {
 	// --- Exported variables (editable in Inspector) ---
-	[Export] public int speed = 100;             // Base movement speed of the bullet
+	[Export] public int speed = 150;             // Base movement speed of the bullet
 	[Export] public float ScaleMultiplier = 5.0f; // How much larger the bullet is compared to default
 
 	// --- Internal variables ---
@@ -52,7 +52,7 @@ public partial class Bullet : CharacterBody2D
 			
 			// --- Bullet has hit something ---
 			++collisionCount; // Increment bounce counter
-			Velocity = Velocity.Bounce(collision.GetNormal()) * 1.2f; // Bounce and speed up
+			Velocity = Velocity.Bounce(collision.GetNormal()) * 1.12f; // Bounce and speed up
 
 			// --- Check if collided object has "OnHit" method ---
 			if (collision.GetCollider().HasMethod("OnHit"))

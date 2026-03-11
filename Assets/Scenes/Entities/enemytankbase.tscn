@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://cxt41oesslfdw"]
 
 [ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_dlr6f"]
-[ext_resource type="PackedScene" uid="uid://chsui6vad0yjo" path="res://aw_testing/scenes/awbullet.tscn" id="2_aq64j"]
+[ext_resource type="PackedScene" uid="uid://diyxw01ju1tce" path="res://Assets/Scenes/Entities/bullet.tscn" id="2_1aek7"]
 [ext_resource type="Script" uid="uid://doyjygxc0dyg3" path="res://Assets/Code/Scripts/Controllers/TankController.cs" id="3_60x1o"]
 [ext_resource type="Script" uid="uid://cb5of8khiba2n" path="res://aw_testing/scripts/TurretController.cs" id="4_1aek7"]
 [ext_resource type="Texture2D" uid="uid://b1sapgbwqduhu" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-AlbedoSheet.png" id="4_60qxn"]
@@ -19,7 +19,7 @@ rotation = -0.0030765627
 script = ExtResource("1_dlr6f")
 Tank = NodePath("Physics")
 Turret = NodePath("TurretControl")
-Bullet = ExtResource("2_aq64j")
+Bullet = ExtResource("2_1aek7")
 
 [node name="Physics" type="CharacterBody2D" parent="."]
 top_level = true
@@ -55,6 +55,7 @@ metadata/_edit_lock_ = true
 
 [node name="Turret" type="Sprite2D" parent="Visual"]
 top_level = true
+position = Vector2(0, -1)
 scale = Vector2(4, 4)
 texture = ExtResource("7_gxjo2")
 hframes = 16

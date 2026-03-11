@@ -38,6 +38,7 @@ light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
 script = ExtResource("5_7jktm")
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
+visible = false
 texture_filter = 1
 texture_repeat = 1
 anchors_preset = 15

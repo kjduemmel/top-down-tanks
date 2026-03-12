@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=8 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://rchdy6fqsfwx" path="res://Assets/Scenes/Lighting/directional_light.tscn" id="4_ryrav"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="6_ryrav"]
+[ext_resource type="PackedScene" uid="uid://b7nxhybud5sm1" path="res://Assets/Scenes/Objects/wall.tscn" id="7_eow3j"]
 
 [node name="Game" type="Node2D"]
 metadata/_edit_lock_ = true
@@ -34,11 +35,27 @@ scale = Vector2(0.99999994, 0.99999994)
 direction = Vector3(1, 2, 0)
 light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
 
+[node name="Wall" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(898, 417)
+
+[node name="Wall2" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(946, 401)
+rotation = -1.5707964
+
+[node name="Wall3" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(993, 385)
+
+[node name="Wall4" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(1040, 369)
+rotation = -1.5707964
+
+[node name="Wall5" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(775, 95)
+
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
-visible = false
 texture_filter = 1
 texture_repeat = 1
 anchors_preset = 15

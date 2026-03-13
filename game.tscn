@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=9 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
+[ext_resource type="Script" uid="uid://cbmjeihhremgn" path="res://game.gd" id="1_vef74"]
 [ext_resource type="PackedScene" uid="uid://dpymdxlbgltth" path="res://Assets/Scenes/Objects/cube.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" uid="uid://rchdy6fqsfwx" path="res://Assets/Scenes/Lighting/directional_light.tscn" id="4_ryrav"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
@@ -9,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b7nxhybud5sm1" path="res://Assets/Scenes/Objects/wall.tscn" id="7_eow3j"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_vef74")
 metadata/_edit_lock_ = true
 
 [node name="World" type="Node2D" parent="."]

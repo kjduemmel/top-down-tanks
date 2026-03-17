@@ -36,21 +36,83 @@ direction = Vector3(1, 2, 0)
 light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
 
 [node name="Wall" parent="World" instance=ExtResource("7_eow3j")]
-position = Vector2(898, 417)
+position = Vector2(1099, 245)
 
 [node name="Wall2" parent="World" instance=ExtResource("7_eow3j")]
-position = Vector2(946, 401)
-rotation = -1.5707964
+position = Vector2(589, 325)
 
 [node name="Wall3" parent="World" instance=ExtResource("7_eow3j")]
-position = Vector2(993, 385)
+position = Vector2(230, 588)
 
 [node name="Wall4" parent="World" instance=ExtResource("7_eow3j")]
-position = Vector2(1040, 369)
-rotation = -1.5707964
+position = Vector2(302, 588)
 
 [node name="Wall5" parent="World" instance=ExtResource("7_eow3j")]
-position = Vector2(775, 95)
+position = Vector2(374, 588)
+
+[node name="Wall12" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(446, 588)
+
+[node name="Wall15" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(518, 588)
+
+[node name="Wall6" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(1170, 245)
+
+[node name="Wall22" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(445, 325)
+
+[node name="Wall23" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(517, 325)
+
+[node name="Wall7" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(230, 513)
+
+[node name="Wall8" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(302, 513)
+
+[node name="Wall9" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(373, 513)
+
+[node name="Wall10" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(421, 497)
+rotation = 1.5707964
+
+[node name="Wall11" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(421, 453)
+rotation = 1.5707964
+
+[node name="Wall20" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(421, 415)
+rotation = 1.5707964
+
+[node name="Wall21" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(421, 383)
+rotation = 1.5707964
+
+[node name="Wall13" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(566, 572)
+rotation = 1.5707964
+
+[node name="Wall14" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(566, 529)
+rotation = 1.5707964
+
+[node name="Wall16" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(566, 487)
+rotation = 1.5707964
+
+[node name="Wall17" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(566, 448)
+rotation = 1.5707964
+
+[node name="Wall18" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(1051, 229)
+rotation = 1.5707964
+
+[node name="Wall19" parent="World" instance=ExtResource("7_eow3j")]
+position = Vector2(421, 347)
+rotation = 1.5707964
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7nxhybud5sm1"]
 
-[ext_resource type="Texture2D" uid="uid://bfoitbtu7qrr4" path="res://Assets/Art/Sprites/Wall/Wall-AlbetoSheet.png" id="1_r7wvd"]
+[ext_resource type="Texture2D" uid="uid://e8mpl0sg0uxh" path="res://Assets/Art/Sprites/Wall/Wall-AlbetoSheet.png" id="1_r7wvd"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_do53i"]
-[ext_resource type="Texture2D" uid="uid://dr6muceqke64p" path="res://Assets/Art/Sprites/Wall/Wall-HeightSheet.png" id="3_rp1bd"]
-[ext_resource type="Texture2D" uid="uid://dj5i731knbgp3" path="res://Assets/Art/Sprites/Wall/Wall-NormalSheet.png" id="4_3plsn"]
+[ext_resource type="Texture2D" uid="uid://cin1rxwgkdea6" path="res://Assets/Art/Sprites/Wall/Wall-HeightSheet.png" id="3_rp1bd"]
+[ext_resource type="Texture2D" uid="uid://dbpxscqj1io7e" path="res://Assets/Art/Sprites/Wall/Wall-NormalSheet.png" id="4_3plsn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jfp4j"]
 

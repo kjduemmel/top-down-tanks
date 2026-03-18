@@ -34,6 +34,7 @@ scale = Vector2(3.6000001, 2.4000003)
 shape = SubResource("RectangleShape2D_vwpun")
 
 [node name="TurretControl" type="Node2D" parent="."]
+top_level = true
 position = Vector2(0, -1)
 script = ExtResource("5_dbgck")
 

@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://diyxw01ju1tce"]
+[gd_scene load_steps=5 format=3 uid="uid://diyxw01ju1tce"]
 
 [ext_resource type="Script" uid="uid://d0jktidq2bbwd" path="res://Assets/Code/Scripts/Controllers/Bullet.cs" id="1_khphs"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_ry04a"]
+[ext_resource type="Texture2D" uid="uid://cgghuqm8outrr" path="res://Assets/Art/Sprites/Bullet/BulletSprite-Sheet.png" id="2_stlaw"]
+[ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="3_0pb8n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7gn42"]
 radius = 1.0
@@ -12,7 +12,11 @@ height = 4.0
 script = ExtResource("1_khphs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("CanvasTexture_ry04a")
+top_level = true
+texture = ExtResource("2_stlaw")
+hframes = 4
+script = ExtResource("3_0pb8n")
+directions = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7gn42")

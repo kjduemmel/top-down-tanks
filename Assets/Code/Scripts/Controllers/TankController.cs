@@ -4,7 +4,7 @@ using System;
 public partial class TankController : CharacterBody2D
 {
 	float moveSpeed = 300.0f;
-	float turnSpeed = 3.0f;
+	float turnSpeed = 4.5f;
 	PackedScene Bullet;
 	private PackedScene Item;
 
@@ -101,7 +101,7 @@ public partial class TankController : CharacterBody2D
 		
 		//GetTree().Root.AddChild(b); // <- This breaks scene reloads
 		
-		GetTree().GetCurrentScene().AddChild(b);
+		GetParent().GetParent().AddChild(b);
 	}
 	
 	public void UseItem(Vector2 position, float rotation)

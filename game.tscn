@@ -118,6 +118,7 @@ rotation = 1.5707964
 script = ExtResource("5_7jktm")
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
+visible = false
 texture_filter = 1
 texture_repeat = 1
 anchors_preset = 15

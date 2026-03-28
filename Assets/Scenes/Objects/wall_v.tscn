@@ -17,7 +17,6 @@ rotation = 1.5707964
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
-visible = false
 position = Vector2(4.000003, 5.7021236e-07)
 scale = Vector2(3.6, 2.4)
 shape = SubResource("RectangleShape2D_jfp4j")

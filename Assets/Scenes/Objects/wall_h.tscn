@@ -15,7 +15,6 @@ top_level = true
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
-visible = false
 position = Vector2(0, 3.9999995)
 scale = Vector2(3.6, 2.4)
 shape = SubResource("RectangleShape2D_jfp4j")

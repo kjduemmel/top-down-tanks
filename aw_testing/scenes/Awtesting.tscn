@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="2_jr86u"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="3_46ee3"]
-[ext_resource type="PackedScene" uid="uid://cvdalcn8o4smt" path="res://aw_testing/scenes/wall_h.tscn" id="4_46ee3"]
+[ext_resource type="PackedScene" uid="uid://cvdalcn8o4smt" path="res://Assets/Scenes/Objects/wall_h.tscn" id="4_46ee3"]
 [ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="4_jr86u"]
-[ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://aw_testing/scenes/wall_v.tscn" id="5_d12wk"]
+[ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://Assets/Scenes/Objects/wall_v.tscn" id="5_d12wk"]
 [ext_resource type="PackedScene" uid="uid://cix133vq8l3g5" path="res://aw_testing/scenes/awtank.tscn" id="6_jr86u"]
 
 [node name="Awtesting" type="Node2D"]
@@ -64,6 +64,12 @@ ShootingStrategy = 1
 [node name="EnemyTankBase" parent="." instance=ExtResource("4_jr86u")]
 position = Vector2(-572, 77)
 
+[node name="EnemyTank" parent="." instance=ExtResource("4_jr86u")]
+position = Vector2(-68, -283)
+
+[node name="EnemyTank2" parent="." instance=ExtResource("4_jr86u")]
+position = Vector2(-536, -62)
+
 [node name="Walls" type="Node" parent="."]
 
 [node name="SW" type="Node" parent="Walls"]
@@ -121,3 +127,174 @@ position = Vector2(-100, 352)
 
 [node name="Wall_H9" parent="Walls/SW" instance=ExtResource("4_46ee3")]
 position = Vector2(-28, 352)
+
+[node name="SE" type="Node" parent="Walls"]
+
+[node name="Wall_H" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(44, 352)
+
+[node name="Wall_H2" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(116, 352)
+
+[node name="Wall_H3" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(188, 352)
+
+[node name="Wall_H4" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(260, 352)
+
+[node name="Wall_H5" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(332, 352)
+
+[node name="Wall_H10" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(316, 112)
+
+[node name="Wall_H11" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(388, 112)
+
+[node name="Wall_H6" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(404, 352)
+
+[node name="Wall_H7" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(476, 352)
+
+[node name="Wall_H8" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(548, 352)
+
+[node name="Wall_H9" parent="Walls/SE" instance=ExtResource("4_46ee3")]
+position = Vector2(620, 352)
+
+[node name="Wall_V" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, 288)
+
+[node name="Wall_V5" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(268, 288)
+
+[node name="Wall_V6" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(268, 208)
+
+[node name="Wall_V7" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(268, 128)
+
+[node name="Wall_V2" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, 208)
+
+[node name="Wall_V3" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, 128)
+
+[node name="Wall_V4" parent="Walls/SE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, 48)
+
+[node name="NE" type="Node" parent="Walls"]
+
+[node name="Wall_V" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, -32)
+
+[node name="Wall_V2" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, -112)
+
+[node name="Wall_V3" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, -192)
+
+[node name="Wall_V4" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(628, -272)
+
+[node name="Wall_V5" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(268, -176)
+
+[node name="Wall_V6" parent="Walls/NE" instance=ExtResource("5_d12wk")]
+position = Vector2(268, -96)
+
+[node name="Wall_H" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(604, -336)
+
+[node name="Wall_H2" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(532, -336)
+
+[node name="Wall_H3" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(460, -336)
+
+[node name="Wall_H4" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(388, -336)
+
+[node name="Wall_H5" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(316, -336)
+
+[node name="Wall_H6" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(244, -336)
+
+[node name="Wall_H10" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(244, -288)
+
+[node name="Wall_H11" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(244, -240)
+
+[node name="Wall_H7" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(172, -336)
+
+[node name="Wall_H8" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(100, -336)
+
+[node name="Wall_H9" parent="Walls/NE" instance=ExtResource("4_46ee3")]
+position = Vector2(28, -336)
+
+[node name="NW" type="Node" parent="Walls"]
+
+[node name="Wall_H" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-44, -336)
+
+[node name="Wall_H2" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-116, -336)
+
+[node name="Wall_H3" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-188, -336)
+
+[node name="Wall_H4" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-260, -336)
+
+[node name="Wall_H5" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-332, -336)
+
+[node name="Wall_H6" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-404, -336)
+
+[node name="Wall_H7" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-476, -336)
+
+[node name="Wall_H8" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-548, -336)
+
+[node name="Wall_H9" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-620, -336)
+
+[node name="Wall_H10" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-388, -176)
+
+[node name="Wall_H11" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-316, -176)
+
+[node name="Wall_H12" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-36, -208)
+
+[node name="Wall_H13" parent="Walls/NW" instance=ExtResource("4_46ee3")]
+position = Vector2(-108, -208)
+
+[node name="Wall_V" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, -272)
+
+[node name="Wall_V2" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, -192)
+
+[node name="Wall_V3" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, -112)
+
+[node name="Wall_V4" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, -32)
+
+[node name="Wall_V5" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-412, -32)
+
+[node name="Wall_V6" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-412, -112)
+
+[node name="Wall_V7" parent="Walls/NW" instance=ExtResource("5_d12wk")]
+position = Vector2(-132, -272)

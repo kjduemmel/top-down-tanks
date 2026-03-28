@@ -14,7 +14,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
-[node name="EnemyTankBase" type="Node2D" node_paths=PackedStringArray("Tank", "Turret") groups=["SNAP"]]
+[node name="EnemyTank" type="Node2D" node_paths=PackedStringArray("Tank", "Turret") groups=["SNAP"]]
 rotation = -0.0030765627
 script = ExtResource("1_dlr6f")
 Tank = NodePath("Physics")

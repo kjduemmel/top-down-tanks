@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhbygets0ixwe"]
+
+[ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://aw_testing/scenes/wall_v.tscn" id="1_1i0i3"]
+[ext_resource type="PackedScene" uid="uid://cvdalcn8o4smt" path="res://aw_testing/scenes/wall_h.tscn" id="2_lystc"]
+
+[node name="SW_Corner" type="Node2D"]
+
+[node name="Wall_V" parent="." instance=ExtResource("1_1i0i3")]
+position = Vector2(0, -64)
+
+[node name="Wall_H" parent="." instance=ExtResource("2_lystc")]
+position = Vector2(24, -1)
+
+[node name="Wall_H2" parent="." instance=ExtResource("2_lystc")]
+position = Vector2(96, -1)

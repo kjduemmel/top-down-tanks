@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvdalcn8o4smt"]
+
+[ext_resource type="Texture2D" uid="uid://e8mpl0sg0uxh" path="res://Assets/Art/Sprites/Wall/Wall-AlbetoSheet.png" id="1_g63pr"]
+[ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_la3ce"]
+[ext_resource type="Texture2D" uid="uid://cin1rxwgkdea6" path="res://Assets/Art/Sprites/Wall/Wall-HeightSheet.png" id="3_ogg5t"]
+[ext_resource type="Texture2D" uid="uid://dbpxscqj1io7e" path="res://Assets/Art/Sprites/Wall/Wall-NormalSheet.png" id="4_cw608"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfp4j"]
+size = Vector2(20, 30)
+
+[node name="Wall_H" type="Node2D"]
+
+[node name="Physics" type="StaticBody2D" parent="."]
+top_level = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
+visible = false
+position = Vector2(0, 3.9999995)
+scale = Vector2(3.6, 2.4)
+shape = SubResource("RectangleShape2D_jfp4j")
+debug_color = Color(0.8480806, 0.36793897, 0.20723918, 0.41960785)
+metadata/_edit_lock_ = true
+
+[node name="Visual" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+top_level = true
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("1_g63pr")
+hframes = 4
+script = ExtResource("2_la3ce")
+source_path = NodePath("../..")
+directions = 4
+height_tex = ExtResource("3_ogg5t")
+normal_tex = ExtResource("4_cw608")
+metadata/_edit_lock_ = true

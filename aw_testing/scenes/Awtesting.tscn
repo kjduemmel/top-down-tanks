@@ -1,19 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2fj7ee2mxc1b"]
+[gd_scene load_steps=7 format=3 uid="uid://b2fj7ee2mxc1b"]
 
 [ext_resource type="PackedScene" uid="uid://cwydioicpb5j" path="res://aw_testing/scenes/awtank_enemy.tscn" id="2_jr86u"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="3_46ee3"]
+[ext_resource type="PackedScene" uid="uid://cvdalcn8o4smt" path="res://aw_testing/scenes/wall_h.tscn" id="4_46ee3"]
+[ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="4_jr86u"]
+[ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://aw_testing/scenes/wall_v.tscn" id="5_d12wk"]
 [ext_resource type="PackedScene" uid="uid://cix133vq8l3g5" path="res://aw_testing/scenes/awtank.tscn" id="6_jr86u"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_duvdb"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_46ee3"]
-normal = Vector2(1, 0)
-distance = 8.0
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_bijfb"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_84aw7"]
-size = Vector2(60, 20)
 
 [node name="Awtesting" type="Node2D"]
 
@@ -24,90 +16,6 @@ unique_name_in_owner = true
 
 [node name="UI" parent="." instance=ExtResource("3_46ee3")]
 
-[node name="Walls" type="Node" parent="."]
-
-[node name="EdgeLeft" type="StaticBody2D" parent="Walls"]
-position = Vector2(-639, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/EdgeLeft"]
-position = Vector2(-1.4305115e-05, -1.5258789e-05)
-scale = Vector2(17.999983, 718)
-texture = SubResource("CanvasTexture_duvdb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/EdgeLeft"]
-shape = SubResource("WorldBoundaryShape2D_46ee3")
-
-[node name="EdgeRight" type="StaticBody2D" parent="Walls"]
-position = Vector2(643, 2)
-rotation = 3.1415927
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/EdgeRight"]
-position = Vector2(-1.4305115e-05, -1.5258789e-05)
-scale = Vector2(17.999983, 718)
-texture = SubResource("CanvasTexture_duvdb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/EdgeRight"]
-shape = SubResource("WorldBoundaryShape2D_46ee3")
-
-[node name="EdgeTop" type="StaticBody2D" parent="Walls"]
-position = Vector2(1, -364)
-rotation = 1.5707964
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/EdgeTop"]
-position = Vector2(-1.4305115e-05, -3.1046753)
-scale = Vector2(17.999983, 1306.7463)
-texture = SubResource("CanvasTexture_duvdb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/EdgeTop"]
-shape = SubResource("WorldBoundaryShape2D_46ee3")
-
-[node name="EdgeBottom" type="StaticBody2D" parent="Walls"]
-position = Vector2(0, 356)
-rotation = -1.5707964
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/EdgeBottom"]
-position = Vector2(-2.419991, 6.6549377)
-scale = Vector2(13.160029, 1425.8499)
-texture = SubResource("CanvasTexture_duvdb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/EdgeBottom"]
-shape = SubResource("WorldBoundaryShape2D_46ee3")
-
-[node name="StaticBody2D5" type="StaticBody2D" parent="Walls"]
-position = Vector2(327, -74)
-scale = Vector2(10.24, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D5"]
-scale = Vector2(59.999992, 20)
-texture = SubResource("CanvasTexture_bijfb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D5"]
-shape = SubResource("RectangleShape2D_84aw7")
-
-[node name="StaticBody2D6" type="StaticBody2D" parent="Walls"]
-position = Vector2(256, 49)
-rotation = 1.5707964
-scale = Vector2(3.9199996, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D6"]
-scale = Vector2(59.999992, 20)
-texture = SubResource("CanvasTexture_bijfb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D6"]
-shape = SubResource("RectangleShape2D_84aw7")
-
-[node name="StaticBody2D7" type="StaticBody2D" parent="Walls"]
-position = Vector2(-334, -210)
-rotation = 1.5707964
-scale = Vector2(5.0799994, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D7"]
-scale = Vector2(59.999992, 20)
-texture = SubResource("CanvasTexture_bijfb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D7"]
-shape = SubResource("RectangleShape2D_84aw7")
-
 [node name="Tank2" parent="." instance=ExtResource("2_jr86u")]
 position = Vector2(-339, 96)
 TurnSpeed = 1.0
@@ -115,7 +23,7 @@ ReloadTime = 2.0
 ShootingStrategy = 1
 
 [node name="Tank7" parent="." instance=ExtResource("2_jr86u")]
-position = Vector2(348, 1)
+position = Vector2(400, -118)
 MoveSpeed = 5.0
 TimeBetweenRotations = 0.5
 ReloadTime = 1000.0
@@ -138,7 +46,7 @@ ReloadTime = 1000.0
 ShootingStrategy = 1
 
 [node name="Tank5" parent="." instance=ExtResource("2_jr86u")]
-position = Vector2(-474, -213)
+position = Vector2(547, -118)
 MoveSpeed = 150.0
 TurnSpeed = 5.0
 ReloadTime = 1000.0
@@ -152,3 +60,64 @@ MoveSpeed = 0.0
 TurnSpeed = 0.0
 ReloadTime = 1000.0
 ShootingStrategy = 1
+
+[node name="EnemyTankBase" parent="." instance=ExtResource("4_jr86u")]
+position = Vector2(-572, 77)
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="SW" type="Node" parent="Walls"]
+
+[node name="Wall_H" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-604, 352)
+
+[node name="Wall_V" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, 288)
+
+[node name="Wall_V2" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, 208)
+
+[node name="Wall_V3" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, 128)
+
+[node name="Wall_V4" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-628, 48)
+
+[node name="Wall_V5" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-412, 96)
+
+[node name="Wall_V6" parent="Walls/SW" instance=ExtResource("5_d12wk")]
+position = Vector2(-412, 176)
+
+[node name="Wall_H2" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-532, 352)
+
+[node name="Wall_H10" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-580, 32)
+
+[node name="Wall_H11" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-508, 32)
+
+[node name="Wall_H12" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-436, 32)
+
+[node name="Wall_H3" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-460, 352)
+
+[node name="Wall_H4" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-388, 352)
+
+[node name="Wall_H5" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-316, 352)
+
+[node name="Wall_H6" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-244, 352)
+
+[node name="Wall_H7" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-172, 352)
+
+[node name="Wall_H8" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-100, 352)
+
+[node name="Wall_H9" parent="Walls/SW" instance=ExtResource("4_46ee3")]
+position = Vector2(-28, 352)

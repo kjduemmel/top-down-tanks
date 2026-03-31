@@ -71,6 +71,7 @@ public partial class PlayerController : Node2D
 		Tank.SetTurnSpeed(TurnSpeed);
 		Tank.SetBullet(Bullet);
 		Tank.SetItem(Item);
+		Tank.SetWorldDecoupler(worldDecoupler);
 
 		if (Turret == null)
 		{

@@ -8,20 +8,26 @@
 radius = 1.0
 height = 4.0
 
-[node name="Bullet" type="CharacterBody2D"]
+[node name="Bullet" type="Node2D"]
 script = ExtResource("1_khphs")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Physics" type="CharacterBody2D" parent="."]
+top_level = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Physics"]
+shape = SubResource("CapsuleShape2D_7gn42")
+disabled = true
+debug_color = Color(0.8576275, 0.047573857, 0.86987865, 0.41960785)
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
 top_level = true
 texture = ExtResource("2_stlaw")
 hframes = 4
 script = ExtResource("3_0pb8n")
+source_path = NodePath("../..")
 directions = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_7gn42")
-disabled = true
-debug_color = Color(0.8576275, 0.047573857, 0.86987865, 0.41960785)
 
 [node name="ActivateTimer" type="Timer" parent="."]
 wait_time = 0.5

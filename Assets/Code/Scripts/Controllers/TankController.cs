@@ -15,6 +15,8 @@ public partial class TankController : CharacterBody2D
 	float rotLockTimer = 0.0f;
 	int forcedRotation = 0;
 	
+	private Node worldDecoupler;
+	
 	[Signal]
 	public delegate void HitEventHandler();
 	
@@ -96,8 +98,9 @@ public partial class TankController : CharacterBody2D
 		
 		//might be - 90 or 0 if graphic assumptions change
 		float rotation = direction.Angle();// + Mathf.Pi/2;
+		Vector2 spawnPos = (Vector2)worldDecoupler.Call("_project", Position);
 		
-		b.Start(Position + direction.Normalized() * 20, rotation, direction.Normalized());
+		b.Start(spawnPos + direction.Normalized() * 20, rotation, direction.Normalized());
 		
 		//GetTree().Root.AddChild(b); // <- This breaks scene reloads
 		
@@ -174,6 +177,11 @@ public partial class TankController : CharacterBody2D
 	public void SetItem(PackedScene item)
 	{
 		Item = item;
+	}
+
+	public void SetWorldDecoupler(Node worldDecoupler)
+	{
+		this.worldDecoupler = worldDecoupler;
 	}
 	
 }

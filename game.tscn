@@ -34,7 +34,7 @@ position = Vector2(509, 409)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="Sun" parent="World" instance=ExtResource("4_ryrav")]
-direction = Vector3(1, 2, 0)
+direction = Vector3(1, 2, 1)
 light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
 
 [node name="Enemies" type="Node" parent="World"]

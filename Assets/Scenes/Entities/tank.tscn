@@ -20,6 +20,7 @@ rotation = -0.0030765627
 script = ExtResource("1_212ug")
 Tank = NodePath("Physics")
 Turret = NodePath("TurretControl")
+MoveSpeed = 225.0
 Bullet = ExtResource("2_plr1g")
 Item = ExtResource("3_axq5c")
 

@@ -16,6 +16,6 @@ void main() {
     if (p.x >= pc.size.x || p.y >= pc.size.y) return;
 
     imageStore(depth_img, p, uvec4(0,0,0,0));
-    imageStore(color_img, p, vec4(0.5,0.5,0.5,1));
+    imageStore(color_img, p, vec4(0.52,0.5,0.45,1));
     imageStore(normal_img, p, vec4(0.5019608, 0.8745098, 0.8352941, 1.0)); // default "up" normal
 }

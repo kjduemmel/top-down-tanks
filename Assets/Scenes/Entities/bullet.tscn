@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://diyxw01ju1tce"]
+[gd_scene load_steps=6 format=3 uid="uid://diyxw01ju1tce"]
 
 [ext_resource type="Script" uid="uid://d0jktidq2bbwd" path="res://Assets/Code/Scripts/Controllers/Bullet.cs" id="1_khphs"]
 [ext_resource type="Texture2D" uid="uid://cgghuqm8outrr" path="res://Assets/Art/Sprites/Bullet/BulletSprite-Sheet.png" id="2_stlaw"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="3_0pb8n"]
+[ext_resource type="Texture2D" uid="uid://cw3eur4p4yw3" path="res://Assets/Art/Sprites/Bullet/BulletSprite-HeightSheet.png" id="4_0pb8n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7gn42"]
 radius = 1.0
@@ -28,6 +29,7 @@ hframes = 4
 script = ExtResource("3_0pb8n")
 source_path = NodePath("../..")
 directions = 4
+height_tex = ExtResource("4_0pb8n")
 
 [node name="ActivateTimer" type="Timer" parent="."]
 wait_time = 0.5

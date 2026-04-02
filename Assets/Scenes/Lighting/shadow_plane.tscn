@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rxrf3t2y1077"]
+
+[ext_resource type="Script" uid="uid://b6jrgto1aqqu3" path="res://Assets/Code/Scripts/Visual/Shadows/ShadowPlane2D.gd" id="1_5dg16"]
+
+[node name="ShadowPlane" type="Node2D" groups=["rd_shadow_planes"]]
+script = ExtResource("1_5dg16")

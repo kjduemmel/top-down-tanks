@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpymdxlbgltth"]
+[gd_scene load_steps=7 format=3 uid="uid://dpymdxlbgltth"]
 
 [ext_resource type="Texture2D" uid="uid://cxininlhr40fs" path="res://Assets/Art/Sprites/Cube/Cube-AlbedoSheet.png" id="1_wrxue"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_bvgeg"]
 [ext_resource type="Texture2D" uid="uid://wtmlrwymonmv" path="res://Assets/Art/Sprites/Cube/Cube-HeightSheet.png" id="3_wrxue"]
 [ext_resource type="Texture2D" uid="uid://bo4luwxubawsh" path="res://Assets/Art/Sprites/Cube/Cube-NormalSheet.png" id="4_bvgeg"]
+[ext_resource type="PackedScene" uid="uid://rxrf3t2y1077" path="res://Assets/Scenes/Lighting/shadow_plane.tscn" id="5_qvupp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ifd07"]
 
@@ -33,3 +34,19 @@ directions = 16
 height_tex = ExtResource("3_wrxue")
 normal_tex = ExtResource("4_bvgeg")
 metadata/_edit_lock_ = true
+
+[node name="Shadows" type="Node2D" parent="."]
+
+[node name="ShadowTop" parent="Shadows" instance=ExtResource("5_qvupp")]
+local_center_3d = Vector3(0, 0, 5)
+local_axis_v = Vector3(0, 1, 0)
+half_size = Vector2(6, 6)
+
+[node name="ShadowCross1" parent="Shadows" instance=ExtResource("5_qvupp")]
+local_center_3d = Vector3(0, 0, 2.5)
+local_axis_u = Vector3(1, 1, 0)
+half_size = Vector2(8.49, 3.125)
+
+[node name="ShadowBottom" parent="Shadows" instance=ExtResource("5_qvupp")]
+local_axis_v = Vector3(0, 1, 0)
+half_size = Vector2(6, 6)

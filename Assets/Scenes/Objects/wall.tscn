@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7nxhybud5sm1"]
+[gd_scene load_steps=7 format=3 uid="uid://b7nxhybud5sm1"]
 
 [ext_resource type="Texture2D" uid="uid://e8mpl0sg0uxh" path="res://Assets/Art/Sprites/Wall/Wall-AlbetoSheet.png" id="1_r7wvd"]
 [ext_resource type="Script" uid="uid://dpwo41wnr6r3r" path="res://Assets/Code/Scripts/Visual/DirectionalSprite2D.gd" id="2_do53i"]
 [ext_resource type="Texture2D" uid="uid://cin1rxwgkdea6" path="res://Assets/Art/Sprites/Wall/Wall-HeightSheet.png" id="3_rp1bd"]
 [ext_resource type="Texture2D" uid="uid://dbpxscqj1io7e" path="res://Assets/Art/Sprites/Wall/Wall-NormalSheet.png" id="4_3plsn"]
+[ext_resource type="PackedScene" uid="uid://rxrf3t2y1077" path="res://Assets/Scenes/Lighting/shadow_plane.tscn" id="5_do53i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jfp4j"]
 
@@ -33,3 +34,10 @@ directions = 4
 height_tex = ExtResource("3_rp1bd")
 normal_tex = ExtResource("4_3plsn")
 metadata/_edit_lock_ = true
+
+[node name="Shadows" type="Node2D" parent="."]
+
+[node name="ShadowTop" parent="Shadows" instance=ExtResource("5_do53i")]
+local_center_3d = Vector3(0, 0, 3)
+local_axis_v = Vector3(0, 1, 0)
+half_size = Vector2(9, 3)

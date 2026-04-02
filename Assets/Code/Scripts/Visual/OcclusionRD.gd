@@ -54,6 +54,13 @@ var us1_lights: RID # set=1: SSBO for lights
 var lights_ssbo: RID
 const MAX_LIGHTS := 64
 
+var us2_shadow_planes: RID
+var shadow_planes_ssbo: RID
+const MAX_SHADOW_PLANES := 256
+
+const COS_T := 2.0 / 3.0
+const SIN_T := 0.7453559925
+
 func _ready() -> void:
 	# Use the MAIN rendering device so Texture2DRD can display the RID
 	rd = RenderingServer.get_rendering_device()
@@ -136,6 +143,16 @@ func _exit_tree() -> void:
 
 	if shader_clear.is_valid(): rd.free_rid(shader_clear)
 	if shader_draw.is_valid(): rd.free_rid(shader_draw)
+	
+	if us0_light.is_valid(): rd.free_rid(us0_light)
+	if us1_lights.is_valid(): rd.free_rid(us1_lights)
+	if us2_shadow_planes.is_valid(): rd.free_rid(us2_shadow_planes)
+
+	if lights_ssbo.is_valid(): rd.free_rid(lights_ssbo)
+	if shadow_planes_ssbo.is_valid(): rd.free_rid(shadow_planes_ssbo)
+
+	if pipe_light.is_valid(): rd.free_rid(pipe_light)
+	if shader_light.is_valid(): rd.free_rid(shader_light)
 
 
 func _process(_dt: float) -> void:
@@ -161,7 +178,8 @@ func _process(_dt: float) -> void:
 			_dispatch_draw_sprite(s)
 			
 	var light_count := _update_lights_ssbo()
-	_dispatch_lighting(light_count)
+	var plane_count := _update_shadow_planes_ssbo()
+	_dispatch_lighting(light_count, plane_count)
 
 
 # ----------------------------
@@ -287,7 +305,7 @@ func _update_lights_ssbo() -> int:
 		if d.get("enabled", true) == false:
 			continue
 
-		var pos_world: Vector2 = d.get("pos", (n as Node2D).global_position)
+		var pos_world: Vector2 = d.get("pos_xy", (n as Node2D).global_position)
 		# convert world -> screen -> internal (match your sprite path)
 		var ct: Transform2D = get_viewport().canvas_transform
 		var pos_screen: Vector2 = ct * pos_world
@@ -322,6 +340,66 @@ func _update_lights_ssbo() -> int:
 		count += 1
 
 	rd.buffer_update(lights_ssbo, 0, data.size(), data)
+	return count
+	
+func _create_shadow_planes_ssbo_and_set() -> void:
+	var total_bytes := MAX_SHADOW_PLANES * 48
+
+	if shadow_planes_ssbo.is_valid():
+		rd.free_rid(shadow_planes_ssbo)
+
+	shadow_planes_ssbo = rd.storage_buffer_create(total_bytes)
+
+	var u := RDUniform.new()
+	u.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
+	u.binding = 0
+	u.add_id(shadow_planes_ssbo)
+
+	us2_shadow_planes = rd.uniform_set_create([u], shader_light, 2)
+	
+func _update_shadow_planes_ssbo() -> int:
+	var nodes := get_tree().get_nodes_in_group("rd_shadow_planes")
+	var count := 0
+
+	var data := PackedByteArray()
+	data.resize(MAX_SHADOW_PLANES * 48)
+
+	for n in nodes:
+		if count >= MAX_SHADOW_PLANES:
+			break
+		if not n.has_method("get_shadow_plane_gpu_data"):
+			continue
+
+		var d: Dictionary = n.call("get_shadow_plane_gpu_data")
+		if d.get("enabled", true) == false:
+			continue
+
+		var ct: Transform2D = get_viewport().canvas_transform
+
+		var center_world: Vector3 = d["center"]
+		var center_screen: Vector2 = ct * Vector2(center_world.x, center_world.y)
+		var center_internal: Vector2 = _screen_to_internal(center_screen)
+
+		var center := Vector3(
+			center_internal.x,
+			(center_internal.y * 1.5) - center_world.z,
+			center_world.z / SIN_T
+		)
+
+		var axis_u: Vector3 = d["axis_u"].normalized()
+		var axis_v: Vector3 = d["axis_v"].normalized()
+
+		var half_size: Vector2 = d["half_size"]
+		var two_sided: float = 1.0 if bool(d.get("two_sided", true)) else 0.0
+
+		var base := count * 48
+		_write_vec4(data, base + 0,  Vector4(center.x, center.y, center.z, two_sided))
+		_write_vec4(data, base + 16, Vector4(axis_u.x, axis_u.y, axis_u.z, half_size.x))
+		_write_vec4(data, base + 32, Vector4(axis_v.x, axis_v.y, axis_v.z, half_size.y))
+
+		count += 1
+
+	rd.buffer_update(shadow_planes_ssbo, 0, data.size(), data)
 	return count
 
 func _load_pipelines_and_sets() -> void:
@@ -361,7 +439,7 @@ func _load_pipelines_and_sets() -> void:
 	us0_light = rd.uniform_set_create([u0, u1, u2, u3], shader_light, 0)
 
 	_create_lights_ssbo_and_set()
-
+	_create_shadow_planes_ssbo_and_set()
 
 # ----------------------------
 # Dispatch
@@ -499,21 +577,24 @@ func _dispatch_draw_sprite(s: Sprite2D) -> void:
 
 	rd.free_rid(us1_tex)
 
-func _dispatch_lighting(light_count: int) -> void:
+func _dispatch_lighting(light_count: int, plane_count: int) -> void:
 	var cl := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(cl, pipe_light)
 	rd.compute_list_bind_uniform_set(cl, us0_light, 0)
 	rd.compute_list_bind_uniform_set(cl, us1_lights, 1)
+	rd.compute_list_bind_uniform_set(cl, us2_shadow_planes, 2)
 
-	# Push constants for lighting shader:
-	# ivec2 size; int light_count; float ambient;
-	# pack to 16 bytes
 	var pc := PackedByteArray()
-	pc.resize(16)
+	pc.resize(32)
+
 	pc.encode_s32(0, internal_size.x)
 	pc.encode_s32(4, internal_size.y)
 	pc.encode_s32(8, light_count)
-	pc.encode_float(12, 0.2) # ambient (you can move this to a world setting node later)
+	pc.encode_s32(12, plane_count)
+	pc.encode_float(16, 0.2)
+	pc.encode_float(20, 0.0)
+	pc.encode_float(24, 0.0)
+	pc.encode_float(28, 0.0)
 
 	rd.compute_list_set_push_constant(cl, pc, pc.size())
 

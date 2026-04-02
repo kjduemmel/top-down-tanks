@@ -10,8 +10,7 @@ class_name SpotLight2_5D
 @export var direction_from_rotation: bool = true
 @export var direction_override: Vector2 = Vector2.RIGHT
 
-# Shadows are expensive for spot; keep low steps if enabled
-@export var shadow_steps: int = 0
+@export var shadow_steps: int = 1
 
 func get_type() -> int:
 	return LightType.SPOT

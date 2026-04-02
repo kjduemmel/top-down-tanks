@@ -10,7 +10,7 @@ enum LightType { DIRECTIONAL = 0, POINT = 1, SPOT = 2 }
 
 @export_range(0, 255, 1) var zpx: int = 0
 
-@export var casts_shadows: bool = false
+@export var casts_shadows: bool = true
 @export_range(0.0, 1.0, 0.01) var shadow_strength: float = 0.7
 
 # Useful to group-locate lights quickly

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=11 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="5_vef74"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="6_ryrav"]
 [ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://Assets/Scenes/Objects/wall_v.tscn" id="6_vef74"]
+[ext_resource type="PackedScene" uid="uid://b7nxhybud5sm1" path="res://Assets/Scenes/Objects/wall.tscn" id="8_hve3p"]
 
 [node name="Game" type="Node2D"]
 metadata/_edit_lock_ = true
@@ -18,7 +19,7 @@ script = ExtResource("1_j5wjh")
 
 [node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
 unique_name_in_owner = true
-position = Vector2(114, 259)
+position = Vector2(740, 432)
 rotation = 0.0
 
 [node name="Cube" parent="World" instance=ExtResource("3_feb5d")]
@@ -36,6 +37,7 @@ scale = Vector2(0.99999994, 0.99999994)
 [node name="Sun" parent="World" instance=ExtResource("4_ryrav")]
 direction = Vector3(1, 2, 1)
 light_color = Color(0.8453487, 0.65733474, 0.562658, 1)
+intensity = 0.6
 
 [node name="Enemies" type="Node" parent="World"]
 
@@ -285,6 +287,13 @@ position = Vector2(228, 264)
 
 [node name="Wall_V7" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
 position = Vector2(508, 104)
+
+[node name="Wall" parent="World" instance=ExtResource("8_hve3p")]
+position = Vector2(290, 390)
+
+[node name="Wall2" parent="World" instance=ExtResource("8_hve3p")]
+position = Vector2(602, 575)
+rotation = 1.5707964
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")

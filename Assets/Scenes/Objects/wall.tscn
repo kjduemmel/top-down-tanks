@@ -38,6 +38,20 @@ metadata/_edit_lock_ = true
 [node name="Shadows" type="Node2D" parent="."]
 
 [node name="ShadowTop" parent="Shadows" instance=ExtResource("5_do53i")]
-local_center_3d = Vector3(0, 0, 3)
+local_center_3d = Vector3(0, 0, 9)
+local_axis_v = Vector3(0, 1, 0)
+half_size = Vector2(9, 3)
+
+[node name="ShadowCross1" parent="Shadows" instance=ExtResource("5_do53i")]
+local_center_3d = Vector3(0, 0, 4.5)
+local_axis_u = Vector3(9, 3, 0)
+half_size = Vector2(9.4, 4.5)
+
+[node name="ShadowCross2" parent="Shadows" instance=ExtResource("5_do53i")]
+local_center_3d = Vector3(0, 0, 4.5)
+local_axis_u = Vector3(9, -3, 0)
+half_size = Vector2(9.4, 4.5)
+
+[node name="ShadowBottom" parent="Shadows" instance=ExtResource("5_do53i")]
 local_axis_v = Vector3(0, 1, 0)
 half_size = Vector2(9, 3)

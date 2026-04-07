@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxt41oesslfdw"]
+[gd_scene load_steps=13 format=3 uid="uid://cxt41oesslfdw"]
 
 [ext_resource type="Script" uid="uid://cn21pwvfn4hny" path="res://Assets/Code/Scripts/Controllers/EnemyController.cs" id="1_dlr6f"]
 [ext_resource type="PackedScene" uid="uid://diyxw01ju1tce" path="res://Assets/Scenes/Entities/bullet.tscn" id="2_1aek7"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://di25ef37nxyyn" path="res://Assets/Art/Sprites/Tank/TankChassis/TankChassis-NormalSheet.png" id="7_s4m0f"]
 [ext_resource type="Texture2D" uid="uid://c4g74hll4djj" path="res://Assets/Art/Sprites/Tank/TankTurret/TankTurret-HeightSheet.png" id="8_05q02"]
 [ext_resource type="PackedScene" uid="uid://ds76iq75qyhcp" path="res://Assets/Scenes/Lighting/spotlight.tscn" id="10_eupxr"]
-[ext_resource type="PackedScene" uid="uid://rxrf3t2y1077" path="res://Assets/Scenes/Lighting/shadow_plane.tscn" id="12_gg61c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vwpun"]
 
@@ -84,19 +83,3 @@ outer_angle_deg = 11.8
 falloff = 1.0
 intensity = 0.5
 zpx = 9
-
-[node name="Shadows" type="Node2D" parent="."]
-position = Vector2(-1.5, 0)
-
-[node name="ShadowTop" parent="Shadows" instance=ExtResource("12_gg61c")]
-local_center_3d = Vector3(0, 0, 5)
-local_axis_v = Vector3(0, 1, 0)
-half_size = Vector2(7.5, 6)
-
-[node name="ShadowLeft" parent="Shadows" instance=ExtResource("12_gg61c")]
-local_center_3d = Vector3(0, 24, 9)
-half_size = Vector2(7.5, 6)
-
-[node name="ShadowRight" parent="Shadows" instance=ExtResource("12_gg61c")]
-local_center_3d = Vector3(0, -24, 5)
-half_size = Vector2(7.5, 6)

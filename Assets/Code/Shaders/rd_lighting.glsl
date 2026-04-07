@@ -61,8 +61,8 @@ vec3 decode_normal_view(vec3 enc) {
 
 vec3 pos_view_from_screen(ivec2 p, float z_norm) {
     float z_px = z_norm * ZPX_SCALE;
-    float x = float(p.x);
-    float y = (float(p.y) + z_px) * 1.5;
+    float x = float(p.x) + 1;
+    float y = (float(p.y) + 1 + z_px) * 1.5;
     float z = z_px / SIN_T;
     return vec3(x, y, z);
 }
@@ -99,8 +99,8 @@ bool ray_hits_plane_rect(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     float u = dot(rel, U);
     float v = dot(rel, V);
 
-    if (abs(u) > half_u) return false;
-    if (abs(v) > half_v) return false;
+    if (u <= -half_u || u > half_u) return false;
+    if (v <= -half_v || v > half_v) return false;
 
     return true;
 }

@@ -382,7 +382,7 @@ func _update_shadow_planes_ssbo() -> int:
 
 		var center := Vector3(
 			center_internal.x,
-			(center_internal.y * 1.5) - center_world.z,
+			center_internal.y * 1.5,
 			center_world.z / SIN_T
 		)
 
@@ -390,12 +390,25 @@ func _update_shadow_planes_ssbo() -> int:
 		var axis_v: Vector3 = d["axis_v"].normalized()
 
 		var half_size: Vector2 = d["half_size"]
+
+		var half_u := half_size.x * sqrt(
+			axis_u.x * axis_u.x +
+			axis_u.y * axis_u.y +
+			(axis_u.z / SIN_T) * (axis_u.z / SIN_T)
+		)
+
+		var half_v := half_size.y * sqrt(
+			axis_v.x * axis_v.x +
+			axis_v.y * axis_v.y +
+			(axis_v.z / SIN_T) * (axis_v.z / SIN_T)
+		)
+
 		var two_sided: float = 1.0 if bool(d.get("two_sided", true)) else 0.0
 
 		var base := count * 48
 		_write_vec4(data, base + 0,  Vector4(center.x, center.y, center.z, two_sided))
-		_write_vec4(data, base + 16, Vector4(axis_u.x, axis_u.y, axis_u.z, half_size.x))
-		_write_vec4(data, base + 32, Vector4(axis_v.x, axis_v.y, axis_v.z, half_size.y))
+		_write_vec4(data, base + 16, Vector4(axis_u.x, axis_u.y, axis_u.z, half_u))
+		_write_vec4(data, base + 32, Vector4(axis_v.x, axis_v.y, axis_v.z, half_v))
 
 		count += 1
 

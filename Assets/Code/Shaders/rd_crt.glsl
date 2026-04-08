@@ -31,13 +31,6 @@ float scanline_mask(float y_src, float brightness) {
 	return mix(floor_amt, 1.0, line);
 }
 
-float slot_mask(vec2 frag_pos) {
-	// subtle grayscale slot mask
-	float col = 0.88 + 0.12 * step(0.5, fract(frag_pos.x / 3.0));
-	float row = 0.96 + 0.04 * step(0.5, fract(frag_pos.y / 2.0));
-	return col * row;
-}
-
 void main() {
 	ivec2 dst_xy = ivec2(gl_GlobalInvocationID.xy);
 
@@ -90,7 +83,6 @@ void main() {
 
 		float w = gaussian(dx, 1.65);
 
-		// was b*b; this gives dimmer lights some bleed too
 		float glow = pow(b, 1.35);
 
 		bloom += c * w * glow;
@@ -105,9 +97,6 @@ void main() {
 
 	float bright = clamp(luma(col), 0.0, 1.0);
 	col *= scanline_mask(src_pos.y, bright);
-
-	// subtle slot mask after scanlines
-	col *= slot_mask(vec2(dst_xy));
 
 	col *= 1.38;
 

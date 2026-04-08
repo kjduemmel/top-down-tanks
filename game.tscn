@@ -1,14 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=9 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
 [ext_resource type="PackedScene" uid="uid://dpymdxlbgltth" path="res://Assets/Scenes/Objects/cube.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" uid="uid://rchdy6fqsfwx" path="res://Assets/Scenes/Lighting/directional_light.tscn" id="4_ryrav"]
 [ext_resource type="Script" uid="uid://bybce2jxxq6sr" path="res://Assets/Code/Scripts/Visual/OcclusionRD.gd" id="5_7jktm"]
-[ext_resource type="PackedScene" uid="uid://cvdalcn8o4smt" path="res://Assets/Scenes/Objects/wall_h.tscn" id="5_j5wjh"]
 [ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="5_vef74"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="6_ryrav"]
-[ext_resource type="PackedScene" uid="uid://j7p8qvxpqjh8" path="res://Assets/Scenes/Objects/wall_v.tscn" id="6_vef74"]
 [ext_resource type="PackedScene" uid="uid://b7nxhybud5sm1" path="res://Assets/Scenes/Objects/wall.tscn" id="8_hve3p"]
 
 [node name="Game" type="Node2D"]
@@ -19,19 +17,19 @@ script = ExtResource("1_j5wjh")
 
 [node name="Tank" parent="World" instance=ExtResource("1_80nbo")]
 unique_name_in_owner = true
-position = Vector2(740, 432)
+position = Vector2(720, 448)
 rotation = 0.0
 
 [node name="Cube" parent="World" instance=ExtResource("3_feb5d")]
-position = Vector2(591, 282)
+position = Vector2(576, 288)
 rotation = 0.7853982
 
 [node name="Cube2" parent="World" instance=ExtResource("3_feb5d")]
-position = Vector2(364, 337)
+position = Vector2(384, 352)
 rotation = 0.39269912
 
 [node name="Cube3" parent="World" instance=ExtResource("3_feb5d")]
-position = Vector2(509, 409)
+position = Vector2(528, 416)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="Sun" parent="World" instance=ExtResource("4_ryrav")]
@@ -42,261 +40,414 @@ intensity = 0.6
 [node name="Enemies" type="Node" parent="World"]
 
 [node name="EnemyTank" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(86, 469)
+position = Vector2(96, 480)
 
 [node name="EnemyTank2" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(978, 97)
+position = Vector2(960, 96)
 
 [node name="EnemyTank3" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(572, 97)
+position = Vector2(576, 96)
 
 [node name="EnemyTank4" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(970, 556)
+position = Vector2(960, 544)
 
 [node name="EnemyTank5" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(973, 632)
+position = Vector2(960, 640)
 
 [node name="EnemyTank6" parent="World/Enemies" instance=ExtResource("5_vef74")]
-position = Vector2(554, 344)
+position = Vector2(576, 352)
 
 [node name="Walls" type="Node" parent="World"]
 
-[node name="SW" type="Node" parent="World/Walls"]
+[node name="NorthWall" type="Node" parent="World/Walls"]
 
-[node name="Wall_H" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(36, 728)
+[node name="Wall" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(48, 32)
 
-[node name="Wall_V" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 664)
+[node name="Wall2" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(120, 32)
 
-[node name="Wall_V2" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 584)
+[node name="Wall3" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(192, 32)
 
-[node name="Wall_V3" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 504)
+[node name="Wall4" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(264, 32)
 
-[node name="Wall_V4" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 424)
+[node name="Wall5" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(336, 32)
 
-[node name="Wall_V5" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(228, 472)
+[node name="Wall6" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(408, 32)
 
-[node name="Wall_V6" parent="World/Walls/SW" instance=ExtResource("6_vef74")]
-position = Vector2(228, 552)
+[node name="Wall7" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(480, 32)
 
-[node name="Wall_H2" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(108, 728)
+[node name="Wall8" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(552, 32)
 
-[node name="Wall_H10" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(60, 408)
+[node name="Wall9" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(624, 32)
 
-[node name="Wall_H11" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(132, 408)
+[node name="Wall10" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(696, 32)
 
-[node name="Wall_H12" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(204, 408)
+[node name="Wall11" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(768, 32)
 
-[node name="Wall_H3" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(180, 728)
+[node name="Wall12" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(840, 32)
 
-[node name="Wall_H4" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(252, 728)
+[node name="Wall13" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(912, 32)
 
-[node name="Wall_H5" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(324, 728)
+[node name="Wall14" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(984, 32)
 
-[node name="Wall_H6" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(396, 728)
+[node name="Wall15" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1056, 32)
 
-[node name="Wall_H7" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(468, 728)
+[node name="Wall16" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1128, 32)
 
-[node name="Wall_H8" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(540, 728)
+[node name="Wall17" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1200, 32)
 
-[node name="Wall_H9" parent="World/Walls/SW" instance=ExtResource("5_j5wjh")]
-position = Vector2(612, 728)
+[node name="Wall18" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1272, 32)
 
-[node name="SE" type="Node" parent="World/Walls"]
+[node name="Wall19" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1344, 32)
 
-[node name="Wall_H" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(684, 728)
+[node name="Wall20" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1416, 32)
 
-[node name="Wall_H2" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(756, 728)
+[node name="Wall21" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1488, 32)
 
-[node name="Wall_H3" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(828, 728)
+[node name="Wall22" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1560, 32)
 
-[node name="Wall_H4" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(900, 728)
+[node name="Wall23" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1632, 32)
 
-[node name="Wall_H5" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(972, 728)
+[node name="Wall24" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1704, 32)
 
-[node name="Wall_H10" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(956, 488)
+[node name="Wall25" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1776, 32)
 
-[node name="Wall_H11" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1028, 488)
+[node name="Wall26" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1848, 32)
 
-[node name="Wall_H6" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1044, 728)
+[node name="Wall27" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 32)
 
-[node name="Wall_H7" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1116, 728)
+[node name="SouthWall" type="Node" parent="World/Walls"]
 
-[node name="Wall_H8" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1188, 728)
+[node name="Wall" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(48, 712)
 
-[node name="Wall_H9" parent="World/Walls/SE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1260, 728)
+[node name="Wall2" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(120, 712)
 
-[node name="Wall_V" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 664)
+[node name="Wall3" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(192, 712)
 
-[node name="Wall_V5" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(908, 664)
+[node name="Wall4" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(264, 712)
 
-[node name="Wall_V6" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(908, 584)
+[node name="Wall5" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(336, 712)
 
-[node name="Wall_V7" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(908, 504)
+[node name="Wall6" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(408, 712)
 
-[node name="Wall_V2" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 584)
+[node name="Wall7" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(480, 712)
 
-[node name="Wall_V3" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 504)
+[node name="Wall8" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(552, 712)
 
-[node name="Wall_V4" parent="World/Walls/SE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 424)
+[node name="Wall9" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(624, 712)
 
-[node name="NE" type="Node" parent="World/Walls"]
+[node name="Wall10" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(696, 712)
 
-[node name="Wall_V" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 344)
+[node name="Wall11" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(768, 712)
 
-[node name="Wall_V2" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 264)
+[node name="Wall12" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(840, 712)
 
-[node name="Wall_V3" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 184)
+[node name="Wall13" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(912, 712)
 
-[node name="Wall_V4" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(1268, 104)
+[node name="Wall14" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(984, 712)
 
-[node name="Wall_V5" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(908, 200)
+[node name="Wall15" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1056, 712)
 
-[node name="Wall_V6" parent="World/Walls/NE" instance=ExtResource("6_vef74")]
-position = Vector2(908, 280)
+[node name="Wall16" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1128, 712)
 
-[node name="Wall_H" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1244, 40)
+[node name="Wall17" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1200, 712)
 
-[node name="Wall_H2" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1172, 40)
+[node name="Wall18" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1272, 712)
 
-[node name="Wall_H3" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1100, 40)
+[node name="Wall19" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1344, 712)
 
-[node name="Wall_H4" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(1028, 40)
+[node name="Wall20" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1416, 712)
 
-[node name="Wall_H5" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(956, 40)
+[node name="Wall21" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1488, 712)
 
-[node name="Wall_H6" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(884, 40)
+[node name="Wall22" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1560, 712)
 
-[node name="Wall_H10" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(884, 88)
+[node name="Wall23" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1632, 712)
 
-[node name="Wall_H11" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(884, 136)
+[node name="Wall24" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1704, 712)
 
-[node name="Wall_H7" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(812, 40)
+[node name="Wall25" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1776, 712)
 
-[node name="Wall_H8" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(740, 40)
+[node name="Wall26" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1848, 712)
 
-[node name="Wall_H9" parent="World/Walls/NE" instance=ExtResource("5_j5wjh")]
-position = Vector2(668, 40)
+[node name="Wall27" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 712)
 
-[node name="NW" type="Node" parent="World/Walls"]
+[node name="WestWall" type="Node" parent="World/Walls"]
 
-[node name="Wall_H" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(596, 40)
+[node name="Wall" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall_H2" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(524, 40)
+[node name="Wall2" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 72)
+rotation = 1.5707964
 
-[node name="Wall_H3" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(452, 40)
+[node name="Wall3" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 120)
+rotation = 1.5707964
 
-[node name="Wall_H4" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(380, 40)
+[node name="Wall4" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 168)
+rotation = 1.5707964
 
-[node name="Wall_H5" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(308, 40)
+[node name="Wall5" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 216)
+rotation = 1.5707964
 
-[node name="Wall_H6" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(236, 40)
+[node name="Wall6" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 264)
+rotation = 1.5707964
 
-[node name="Wall_H7" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(164, 40)
+[node name="Wall7" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 312)
+rotation = 1.5707964
 
-[node name="Wall_H8" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(92, 40)
+[node name="Wall8" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 360)
+rotation = 1.5707964
 
-[node name="Wall_H9" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(20, 40)
+[node name="Wall9" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 408)
+rotation = 1.5707964
 
-[node name="Wall_H10" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(252, 200)
+[node name="Wall10" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 456)
+rotation = 1.5707964
 
-[node name="Wall_H11" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(324, 200)
+[node name="Wall11" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 504)
+rotation = 1.5707964
 
-[node name="Wall_H12" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(604, 168)
+[node name="Wall12" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 552)
+rotation = 1.5707964
 
-[node name="Wall_H13" parent="World/Walls/NW" instance=ExtResource("5_j5wjh")]
-position = Vector2(532, 168)
+[node name="Wall13" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 600)
+rotation = 1.5707964
 
-[node name="Wall_V" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 104)
+[node name="Wall14" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 648)
+rotation = 1.5707964
 
-[node name="Wall_V2" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 184)
+[node name="Wall15" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 696)
+rotation = 1.5707964
 
-[node name="Wall_V3" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 264)
+[node name="Wall16" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall_V4" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(12, 344)
+[node name="Wall17" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall_V5" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(228, 344)
+[node name="Wall18" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall_V6" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(228, 264)
+[node name="Wall19" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall_V7" parent="World/Walls/NW" instance=ExtResource("6_vef74")]
-position = Vector2(508, 104)
+[node name="Wall20" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall" parent="World" instance=ExtResource("8_hve3p")]
-position = Vector2(290, 390)
+[node name="Wall21" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
 
-[node name="Wall2" parent="World" instance=ExtResource("8_hve3p")]
-position = Vector2(602, 575)
+[node name="Wall22" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="Wall23" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="Wall24" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="Wall25" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="Wall26" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="Wall27" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
+position = Vector2(0, 24)
+rotation = 1.5707964
+
+[node name="EastWall" type="Node" parent="World/Walls"]
+
+[node name="Wall" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall2" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 72)
+rotation = 1.5707964
+
+[node name="Wall3" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 120)
+rotation = 1.5707964
+
+[node name="Wall4" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 168)
+rotation = 1.5707964
+
+[node name="Wall5" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 216)
+rotation = 1.5707964
+
+[node name="Wall6" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 264)
+rotation = 1.5707964
+
+[node name="Wall7" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 312)
+rotation = 1.5707964
+
+[node name="Wall8" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 360)
+rotation = 1.5707964
+
+[node name="Wall9" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 408)
+rotation = 1.5707964
+
+[node name="Wall10" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 456)
+rotation = 1.5707964
+
+[node name="Wall11" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 504)
+rotation = 1.5707964
+
+[node name="Wall12" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 552)
+rotation = 1.5707964
+
+[node name="Wall13" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 600)
+rotation = 1.5707964
+
+[node name="Wall14" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 648)
+rotation = 1.5707964
+
+[node name="Wall15" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 696)
+rotation = 1.5707964
+
+[node name="Wall16" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall17" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall18" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall19" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall20" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall21" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall22" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall23" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall24" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall25" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall26" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
+rotation = 1.5707964
+
+[node name="Wall27" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
+position = Vector2(1920, 24)
 rotation = 1.5707964
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")
+internal_size = Vector2i(480, 270)
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
 texture_filter = 1
@@ -306,6 +457,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+expand_mode = 1
+stretch_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("6_ryrav")]

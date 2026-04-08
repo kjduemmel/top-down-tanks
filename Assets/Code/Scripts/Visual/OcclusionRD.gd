@@ -8,6 +8,7 @@ extends Node
 @export var clear_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_occlusion_clear.glsl")
 @export var draw_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_occlusion_draw.glsl")
 @export var light_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_lighting.glsl")
+@export var crt_rdshader: RDShaderFile = preload("res://Assets/Code/Shaders/rd_crt.glsl")
 
 @onready var world: Node2D = get_node("../World") as Node2D
 @onready var output: TextureRect = $Output
@@ -29,9 +30,14 @@ var default_normal_rid: RID # a default if the thing has no normal map
 var lit_rid: RID            # rgba8 (final lit output)
 var out_tex: Texture2DRD    # wraps lit_rid for UI
 
+var present_rid: RID
+var present_tex: Texture2DRD
+var present_size: Vector2i = Vector2i.ZERO
+
 # Uniform sets
 var us0_clear: RID          # set=0 for clear shader (depth+color)
 var us0_draw: RID           # set=0 for draw shader (depth+color)
+var us0_crt: RID
 
 # Sampler
 var sampler_rid: RID
@@ -53,6 +59,9 @@ var us0_light: RID  # set=0 for lighting: depth+color+normal+lit
 var us1_lights: RID # set=1: SSBO for lights
 var lights_ssbo: RID
 const MAX_LIGHTS := 64
+
+var shader_crt: RID
+var pipe_crt: RID
 
 var us2_shadow_planes: RID
 var shadow_planes_ssbo: RID
@@ -80,13 +89,14 @@ func _ready() -> void:
 	_create_dummy_height()
 	_create_default_normal()
 	_create_output_images()
+	_create_present_image()
 	_load_pipelines_and_sets()
 	
 
 	# Show the output texture
-	out_tex = Texture2DRD.new()
-	out_tex.texture_rd_rid = lit_rid
-	output.texture = out_tex
+	present_tex = Texture2DRD.new()
+	present_tex.texture_rd_rid = present_rid
+	output.texture = present_tex
 	output.set_anchors_preset(Control.PRESET_FULL_RECT)
 
 	get_tree().node_added.connect(_on_node_added)
@@ -128,6 +138,7 @@ func _exit_tree() -> void:
 	# Free core RIDs
 	if us0_clear.is_valid(): rd.free_rid(us0_clear)
 	if us0_draw.is_valid(): rd.free_rid(us0_draw)
+	if us0_crt.is_valid(): rd.free_rid(us0_crt)
 
 	if dummy_height_rid.is_valid(): rd.free_rid(dummy_height_rid)
 	if sampler_rid.is_valid(): rd.free_rid(sampler_rid)
@@ -136,13 +147,16 @@ func _exit_tree() -> void:
 	if color_rid.is_valid(): rd.free_rid(color_rid)
 	if normal_rid.is_valid(): rd.free_rid(normal_rid)
 	if lit_rid.is_valid(): rd.free_rid(lit_rid)
+	if present_rid.is_valid(): rd.free_rid(present_rid)
 	if default_normal_rid.is_valid(): rd.free_rid(default_normal_rid)
 
 	if pipe_clear.is_valid(): rd.free_rid(pipe_clear)
 	if pipe_draw.is_valid(): rd.free_rid(pipe_draw)
+	if pipe_crt.is_valid(): rd.free_rid(pipe_crt)
 
 	if shader_clear.is_valid(): rd.free_rid(shader_clear)
 	if shader_draw.is_valid(): rd.free_rid(shader_draw)
+	if shader_crt.is_valid(): rd.free_rid(shader_crt)
 	
 	if us0_light.is_valid(): rd.free_rid(us0_light)
 	if us1_lights.is_valid(): rd.free_rid(us1_lights)
@@ -180,6 +194,8 @@ func _process(_dt: float) -> void:
 	var light_count := _update_lights_ssbo()
 	var plane_count := _update_shadow_planes_ssbo()
 	_dispatch_lighting(light_count, plane_count)
+	_ensure_present_size()
+	_dispatch_crt()
 
 
 # ----------------------------
@@ -243,6 +259,26 @@ func _create_output_images() -> void:
 		RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
 	)
 	lit_rid = rd.texture_create(lf, RDTextureView.new(), [])
+
+func _create_present_image() -> void:
+	if present_rid.is_valid():
+		rd.free_rid(present_rid)
+
+	var size := get_viewport().get_visible_rect().size
+	present_size = Vector2i(max(1, int(size.x)), max(1, int(size.y)))
+
+	var tf := RDTextureFormat.new()
+	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	tf.width = present_size.x
+	tf.height = present_size.y
+	tf.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	tf.usage_bits = (
+		RenderingDevice.TEXTURE_USAGE_STORAGE_BIT |
+		RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT |
+		RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	)
+
+	present_rid = rd.texture_create(tf, RDTextureView.new(), [])
 
 
 func _create_dummy_height() -> void:
@@ -419,10 +455,12 @@ func _load_pipelines_and_sets() -> void:
 	shader_clear = rd.shader_create_from_spirv(clear_rdshader.get_spirv())
 	shader_draw = rd.shader_create_from_spirv(draw_rdshader.get_spirv())
 	shader_light = rd.shader_create_from_spirv(light_rdshader.get_spirv())
+	shader_crt = rd.shader_create_from_spirv(crt_rdshader.get_spirv())
 
 	pipe_clear = rd.compute_pipeline_create(shader_clear)
 	pipe_draw = rd.compute_pipeline_create(shader_draw)
 	pipe_light = rd.compute_pipeline_create(shader_light)
+	pipe_crt = rd.compute_pipeline_create(shader_crt)
 
 	# set=0 bindings used by clear/draw/light (depth/color/normal/lit)
 	var u0 := RDUniform.new()
@@ -453,6 +491,39 @@ func _load_pipelines_and_sets() -> void:
 
 	_create_lights_ssbo_and_set()
 	_create_shadow_planes_ssbo_and_set()
+	_rebuild_crt_set()
+
+func _rebuild_crt_set() -> void:
+	if us0_crt.is_valid():
+		rd.free_rid(us0_crt)
+
+	var u0 := RDUniform.new()
+	u0.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	u0.binding = 0
+	u0.add_id(lit_rid)
+
+	var u1 := RDUniform.new()
+	u1.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	u1.binding = 1
+	u1.add_id(present_rid)
+
+	us0_crt = rd.uniform_set_create([u0, u1], shader_crt, 0)
+
+func _ensure_present_size() -> void:
+	var size := get_viewport().get_visible_rect().size
+	var new_size := Vector2i(max(1, int(size.x)), max(1, int(size.y)))
+
+	if new_size == present_size:
+		return
+
+	_create_present_image()
+
+	if present_tex == null:
+		present_tex = Texture2DRD.new()
+	present_tex.texture_rd_rid = present_rid
+	output.texture = present_tex
+
+	_rebuild_crt_set()
 
 # ----------------------------
 # Dispatch
@@ -613,6 +684,23 @@ func _dispatch_lighting(light_count: int, plane_count: int) -> void:
 
 	var gx := int((internal_size.x + 7) / 8)
 	var gy := int((internal_size.y + 7) / 8)
+	rd.compute_list_dispatch(cl, gx, gy, 1)
+	rd.compute_list_end()
+
+func _dispatch_crt() -> void:
+	var cl := rd.compute_list_begin()
+	rd.compute_list_bind_compute_pipeline(cl, pipe_crt)
+	rd.compute_list_bind_uniform_set(cl, us0_crt, 0)
+
+	var pc_i := PackedInt32Array([
+		internal_size.x, internal_size.y,
+		present_size.x, present_size.y
+	])
+	var pc_bytes := pc_i.to_byte_array()
+	rd.compute_list_set_push_constant(cl, pc_bytes, pc_bytes.size())
+
+	var gx := int(ceil(float(present_size.x) / 8.0))
+	var gy := int(ceil(float(present_size.y) / 8.0))
 	rd.compute_list_dispatch(cl, gx, gy, 1)
 	rd.compute_list_end()
 

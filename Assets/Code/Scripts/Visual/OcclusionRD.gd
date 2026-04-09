@@ -65,7 +65,7 @@ var pipe_crt: RID
 
 var us2_shadow_planes: RID
 var shadow_planes_ssbo: RID
-const MAX_SHADOW_PLANES := 256
+const MAX_SHADOW_PLANES := 512
 
 const COS_T := 2.0 / 3.0
 const SIN_T := 0.7453559925

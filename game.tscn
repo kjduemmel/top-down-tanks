@@ -63,387 +63,455 @@ position = Vector2(576, 352)
 
 [node name="Wall" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(48, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall2" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(120, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall3" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(192, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall4" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(264, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall5" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(336, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall6" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(408, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall7" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(480, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall8" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(552, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall9" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(624, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall10" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(696, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall11" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(768, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall12" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(840, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall13" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(912, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall14" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(984, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall15" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1056, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall16" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1128, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall17" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1200, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall18" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1272, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall19" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1344, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall20" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1416, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall21" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1488, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall22" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1560, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall23" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1632, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall24" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1704, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall25" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1776, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall26" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1848, 32)
+metadata/_edit_lock_ = true
 
 [node name="Wall27" parent="World/Walls/NorthWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 32)
+metadata/_edit_lock_ = true
 
 [node name="SouthWall" type="Node" parent="World/Walls"]
 
 [node name="Wall" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(48, 712)
+position = Vector2(48, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall2" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(120, 712)
+position = Vector2(120, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall3" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(192, 712)
+position = Vector2(192, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall4" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(264, 712)
+position = Vector2(264, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall5" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(336, 712)
+position = Vector2(336, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall6" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(408, 712)
+position = Vector2(408, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall7" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(480, 712)
+position = Vector2(480, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall8" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(552, 712)
+position = Vector2(552, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall9" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(624, 712)
+position = Vector2(624, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall10" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(696, 712)
+position = Vector2(696, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall11" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(768, 712)
+position = Vector2(768, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall12" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(840, 712)
+position = Vector2(840, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall13" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(912, 712)
+position = Vector2(912, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall14" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(984, 712)
+position = Vector2(984, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall15" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1056, 712)
+position = Vector2(1056, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall16" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1128, 712)
+position = Vector2(1128, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall17" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1200, 712)
+position = Vector2(1200, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall18" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1272, 712)
+position = Vector2(1272, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall19" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1344, 712)
+position = Vector2(1344, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall20" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1416, 712)
+position = Vector2(1416, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall21" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1488, 712)
+position = Vector2(1488, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall22" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1560, 712)
+position = Vector2(1560, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall23" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1632, 712)
+position = Vector2(1632, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall24" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1704, 712)
+position = Vector2(1704, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall25" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1776, 712)
+position = Vector2(1776, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall26" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1848, 712)
+position = Vector2(1848, 1072)
+metadata/_edit_lock_ = true
 
 [node name="Wall27" parent="World/Walls/SouthWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 712)
+position = Vector2(1920, 1072)
+metadata/_edit_lock_ = true
 
 [node name="WestWall" type="Node" parent="World/Walls"]
 
 [node name="Wall" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 24)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall2" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 72)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall3" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 120)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall4" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 168)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall5" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 216)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall6" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 264)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall7" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 312)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall8" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 360)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall9" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 408)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall10" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 456)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall11" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 504)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall12" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 552)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall13" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 600)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall14" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 648)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall15" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
 position = Vector2(0, 696)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall16" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 744)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall17" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 792)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall18" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 840)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall19" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 888)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall20" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 936)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall21" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 984)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall22" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 1032)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall23" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
+position = Vector2(0, 1080)
 rotation = 1.5707964
-
-[node name="Wall24" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
-rotation = 1.5707964
-
-[node name="Wall25" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
-rotation = 1.5707964
-
-[node name="Wall26" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
-rotation = 1.5707964
-
-[node name="Wall27" parent="World/Walls/WestWall" instance=ExtResource("8_hve3p")]
-position = Vector2(0, 24)
-rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="EastWall" type="Node" parent="World/Walls"]
 
 [node name="Wall" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 24)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall2" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 72)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall3" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 120)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall4" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 168)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall5" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 216)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall6" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 264)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall7" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 312)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall8" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 360)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall9" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 408)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall10" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 456)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall11" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 504)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall12" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 552)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall13" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 600)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall14" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 648)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall15" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
 position = Vector2(1920, 696)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall16" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 744)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall17" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 792)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall18" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 840)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall19" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 888)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall20" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 936)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall21" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 984)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall22" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 1032)
 rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="Wall23" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
+position = Vector2(1920, 1080)
 rotation = 1.5707964
-
-[node name="Wall24" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
-rotation = 1.5707964
-
-[node name="Wall25" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
-rotation = 1.5707964
-
-[node name="Wall26" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
-rotation = 1.5707964
-
-[node name="Wall27" parent="World/Walls/EastWall" instance=ExtResource("8_hve3p")]
-position = Vector2(1920, 24)
-rotation = 1.5707964
+metadata/_edit_lock_ = true
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")

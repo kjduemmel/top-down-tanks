@@ -39,7 +39,7 @@ public partial class EnemyController : Node2D
 	[Export]
 	private int ScorePoints = 1;
 	private UI ui;
-	//private Node worldDecoupler;
+	private Node worldDecoupler;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -85,11 +85,12 @@ public partial class EnemyController : Node2D
 		Turret.SetTankRoot(this);
 		Turret.SetRotationSpeed(TurretSpeed);
 		
-		/*worldDecoupler = GetNode<Node>("/root/WorldDecoupler");
+		worldDecoupler = GetNode<Node>("/root/WorldDecoupler");
 		if (worldDecoupler == null)
 		{
-			GD.PrintErr("PlayerController: WorldDecoupler was not found");
-		}*/
+			GD.PrintErr("EnemyController: WorldDecoupler was not found");
+		}
+		Tank.SetWorldDecoupler(worldDecoupler);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -149,7 +150,11 @@ public partial class EnemyController : Node2D
 			{
 				tarPos = player.GlobalPosition;
 			}
-			Tank.Shoot(tarPos);
+			
+			float slice = Mathf.Pi * 2 / 16;
+			float barRot = slice * Mathf.FloorToInt((Turret.GetRotation() + slice * 0.5) / slice) % 16;
+			
+			Tank.Shoot(tarPos, barRot);
 		}
 	}
 	

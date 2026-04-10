@@ -87,20 +87,23 @@ public partial class TankController : CharacterBody2D
 		//MoveAndSlide();
 	}
 
-	public void Shoot(Vector2 targetPos)
+	public void Shoot(Vector2 targetPos, float turretRot)
 	{
 		if (Bullet == null)
 			return;
 		
 		var b = (Bullet)Bullet.Instantiate();
 		
-		Vector2 direction = (targetPos - Position).Normalized();
+		Vector2 barrelPos = (Position + new Vector2(Mathf.Cos(turretRot), Mathf.Sin(turretRot)).Normalized() * 48);
+		
+		Vector2 direction = (targetPos - barrelPos).Normalized();
 		
 		//might be - 90 or 0 if graphic assumptions change
 		float rotation = direction.Angle();// + Mathf.Pi/2;
-		Vector2 spawnPos = (Vector2)worldDecoupler.Call("_project", Position);
+		Vector2 spawnPos = (Vector2)worldDecoupler.Call("_project", barrelPos);
 		
-		b.Start(spawnPos + direction.Normalized() * 20, rotation, direction.Normalized());
+		//b.Start(spawnPos + direction.Normalized() * 30, rotation, direction.Normalized());
+		b.Start(spawnPos, rotation, direction.Normalized());
 		
 		//GetTree().Root.AddChild(b); // <- This breaks scene reloads
 		

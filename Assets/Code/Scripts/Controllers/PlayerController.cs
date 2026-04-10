@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 
 public partial class PlayerController : Node2D
 {
@@ -105,8 +106,11 @@ public partial class PlayerController : Node2D
 			//translate from visual to game position
 			if(worldDecoupler != null)
 				mousePos = (Vector2)worldDecoupler.Call("_unproject", mousePos);
+
+			float slice = Mathf.Pi * 2 / 16;
+			float barRot = slice * Mathf.FloorToInt((Turret.GetRotation() + slice * 0.5) / slice) % 16;
 			
-			Tank.Shoot(mousePos);
+			Tank.Shoot(mousePos, barRot);
 		}
 
 		if (Input.IsActionJustPressed("use_item") && ItemUses > 0)

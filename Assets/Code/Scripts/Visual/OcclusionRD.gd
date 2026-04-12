@@ -81,7 +81,7 @@ func _ready() -> void:
 	output.offset_top = 0
 	output.offset_right = 0
 	output.offset_bottom = 0
-	output.stretch_mode = TextureRect.STRETCH_SCALE
+	output.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	output.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 
@@ -104,6 +104,28 @@ func _ready() -> void:
 
 func _viewport_size() -> Vector2:
 	return get_viewport().get_visible_rect().size
+
+func _compute_present_size() -> Vector2i:
+	var vp : Vector2 = get_viewport().get_visible_rect().size
+	var vp_w : float = max(1.0, vp.x)
+	var vp_h : float = max(1.0, vp.y)
+
+	var aspect := float(internal_size.x) / float(internal_size.y)
+
+	var fit_w := int(floor(vp_h * aspect))
+	var fit_h := int(floor(vp_w / aspect))
+
+	var out_w: int
+	var out_h: int
+
+	if fit_w <= int(vp_w):
+		out_w = max(1, fit_w)
+		out_h = max(1, int(vp_h))
+	else:
+		out_w = max(1, int(vp_w))
+		out_h = max(1, fit_h)
+
+	return Vector2i(out_w, out_h)
 
 func _screen_to_internal(p: Vector2) -> Vector2:
 	var vp := _viewport_size()
@@ -264,8 +286,7 @@ func _create_present_image() -> void:
 	if present_rid.is_valid():
 		rd.free_rid(present_rid)
 
-	var size := get_viewport().get_visible_rect().size
-	present_size = Vector2i(max(1, int(size.x)), max(1, int(size.y)))
+	present_size = _compute_present_size()
 
 	var tf := RDTextureFormat.new()
 	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
@@ -510,8 +531,7 @@ func _rebuild_crt_set() -> void:
 	us0_crt = rd.uniform_set_create([u0, u1], shader_crt, 0)
 
 func _ensure_present_size() -> void:
-	var size := get_viewport().get_visible_rect().size
-	var new_size := Vector2i(max(1, int(size.x)), max(1, int(size.y)))
+	var new_size := _compute_present_size()
 
 	if new_size == present_size:
 		return

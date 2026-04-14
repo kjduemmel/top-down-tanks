@@ -151,6 +151,8 @@ public partial class EnemyController : Node2D
 				tarPos = player.GlobalPosition;
 			}
 			
+			tarPos = (Vector2)worldDecoupler.Call("_unproject", tarPos);
+			
 			float slice = Mathf.Pi * 2 / 16;
 			float barRot = slice * Mathf.FloorToInt((Turret.GetRotation() + slice * 0.5) / slice) % 16;
 			

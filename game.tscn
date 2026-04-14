@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bfcpsdp70nuq7"]
+[gd_scene load_steps=17 format=3 uid="uid://bfcpsdp70nuq7"]
 
 [ext_resource type="PackedScene" uid="uid://bh7764oj1t4na" path="res://Assets/Scenes/Entities/tank.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://btkfrmo0g7y5i" path="res://Assets/Code/Scripts/Visual/world.gd" id="1_j5wjh"]
@@ -8,6 +8,35 @@
 [ext_resource type="PackedScene" uid="uid://cxt41oesslfdw" path="res://Assets/Scenes/Entities/enemytankbase.tscn" id="5_vef74"]
 [ext_resource type="PackedScene" uid="uid://b16jm8gubx8pa" path="res://Assets/Scenes/Entities/level_ui.tscn" id="6_ryrav"]
 [ext_resource type="PackedScene" uid="uid://b7nxhybud5sm1" path="res://Assets/Scenes/Objects/wall.tscn" id="8_hve3p"]
+[ext_resource type="AudioStream" uid="uid://v4714h5icmay" path="res://Assets/Audio/Music/MixedSignals/MixedSignals-start.wav" id="9_iotsf"]
+[ext_resource type="AudioStream" uid="uid://c5r5aj0kavdew" path="res://Assets/Audio/Music/MixedSignals/MixedSignals-loop.wav" id="10_lc2xo"]
+[ext_resource type="AudioStream" uid="uid://b7ggxv6ujxltq" path="res://Assets/Audio/Music/MixedSignals/MixedSignals-NES-start.wav" id="11_215e1"]
+[ext_resource type="AudioStream" uid="uid://kp5h0t0i3d5w" path="res://Assets/Audio/Music/MixedSignals/MixedSignals-NES-loop.wav" id="12_7sc4i"]
+[ext_resource type="Script" uid="uid://bp75yvjt5ajeu" path="res://Assets/Code/Audio/Music.gd" id="13_lc2xo"]
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_lc2xo"]
+stream_count = 2
+stream_0/stream = ExtResource("9_iotsf")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("11_215e1")
+stream_1/volume = 0.0
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_215e1"]
+stream_count = 2
+stream_0/stream = ExtResource("10_lc2xo")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("12_7sc4i")
+stream_1/volume = 0.0
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_vef74"]
+clip_count = 2
+clip_0/name = &"intro"
+clip_0/stream = SubResource("AudioStreamSynchronized_lc2xo")
+clip_0/auto_advance = 1
+clip_0/next_clip = 1
+clip_1/name = &"loop"
+clip_1/stream = SubResource("AudioStreamSynchronized_215e1")
+clip_1/auto_advance = 0
 
 [node name="Game" type="Node2D"]
 metadata/_edit_lock_ = true
@@ -530,3 +559,9 @@ stretch_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("6_ryrav")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_vef74")
+autoplay = true
+playback_type = 1
+script = ExtResource("13_lc2xo")

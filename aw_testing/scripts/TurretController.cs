@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeTypeMemberModifiers
+
 public partial class TurretController : Node2D
 {
 	public Node2D TankRoot;

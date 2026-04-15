@@ -1,6 +1,9 @@
 using Godot;
 using System;
-using System.Threading;
+
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeTypeMemberModifiers
 
 public partial class PlayerController : Node2D
 {
@@ -124,7 +127,7 @@ public partial class PlayerController : Node2D
 		
 	}
 	
-	async public void OnHit()
+	private async void OnHit()
 	{
 		ui.ShowMessage("You Died");
 		await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);

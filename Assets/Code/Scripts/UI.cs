@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeTypeMemberModifiers
+
 public partial class UI : CanvasLayer
 {
 	[Export] 

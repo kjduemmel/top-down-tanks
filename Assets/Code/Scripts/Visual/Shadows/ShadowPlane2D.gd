@@ -7,6 +7,8 @@ class_name ShadowPlane2D
 @export var half_size: Vector2 = Vector2(16, 16)
 @export var two_sided: bool = true
 @export var enabled: bool = true
+@export var shadow_texture: Texture2D
+@export_range(0.0, 1.0) var shadow_strength := 1.0
 
 func _ready() -> void:
 	add_to_group("rd_shadow_planes")
@@ -49,5 +51,7 @@ func get_shadow_plane_gpu_data() -> Dictionary:
 		"axis_u": axis_u_world,
 		"axis_v": axis_v_world,
 		"half_size": half_size,
-		"two_sided": two_sided
+		"two_sided": two_sided,
+		"shadow_texture": shadow_texture,
+		"shadow_strength": shadow_strength,
 	}

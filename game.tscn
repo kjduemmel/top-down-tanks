@@ -544,7 +544,6 @@ metadata/_edit_lock_ = true
 
 [node name="OcclusionRD" type="Node" parent="."]
 script = ExtResource("5_7jktm")
-internal_size = Vector2i(480, 270)
 
 [node name="Output" type="TextureRect" parent="OcclusionRD"]
 texture_filter = 1

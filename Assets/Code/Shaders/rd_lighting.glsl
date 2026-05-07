@@ -21,10 +21,15 @@ struct ShadowPlane {
     vec4 center_flags;   // center.xyz, two_sided
     vec4 axis_u_halfu;   // axis_u.xyz, half_u
     vec4 axis_v_halfv;   // axis_v.xyz, half_v
+    vec4 extra; // x = shadow_strength
 };
 layout(std430, set = 2, binding = 0) readonly buffer ShadowPlanesBuf {
     ShadowPlane P[];
 } shadow_planes;
+
+// Shared occlusion mask for shadow planes.
+// Red channel: 0.0 = no occlusion, 1.0 = full occlusion.
+layout(set = 2, binding = 1) uniform sampler2D shadow_mask_tex;
 
 layout(push_constant, std430) uniform Push {
     ivec2 size;
@@ -67,7 +72,7 @@ vec3 pos_view_from_screen(ivec2 p, float z_norm) {
     return vec3(x, y, z);
 }
 
-bool ray_hits_plane_rect(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
+vec3 ray_plane_shadow_filter(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     vec3 C = pl.center_flags.xyz;
     float two_sided = pl.center_flags.w;
 
@@ -81,16 +86,16 @@ bool ray_hits_plane_rect(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     float denom = dot(rd, N);
 
     if (abs(denom) < 1e-5) {
-        return false;
+        return vec3(1.0);
     }
 
     if (two_sided < 0.5 && denom > 0.0) {
-        return false;
+        return vec3(1.0);
     }
 
     float t = dot(C - ro, N) / denom;
     if (t <= 0.001 || t >= t_max - 0.001) {
-        return false;
+        return vec3(1.0);
     }
 
     vec3 H = ro + rd * t;
@@ -99,22 +104,36 @@ bool ray_hits_plane_rect(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     float u = dot(rel, U);
     float v = dot(rel, V);
 
-    if (u <= -half_u || u > half_u) return false;
-    if (v <= -half_v || v > half_v) return false;
+    if (u <= -half_u || u > half_u) return vec3(1.0);
+    if (v <= -half_v || v > half_v) return vec3(1.0);
 
-    return true;
+    vec2 uv = vec2(u / half_u, v / half_v) * 0.5 + 0.5;
+    uv.y = 1.0 - uv.y;
+
+    vec4 shadow_tex = texture(shadow_mask_tex, uv);
+
+    vec3 shadow_tint = clamp(shadow_tex.rgb, vec3(0.0), vec3(1.0));
+    float shadow_alpha = clamp(shadow_tex.a * pl.extra.x, 0.0, 1.0);
+
+    // RGB = tint color, A = shadow strength.
+    // vec3(1.0) means no shadow/filter.
+    // shadow_tint means fully tinted shadow.
+    return mix(vec3(1.0), shadow_tint, shadow_alpha);
 }
 
-bool light_blocked_by_planes(vec3 P, vec3 Ldir, float max_dist) {
-    vec3 ro = P;
+vec3 light_visibility_by_planes(vec3 P, vec3 Ldir, float max_dist) {
+	vec3 ro = P;
+	vec3 visibility = vec3(1.0);
 
-    for (int i = 0; i < pc.plane_count; i++) {
-        if (ray_hits_plane_rect(ro, Ldir, max_dist, shadow_planes.P[i])) {
-            return true;
-        }
-    }
+	for (int i = 0; i < pc.plane_count; i++) {
+		visibility *= ray_plane_shadow_filter(ro, Ldir, max_dist, shadow_planes.P[i]);
 
-    return false;
+		if (max(visibility.r, max(visibility.g, visibility.b)) <= 0.001) {
+			return vec3(0.0);
+		}
+	}
+
+	return visibility;
 }
 
 void main() {
@@ -184,8 +203,10 @@ void main() {
             }
         }
 
+        vec3 visibility = vec3(1.0);
         if (pc.plane_count > 0) {
-            if (light_blocked_by_planes(P, Ldir, max_dist)) {
+            visibility = light_visibility_by_planes(P, Ldir, max_dist);
+            if (max(visibility.r, max(visibility.g, visibility.b)) <= 0.001) {
                 continue;
             }
         }
@@ -196,7 +217,7 @@ void main() {
         vec3 col = li.col_range.xyz;
         float intensity = li.extra.x;
 
-        out_rgb += a.rgb * (col * (intensity * att * ndl));
+        out_rgb += a.rgb * (col * visibility * (intensity * att * ndl));
     }
 
     imageStore(lit_img, p, vec4(out_rgb, 1.0));

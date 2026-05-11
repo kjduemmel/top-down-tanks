@@ -21,15 +21,19 @@ struct ShadowPlane {
     vec4 center_flags;   // center.xyz, two_sided
     vec4 axis_u_halfu;   // axis_u.xyz, half_u
     vec4 axis_v_halfv;   // axis_v.xyz, half_v
-    vec4 extra; // x = shadow_strength
+    vec4 extra;          // x = strength, y = shape_type, z = softness, w = unused
 };
 layout(std430, set = 2, binding = 0) readonly buffer ShadowPlanesBuf {
     ShadowPlane P[];
 } shadow_planes;
 
-// Shared occlusion mask for shadow planes.
-// Red channel: 0.0 = no occlusion, 1.0 = full occlusion.
-layout(set = 2, binding = 1) uniform sampler2D shadow_mask_tex;
+// Shared shadow tint texture.
+// RGB = shadow tint color, A = shadow strength/opacity.
+layout(set = 2, binding = 1) uniform sampler2D shadow_tint_tex;
+
+// Editor-friendly profile mask, usually a Godot CurveTexture.
+// For shape_type 1: R = side top limit at uv.x.
+layout(set = 2, binding = 2) uniform sampler2D shadow_profile_tex;
 
 layout(push_constant, std430) uniform Push {
     ivec2 size;
@@ -72,6 +76,16 @@ vec3 pos_view_from_screen(ivec2 p, float z_norm) {
     return vec3(x, y, z);
 }
 
+float side_profile_mask(vec2 uv, float softness) {
+    // CurveTexture convention:
+    // uv.x = along the side/profile
+    // sampled red = max allowed uv.y/top edge
+    // below the curve exists; above it is cut away.
+    float top_limit = texture(shadow_profile_tex, vec2(uv.x, 0.5)).r;
+    float d = top_limit - uv.y;
+    return smoothstep(-softness, softness, d);
+}
+
 vec3 ray_plane_shadow_filter(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     vec3 C = pl.center_flags.xyz;
     float two_sided = pl.center_flags.w;
@@ -94,7 +108,10 @@ vec3 ray_plane_shadow_filter(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     }
 
     float t = dot(C - ro, N) / denom;
-    if (t <= 0.001 || t >= t_max - 0.001) {
+    
+    const float SELF_SHADOW_SKIP = 1.0;
+
+    if (t <= SELF_SHADOW_SKIP || t >= t_max - 0.001) {
         return vec3(1.0);
     }
 
@@ -104,36 +121,47 @@ vec3 ray_plane_shadow_filter(vec3 ro, vec3 rd, float t_max, ShadowPlane pl) {
     float u = dot(rel, U);
     float v = dot(rel, V);
 
+    const float EDGE_EPS = 0.01;
+
     if (u <= -half_u || u > half_u) return vec3(1.0);
     if (v <= -half_v || v > half_v) return vec3(1.0);
 
     vec2 uv = vec2(u / half_u, v / half_v) * 0.5 + 0.5;
     uv.y = 1.0 - uv.y;
 
-    vec4 shadow_tex = texture(shadow_mask_tex, uv);
+    float strength = clamp(pl.extra.x, 0.0, 1.0);
+    int shape_type = int(pl.extra.y + 0.5);
+    float softness = max(pl.extra.z, 0.0001);
 
+    float shape_mask = 1.0;
+
+    if (shape_type == 1) {
+        // Side-wedge/profile plane. Use a CurveTexture to decide where the face exists.
+        shape_mask = side_profile_mask(uv, softness);
+    }
+
+    vec4 shadow_tex = texture(shadow_tint_tex, uv);
     vec3 shadow_tint = clamp(shadow_tex.rgb, vec3(0.0), vec3(1.0));
-    float shadow_alpha = clamp(shadow_tex.a * pl.extra.x, 0.0, 1.0);
+    float shadow_alpha = clamp(shadow_tex.a * shape_mask * strength, 0.0, 1.0);
 
-    // RGB = tint color, A = shadow strength.
-    // vec3(1.0) means no shadow/filter.
-    // shadow_tint means fully tinted shadow.
+    // vec3(1.0) = no light filtering.
+    // shadow_tint = fully shadowed/tinted color filter.
     return mix(vec3(1.0), shadow_tint, shadow_alpha);
 }
 
 vec3 light_visibility_by_planes(vec3 P, vec3 Ldir, float max_dist) {
-	vec3 ro = P;
-	vec3 visibility = vec3(1.0);
+    vec3 ro = P;
+    vec3 visibility = vec3(1.0);
 
-	for (int i = 0; i < pc.plane_count; i++) {
-		visibility *= ray_plane_shadow_filter(ro, Ldir, max_dist, shadow_planes.P[i]);
+    for (int i = 0; i < pc.plane_count; i++) {
+        visibility *= ray_plane_shadow_filter(ro, Ldir, max_dist, shadow_planes.P[i]);
 
-		if (max(visibility.r, max(visibility.g, visibility.b)) <= 0.001) {
-			return vec3(0.0);
-		}
-	}
+        if (max(visibility.r, max(visibility.g, visibility.b)) <= 0.001) {
+            return vec3(0.0);
+        }
+    }
 
-	return visibility;
+    return visibility;
 }
 
 void main() {

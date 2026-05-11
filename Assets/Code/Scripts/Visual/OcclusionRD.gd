@@ -14,6 +14,7 @@ extends Node
 # White = blocks light, black = lets light through.
 # If null, a 1x1 white mask is used so old solid shadows still work.
 @export var default_shadow_mask_tex: Texture2D
+@export var default_shadow_profile_tex: Texture2D
 
 @onready var world: Node2D = get_node("../World") as Node2D
 @onready var output: TextureRect = $Output
@@ -53,7 +54,8 @@ var dummy_height_rid: RID
 # Caches: Godot Texture2D -> RD texture RID
 var _rd_albedo_cache: Dictionary = {}  # Texture2D -> RID (RGBA8)
 var _rd_height_cache: Dictionary = {}  # Texture2D -> RID (R8)
-var default_shadow_mask_rid: RID # 1x1 white occlusion mask
+var default_shadow_mask_rid: RID # 1x1 black RGBA shadow tint
+var default_shadow_profile_rid: RID # 1x1 white side-profile curve fallback
 
 # Sprite list
 var _sprites: Array[Sprite2D] = []
@@ -95,6 +97,7 @@ func _ready() -> void:
 	_create_dummy_height()
 	_create_default_normal()
 	_create_default_shadow_mask()
+	_create_default_shadow_profile()
 	_create_output_images()
 	_create_present_image()
 	_load_pipelines_and_sets()
@@ -157,6 +160,7 @@ func _exit_tree() -> void:
 	if present_rid.is_valid(): rd.free_rid(present_rid)
 	if default_normal_rid.is_valid(): rd.free_rid(default_normal_rid)
 	if default_shadow_mask_rid.is_valid(): rd.free_rid(default_shadow_mask_rid)
+	if default_shadow_profile_rid.is_valid(): rd.free_rid(default_shadow_profile_rid)
 
 	if pipe_clear.is_valid(): rd.free_rid(pipe_clear)
 	if pipe_draw.is_valid(): rd.free_rid(pipe_draw)
@@ -319,8 +323,8 @@ func _create_default_normal() -> void:
 	default_normal_rid = rd.texture_create(tf, RDTextureView.new(), [bytes])
 
 func _create_default_shadow_mask() -> void:
-	# Default: solid black shadow with full alpha.
-	# RGB = shadow tint, A = shadow strength
+	# Default shadow tint: black RGB with full alpha.
+	# RGB = shadow tint color, A = shadow strength.
 	var img := Image.create(1, 1, false, Image.FORMAT_RGBA8)
 	img.set_pixel(0, 0, Color(0, 0, 0, 1))
 	var bytes := img.get_data()
@@ -333,6 +337,22 @@ func _create_default_shadow_mask() -> void:
 	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT | RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
 
 	default_shadow_mask_rid = rd.texture_create(tf, RDTextureView.new(), [bytes])
+
+func _create_default_shadow_profile() -> void:
+	# Default profile: full height everywhere.
+	# Used when no CurveTexture/profile texture is assigned.
+	var img := Image.create(1, 1, false, Image.FORMAT_RGBA8)
+	img.set_pixel(0, 0, Color(1, 1, 1, 1))
+	var bytes := img.get_data()
+
+	var tf := RDTextureFormat.new()
+	tf.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+	tf.width = 1
+	tf.height = 1
+	tf.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	tf.usage_bits = RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT | RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
+
+	default_shadow_profile_rid = rd.texture_create(tf, RDTextureView.new(), [bytes])
 
 func _create_lights_ssbo_and_set() -> void:
 	var total := MAX_LIGHTS * 64
@@ -425,7 +445,17 @@ func _create_shadow_planes_ssbo_and_set() -> void:
 	u_mask.add_id(sampler_rid)
 	u_mask.add_id(mask_rid)
 
-	us2_shadow_planes = rd.uniform_set_create([u, u_mask], shader_light, 2)
+	var profile_rid := default_shadow_profile_rid
+	if default_shadow_profile_tex != null:
+		profile_rid = _get_rd_texture_rgba8(default_shadow_profile_tex)
+
+	var u_profile := RDUniform.new()
+	u_profile.uniform_type = RenderingDevice.UNIFORM_TYPE_SAMPLER_WITH_TEXTURE
+	u_profile.binding = 2
+	u_profile.add_id(sampler_rid)
+	u_profile.add_id(profile_rid)
+
+	us2_shadow_planes = rd.uniform_set_create([u, u_mask, u_profile], shader_light, 2)
 	
 func _update_shadow_planes_ssbo() -> int:
 	var nodes := get_tree().get_nodes_in_group("rd_shadow_planes")
@@ -475,12 +505,15 @@ func _update_shadow_planes_ssbo() -> int:
 
 		var two_sided: float = 1.0 if bool(d.get("two_sided", true)) else 0.0
 		var shadow_strength: float = clampf(float(d.get("shadow_strength", 1.0)), 0.0, 1.0)
+		var shadow_shape_type: float = float(d.get("shadow_shape_type", 0.0))
+		var shadow_softness: float = maxf(float(d.get("shadow_softness", 0.03)), 0.0001)
 
 		var base := count * 64
 		_write_vec4(data, base + 0,  Vector4(center.x, center.y, center.z, two_sided))
 		_write_vec4(data, base + 16, Vector4(axis_u.x, axis_u.y, axis_u.z, half_u))
 		_write_vec4(data, base + 32, Vector4(axis_v.x, axis_v.y, axis_v.z, half_v))
-		_write_vec4(data, base + 48, Vector4(shadow_strength, 0.0, 0.0, 0.0))
+		# extra.x = strength, y = shape_type, z = softness, w = unused
+		_write_vec4(data, base + 48, Vector4(shadow_strength, shadow_shape_type, shadow_softness, 0.0))
 
 		count += 1
 
